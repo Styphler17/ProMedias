@@ -7,7 +7,8 @@ import {
   ArrowRight,
   Monitor,
   Recycle,
-  Microscope
+  Microscope,
+  Eye
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -158,6 +159,50 @@ const About = () => {
                     </div>
                 </div>
             </div>
+        </div>
+      </section>
+
+      {/* Boutique Experience Section */}
+      <section className="py-24 overflow-hidden">
+        <div className="container">
+          <div className="bg-zinc-900 rounded-[3rem] p-8 md:p-16 flex flex-col lg:flex-row items-center gap-16 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 -skew-x-12 translate-x-1/2 pointer-events-none" />
+            
+            <div className="w-full lg:w-1/2 space-y-8 relative z-10">
+              <span className="text-primary font-bold tracking-[0.2em] text-xs uppercase font-headline">Visitez Nous</span>
+              <h2 className="text-4xl md:text-5xl font-headline font-bold text-white tracking-tighter capitalize l">Le comptoir de <span className="text-primary italic">Saint-Léonard.</span></h2>
+              <p className="text-xl text-zinc-400 font-light leading-relaxed">
+                Situé au cœur de Liège, notre atelier vous accueille dans un espace moderne dédié à la haute technicité. Venez découvrir notre expertise en direct et explorez notre sélection d'appareils reconditionnés.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-4">
+                <a 
+                  href="https://www.google.com/local/place/fid/0x47c0f098a5de180b:0x834725e7116df212/photosphere" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-white text-zinc-900 px-8 py-4 rounded-2xl font-bold hover:bg-primary hover:text-white transition-all duration-500 shadow-2xl"
+                >
+                  <Eye size={20} />
+                  Voir la Vitrine (360°)
+                </a>
+              </div>
+            </div>
+
+            <div className="w-full lg:w-1/2 relative group">
+              <div className="aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 relative">
+                <img 
+                  src="https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=awRRmECzGmtnHHzk42XHQw&cb_client=lu.gallery.gps&w=800&h=450&yaw=301.9327&pitch=0&thumbfov=100" 
+                  alt="Storefront ProMedias Liège" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[3s]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                  <p className="text-white text-xs font-bold uppercase tracking-widest opacity-80 flex items-center gap-2">
+                    <MapPin size={14} className="text-primary" />
+                    141 Rue St-Léonard, 4000 Liège
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
