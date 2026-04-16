@@ -336,6 +336,85 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="py-32 bg-zinc-50 overflow-hidden">
+        <div className="container">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-xl">
+              <span className="text-primary font-bold tracking-[0.2em] text-xs uppercase font-headline">La Voix de nos Clients</span>
+              <h2 className="text-4xl md:text-6xl font-headline font-bold mt-4 tracking-tighter italic">Approuvé par <span className="text-primary italic">Liège.</span></h2>
+            </div>
+            <div className="flex gap-4">
+              <div className="bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 border border-zinc-100">
+                <div className="text-right">
+                    <p className="font-bold text-xl">4.9/5</p>
+                    <p className="text-[10px] text-zinc-400 uppercase font-black tracking-widest">Sur Google Reviews</p>
+                </div>
+                <div className="flex gap-1 text-primary">
+                    <Star size={16} fill="currentColor" />
+                    <Star size={16} fill="currentColor" />
+                    <Star size={16} fill="currentColor" />
+                    <Star size={16} fill="currentColor" />
+                    <Star size={16} fill="currentColor" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { 
+                text: "Service exceptionnel ! Mon iPhone 13 Pro était complètement brisé, il a été réparé en 45 minutes chrono avec des pièces de qualité. Merci ProMedias !",
+                author: "Jean Dupont",
+                role: "Client Fidèle (Liège)",
+                initials: "JD"
+              },
+              { 
+                text: "J'ai acheté un MacBook reconditionné ici il y a 6 mois. L'état est impeccable et les conseils techniques étaient excellents. Une adresse incontournable.",
+                author: "Marie Leclerc",
+                role: "Graphiste (Angleur)",
+                initials: "ML"
+              },
+              { 
+                text: "Expertise incroyable en micro-soudure. Là où d'autres m'ont dit que ma carte mère était morte, ProMedias l'a sauvée. Sauvetage réussi !",
+                author: "Thomas Berger",
+                role: "Photographe (Grivegnée)",
+                initials: "TB"
+              }
+            ].map((testimonial, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-zinc-100 flex flex-col justify-between hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+              >
+                <div className="space-y-6">
+                    <div className="flex gap-1 text-primary">
+                        <Star size={14} fill="currentColor" />
+                        <Star size={14} fill="currentColor" />
+                        <Star size={14} fill="currentColor" />
+                        <Star size={14} fill="currentColor" />
+                        <Star size={14} fill="currentColor" />
+                    </div>
+                    <p className="text-lg font-light leading-relaxed italic text-zinc-600">"{testimonial.text}"</p>
+                </div>
+                <div className="mt-10 flex items-center gap-4 pt-6 border-t border-zinc-50">
+                    <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-white font-bold text-xs">
+                        {testimonial.initials}
+                    </div>
+                    <div>
+                        <p className="font-bold text-sm">{testimonial.author}</p>
+                        <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{testimonial.role}</p>
+                    </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 bg-primary text-white overflow-hidden relative">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-black/10 -skew-x-12 translate-x-1/2" />

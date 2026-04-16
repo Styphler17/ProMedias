@@ -127,13 +127,17 @@ const About = () => {
         <div className="container grid lg:grid-cols-2 gap-20 items-center">
             <div className="grid grid-cols-2 gap-6 transform lg:-rotate-2">
                 {[
-                  "https://lh3.googleusercontent.com/aida-public/AB6AXuDVszKE-7YOrUU6f_3YdB8mvTmeiXpXfyh2o5K9Zh4NKlegXv_zTsIFm5GDgol-G6Rv3xeXTAWBCLIIHKJqdF3wxxzxeUep6Zy4-r-d1opep-0-c8CTRXRooaGSQtmJW8qUKXkjXt-lAV94Tsqm0kd030NBEiHKgYyk0Qd6g0TUuDezqPl9JtTtKxxdTGjF_7U0BwXsNGKjf1pje4V5uYceTtonn-FsN66RGOOIS3p67pWWlFcv9YPR1r2fpE4cnXJW7ge1eB-mX0Y",
-                  "https://lh3.googleusercontent.com/aida-public/AB6AXuBm-YSb1tRksBS6805h-klqPd0gWMfoBGvk9KQsDnfkTv9QVXY9e6bwVuYNypfigtcA7aGOV_cR-ZfrQfnax-3r5C_p7Uyi1l223TzSDz2VkacDFS9j4iZjl-SweTEF-ejaKQDAqmoNqyVHkvmo2QTg4tNWkorLPG52Vme1g9g1MIaK-nbMk0ouevhvBp3PZ7qkAFDh_RxsLkiPSqHJD8_S1Zet-mnS5YveSlyZfKsd8GoPtu1Fiz2IPDHnLvn2pFJvfFhtMRqGQ08",
-                  "https://lh3.googleusercontent.com/aida-public/AB6AXuDkT1JCZnR3rpV566MRMrnjS7vhNR9REAlEJ8oStnpG_VvRVv5C7yUhwym97gFp8NrtpvBc-erLIo5urEIPV6zRQTDqzdiXv8ROmpUmmkhxhNF2VHKmV0Dv0BkYTLLKkZs0F-Khq1G3GZ3LTQqdpiOyR9JAlL2wfXdFQY9OKqW3F2IPFYwvHAH5ojaMAQDJ4jFQIbY_OMBNFJTLy0psjxKDN5EsKCJ108uirFl-HxJo8wdtZGCMlK9HProWpx5W8pd9lk3NPdTpBJA",
-                  "https://lh3.googleusercontent.com/aida-public/AB6AXuDZua75j2aCKUqcbKcnpyF0466roC_RRHBt0umZOAVQRy_-NFq9CjKk3ZDuZXt2CDfDNkErjFSJk9Sw2GfSb74-9M9DlrJlXWcBZgeq67dANPcAJPP4rJyRAupwS9iMTutxYFle5oNFvLLZ--NmkcbgpPW7WhMtDEOM2Cu7lZkNhP_eUwLCwxWyar4rUHpBCnwEqh7mil3nmmc6bIV_lrmQTM1yZzn8wVNJ53wf_7JGeXkw_6sO6QBVUjgLQCyp034iUdcHiXp3HBE"
-                ].map((src, i) => (
-                    <div key={i} className="aspect-[3/4] rounded-2xl overflow-hidden shadow-xl grayscale hover:grayscale-0 transition-all duration-700">
-                        <img src={src} className="w-full h-full object-cover" alt="Expert" />
+                  { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDVszKE-7YOrUU6f_3YdB8mvTmeiXpXfyh2o5K9Zh4NKlegXv_zTsIFm5GDgol-G6Rv3xeXTAWBCLIIHKJqdF3wxxzxeUep6Zy4-r-d1opep-0-c8CTRXRooaGSQtmJW8qUKXkjXt-lAV94Tsqm0kd030NBEiHKgYyk0Qd6g0TUuDezqPl9JtTtKxxdTGjF_7U0BwXsNGKjf1pje4V5uYceTtonn-FsN66RGOOIS3p67pWWlFcv9YPR1r2fpE4cnXJW7ge1eB-mX0Y", role: "Expert iPhone" },
+                  { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBm-YSb1tRksBS6805h-klqPd0gWMfoBGvk9KQsDnfkTv9QVXY9e6bwVuYNypfigtcA7aGOV_cR-ZfrQfnax-3r5C_p7Uyi1l223TzSDz2VkacDFS9j4iZjl-SweTEF-ejaKQDAqmoNqyVHkvmo2QTg4tNWkorLPG52Vme1g9g1MIaK-nbMk0ouevhvBp3PZ7qkAFDh_RxsLkiPSqHJD8_S1Zet-mnS5YveSlyZfKsd8GoPtu1Fiz2IPDHnLvn2pFJvfFhtMRqGQ08", role: "Specialiste Mac" },
+                  { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDkT1JCZnR3rpV566MRMrnjS7vhNR9REAlEJ8oStnpG_VvRVv5C7yUhwym97gFp8NrtpvBc-erLIo5urEIPV6zRQTDqzdiXv8ROmpUmmkhxhNF2VHKmV0Dv0BkYTLLKkZs0F-Khq1G3GZ3LTQqdpiOyR9JAlL2wfXdFQY9OKqW3F2IPFYwvHAH5ojaMAQDJ4jFQIbY_OMBNFJTLy0psjxKDN5EsKCJ108uirFl-HxJo8wdtZGCMlK9HProWpx5W8pd9lk3NPdTpBJA", role: "Micro-Soudure" },
+                  { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDZua75j2aCKUqcbKcnpyF0466roC_RRHBt0umZOAVQRy_-NFq9CjKk3ZDuZXt2CDfDNkErjFSJk9Sw2GfSb74-9M9DlrJlXWcBZgeq67dANPcAJPP4rJyRAupwS9iMTutxYFle5oNFvLLZ--NmkcbgpPW7WhMtDEOM2Cu7lZkNhP_eUwLCwxWyar4rUHpBCnwEqh7mil3nmmc6bIV_lrmQTM1yZzn8wVNJ53wf_7JGeXkw_6sO6QBVUjgLQCyp034iUdcHiXp3HBE", role: "Diagnostic" }
+                ].map((member, i) => (
+                    <div key={i} className="aspect-[3/4] rounded-2xl overflow-hidden shadow-xl grayscale hover:grayscale-0 transition-all duration-700 relative group">
+                        <img src={member.src} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" alt="Expert" />
+                        <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center">
+                            <span className="text-white font-headline font-bold text-lg leading-tight">{member.role}</span>
+                            <div className="w-8 h-px bg-white/50 mt-2" />
+                        </div>
                     </div>
                 ))}
             </div>
