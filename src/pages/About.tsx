@@ -176,7 +176,7 @@ const About = () => {
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <a 
-                  href="https://www.google.com/local/place/fid/0x47c0f098a5de180b:0x834725e7116df212/photosphere" 
+                  href="https://maps.app.goo.gl/hqZzndPS1J5E5r6h9" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-white text-zinc-900 px-8 py-4 rounded-2xl font-bold hover:bg-primary hover:text-white transition-all duration-500 shadow-2xl"
