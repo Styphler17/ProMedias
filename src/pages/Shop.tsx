@@ -255,8 +255,6 @@ const CATEGORY_GROUPS = {
   "Accessoires": ["Chargeurs", "Casques", "Protections", "Souris", "Claviers"]
 };
 
-const ITEMS_PER_PAGE = 6;
-
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState("Tous");
   const [expandedGroups, setExpandedGroups] = useState<string[]>(["Téléphonie"]);
