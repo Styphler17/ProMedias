@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* Tailwind CSS v4 Configuration */
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-variant: hsl(var(--primary-variant));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
+@layer base {
+  :root {
+    --background: 20 10% 98%;
+    --foreground: 0 0% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 11%;
+    --primary: 357 83% 37%;
+    --primary-foreground: 0 0% 100%;
+    --primary-variant: 357 83% 45%;
+    --secondary: 194 100% 24%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 20 10% 94%;
+    --muted-foreground: 20 10% 40%;
+    --accent: 20 10% 94%;
+    --accent-foreground: 0 0% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 20 10% 90%;
+    --input: 20 10% 90%;
+    --ring: 357 83% 37%;
+    --radius: 0.75rem;
+
+    /* Bauhaus Design Tokens - Aligned with Red Brand */
+    --bauhaus-card-bg: #ffffff;
+    --bauhaus-card-separator: #f1f1f1;
+    --bauhaus-card-accent: #d12c2c;
+    --bauhaus-card-radius: 2rem;
+    --bauhaus-card-border-width: 1px;
+    --bauhaus-card-inscription-top: #d12c2c;
+    --bauhaus-card-inscription-main: #111014;
+    --bauhaus-card-inscription-sub: #71717a;
+    --bauhaus-card-inscription-progress-label: #111014;
+    --bauhaus-card-inscription-progress-value: #d12c2c;
+    --bauhaus-card-progress-bar-bg: #f1f1f1;
+    --bauhaus-chronicle-bg: #111014;
+    --bauhaus-chronicle-fg: #ffffff;
+    --bauhaus-chronicle-hover-fg: #ffffff;
+
+    /* Fluid Typography - ProMedias Scale */
+    --font-size-hero: clamp(3rem, 12vw, 9rem);
+    --font-size-h1: clamp(2.5rem, 8vw, 6rem);
+    --font-size-h2: clamp(2rem, 6vw, 4.5rem);
+    --font-size-h3: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 357 83% 37%;
+    --primary-foreground: 0 0% 98%;
+    --primary-variant: 357 83% 45%;
+    --secondary: 194 100% 24%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 357 83% 37%;
+
+    /* Bauhaus Dark Tokens - Aligned with Red Brand */
+    --bauhaus-card-bg: #111014;
+    --bauhaus-card-separator: #2F2B2A;
+    --bauhaus-card-accent: #d12c2c;
+    --bauhaus-card-radius: 2rem;
+    --bauhaus-card-border-width: 1px;
+    --bauhaus-card-inscription-top: #d12c2c;
+    --bauhaus-card-inscription-main: #f0f0f1;
+    --bauhaus-card-inscription-sub: #a0a1b3;
+    --bauhaus-card-inscription-progress-label: #b5b6c4;
+    --bauhaus-card-inscription-progress-value: #d12c2c;
+    --bauhaus-card-progress-bar-bg: #363636;
+    --bauhaus-chronicle-bg: #ffffff;
+    --bauhaus-chronicle-fg: #151419;
+    --bauhaus-chronicle-hover-fg: #ffffff;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* Fluid Headings */
+h1 {
+  font-size: var(--font-size-h1);
+  line-height: 0.9;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  line-height: 1;
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+}
+
+.text-hero {
+  font-size: var(--font-size-hero);
+  line-height: 0.85;
+}
+
+h1, h2, h3, h4, .font-headline {
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* Restoring the centered container utility for Tailwind v4 */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
