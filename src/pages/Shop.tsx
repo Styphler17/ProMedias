@@ -2,7 +2,8 @@ import { useState } from "react";
 import { 
   Check,
   ChevronRight,
-  Search
+  Search,
+  SlidersHorizontal
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -258,6 +259,7 @@ const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState("Tous");
   const [expandedGroups, setExpandedGroups] = useState<string[]>(["Téléphonie"]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -273,7 +275,107 @@ const Shop = () => {
     return matchesCategory && matchesSearch;
   });
 
-  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const renderFilters = (isMobile = false) => (
+    <div className="space-y-12">
+        <button 
+            onClick={() => {
+                handleCategoryChange("Tous");
+                if (isMobile) setIsMobileFiltersOpen(false);
+            }}
+            className={cn(
+            "w-full px-6 py-4 text-sm font-bold rounded-2xl transition-all text-left flex items-center justify-between group h-14 border",
+            selectedCategory === "Tous" 
+                ? "bg-primary border-primary text-white shadow-lg shadow-primary/20 scale-105" 
+                : "bg-white border-zinc-100 text-zinc-900 hover:border-primary/30"
+            )}
+        >
+            Voir Tout le Catalogue
+            <ChevronRight size={18} className={selectedCategory === "Tous" ? "opacity-100" : "opacity-0 group-hover:opacity-100 transition-opacity"} />
+        </button>
+
+        {Object.entries(CATEGORY_GROUPS).map(([main, subs]) => (
+            <div key={main} className="space-y-2">
+            <button 
+                onClick={() => toggleGroup(main)}
+                className={cn(
+                "w-full text-xs font-black uppercase tracking-[0.2em] px-2 py-2 flex justify-between items-center transition-colors group",
+                expandedGroups.includes(main) ? "text-primary" : "text-zinc-500 hover:text-zinc-900"
+                )}
+            >
+                <span className="flex items-center gap-3">
+                <ChevronRight 
+                    size={14} 
+                    className={cn("transition-transform duration-300", expandedGroups.includes(main) ? "rotate-90 text-primary" : "text-zinc-300")} 
+                />
+                {main}
+                </span>
+                <span className="h-px bg-zinc-100 flex-grow ml-4 opacity-50"></span>
+            </button>
+            
+            <AnimatePresence initial={false}>
+                {expandedGroups.includes(main) && (
+                <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                >
+                    <div className="grid grid-cols-1 gap-1 pl-6 pt-2 pb-4">
+                    <button 
+                        onClick={() => {
+                            handleCategoryChange(main);
+                            if (isMobile) setIsMobileFiltersOpen(false);
+                        }}
+                        className={cn(
+                        "px-4 py-2 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all text-left mb-1",
+                        selectedCategory === main 
+                            ? "bg-primary/10 text-primary" 
+                            : "text-zinc-400 hover:text-primary hover:bg-primary/5"
+                        )}
+                    >
+                        Voir tout dans {main}
+                    </button>
+                    {subs.map(sub => (
+                        <button 
+                        key={sub}
+                        onClick={() => {
+                            handleCategoryChange(sub);
+                            if (isMobile) setIsMobileFiltersOpen(false);
+                        }}
+                        className={cn(
+                            "px-4 py-3 text-sm font-semibold rounded-xl transition-all text-left flex items-center justify-between group",
+                            selectedCategory === sub 
+                            ? "bg-zinc-900 text-white shadow-xl shadow-black/10 translate-x-1" 
+                            : "bg-transparent text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
+                        )}
+                        >
+                        {sub}
+                        <Check size={14} className={cn("transition-opacity", selectedCategory === sub ? "opacity-100" : "opacity-0")} />
+                        </button>
+                    ))}
+                    </div>
+                </motion.div>
+                )}
+            </AnimatePresence>
+            </div>
+        ))}
+
+        {!isMobile && (
+            <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="p-8 bg-zinc-50 rounded-[2rem] border border-zinc-100"
+            >
+                <h4 className="text-primary font-bold mb-4 flex items-center gap-2 font-headline">
+                <Check size={18} />
+                Garantie 12 Mois
+                </h4>
+                <p className="text-xs text-muted-foreground leading-relaxed font-medium">Sérénité totale. Nous garantissons le hardware pendant 1 an sur tout le catalogue.</p>
+            </motion.div>
+        )}
+    </div>
+  );
+
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
@@ -355,94 +457,39 @@ const Shop = () => {
 
       <section className="container">
         <div className="flex flex-col lg:flex-row gap-16">
-          {/* Sidebar Filters */}
-          <aside className="lg:w-72 space-y-12 shrink-0">
-            <button 
-              onClick={() => handleCategoryChange("Tous")}
-              className={cn(
-                "w-full px-6 py-4 text-sm font-bold rounded-2xl transition-all text-left flex items-center justify-between group h-14 border",
-                selectedCategory === "Tous" 
-                  ? "bg-primary border-primary text-white shadow-lg shadow-primary/20 scale-105" 
-                  : "bg-white border-zinc-100 text-zinc-900 hover:border-primary/30"
-              )}
+          {/* Mobile Filter Trigger */}
+          <div className="lg:hidden flex justify-between items-center mb-8 pb-4 border-b">
+            <div className="flex flex-col">
+              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Catalogue</span>
+              <p className="font-headline font-bold text-xl">{selectedCategory}</p>
+            </div>
+            <Button 
+                variant="outline" 
+                className="rounded-2xl gap-2 font-bold px-6 h-12 bg-white"
+                onClick={() => setIsMobileFiltersOpen(true)}
             >
-              Voir Tout le Catalogue
-              <ChevronRight size={18} className={selectedCategory === "Tous" ? "opacity-100" : "opacity-0 group-hover:opacity-100 transition-opacity"} />
-            </button>
+              <SlidersHorizontal size={18} />
+              Filtrer
+            </Button>
+          </div>
 
-            {Object.entries(CATEGORY_GROUPS).map(([main, subs]) => (
-              <div key={main} className="space-y-2">
-                <button 
-                  onClick={() => toggleGroup(main)}
-                  className={cn(
-                    "w-full text-xs font-black uppercase tracking-[0.2em] px-2 py-2 flex justify-between items-center transition-colors group",
-                    expandedGroups.includes(main) ? "text-primary" : "text-zinc-500 hover:text-zinc-900"
-                  )}
-                >
-                  <span className="flex items-center gap-3">
-                    <ChevronRight 
-                      size={14} 
-                      className={cn("transition-transform duration-300", expandedGroups.includes(main) ? "rotate-90 text-primary" : "text-zinc-300")} 
-                    />
-                    {main}
-                  </span>
-                  <span className="h-px bg-zinc-100 flex-grow ml-4 opacity-50"></span>
-                </button>
-                
-                <AnimatePresence initial={false}>
-                  {expandedGroups.includes(main) && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="overflow-hidden"
-                    >
-                      <div className="grid grid-cols-1 gap-1 pl-6 pt-2 pb-4">
-                        <button 
-                          onClick={() => handleCategoryChange(main)}
-                          className={cn(
-                            "px-4 py-2 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all text-left mb-1",
-                            selectedCategory === main 
-                              ? "bg-primary/10 text-primary" 
-                              : "text-zinc-400 hover:text-primary hover:bg-primary/5"
-                          )}
-                        >
-                          Voir tout dans {main}
-                        </button>
-                        {subs.map(sub => (
-                          <button 
-                            key={sub}
-                            onClick={() => handleCategoryChange(sub)}
-                            className={cn(
-                              "px-4 py-3 text-sm font-semibold rounded-xl transition-all text-left flex items-center justify-between group",
-                              selectedCategory === sub 
-                                ? "bg-zinc-900 text-white shadow-xl shadow-black/10 translate-x-1" 
-                                : "bg-transparent text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
-                            )}
-                          >
-                            {sub}
-                            <Check size={14} className={cn("transition-opacity", selectedCategory === sub ? "opacity-100" : "opacity-0")} />
-                          </button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className="p-8 bg-zinc-50 rounded-[2rem] border border-zinc-100"
-            >
-              <h4 className="text-primary font-bold mb-4 flex items-center gap-2 font-headline">
-                <Check size={18} />
-                Garantie 12 Mois
-              </h4>
-              <p className="text-xs text-muted-foreground leading-relaxed font-medium">Sérénité totale. Nous garantissons le hardware pendant 1 an sur tout le catalogue.</p>
-            </motion.div>
+          {/* Sidebar Filters (Desktop) */}
+          <aside className="hidden lg:block lg:w-72 space-y-12 shrink-0">
+            {renderFilters()}
           </aside>
+  
+          {/* Mobile Filters Dialog */}
+          <Dialog open={isMobileFiltersOpen} onOpenChange={setIsMobileFiltersOpen}>
+              <DialogContent className="max-w-md h-[80vh] overflow-y-auto rounded-[2.5rem] p-10">
+                <DialogHeader className="mb-8">
+                    <DialogTitle className="font-headline text-3xl tracking-tighter">Filtrer par Catégorie</DialogTitle>
+                    <DialogDescription className="text-zinc-500 font-medium">Sélectionnez un univers pour affiner votre recherche.</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-8">
+                    {renderFilters(true)}
+                </div>
+              </DialogContent>
+          </Dialog>
 
           {/* Product Grid */}
           <div className="flex-grow flex flex-col">
