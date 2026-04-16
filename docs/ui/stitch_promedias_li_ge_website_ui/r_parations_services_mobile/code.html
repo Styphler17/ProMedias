@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#ffdad6",
+                    "surface-bright": "#fcf9f8",
+                    "primary-fixed-dim": "#ffb3ac",
+                    "on-secondary-fixed": "#410003",
+                    "surface-container-high": "#eae7e7",
+                    "on-primary-fixed-variant": "#930010",
+                    "on-surface": "#1c1b1b",
+                    "tertiary-fixed-dim": "#7bd1f8",
+                    "background": "#fcf9f8",
+                    "surface-container-low": "#f6f3f2",
+                    "on-secondary-fixed-variant": "#802824",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e5e2e1",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#001f2a",
+                    "on-secondary-container": "#741e1c",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#ffb3ac",
+                    "tertiary-container": "#00799c",
+                    "secondary-fixed-dim": "#ffb3ac",
+                    "error": "#ba1a1a",
+                    "secondary": "#9f3f39",
+                    "primary": "#af101a",
+                    "outline": "#8f6f6c",
+                    "inverse-on-surface": "#f3f0ef",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#d32f2f",
+                    "on-primary-fixed": "#410003",
+                    "on-background": "#1c1b1b",
+                    "surface-tint": "#ba1a20",
+                    "on-surface-variant": "#5b403d",
+                    "on-tertiary-container": "#e9f7ff",
+                    "surface": "#fcf9f8",
+                    "surface-container": "#f0eded",
+                    "secondary-fixed": "#ffdad6",
+                    "outline-variant": "#e4beba",
+                    "inverse-surface": "#313030",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#e5e2e1",
+                    "tertiary-fixed": "#bee9ff",
+                    "tertiary": "#005f7b",
+                    "on-primary-container": "#fff2f0",
+                    "secondary-container": "#fd867d",
+                    "on-tertiary-fixed-variant": "#004d65",
+                    "surface-dim": "#dcd9d9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-signature-gradient {
+            background: linear-gradient(135deg, #af101a 0%, #d32f2f 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fcf9f8]/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface">menu</span>
+<span class="text-xl font-black tracking-tighter text-[#1c1b1b] uppercase font-headline">PROMEDIAS</span>
+</div>
+<span class="material-symbols-outlined text-on-surface">account_circle</span>
+</header>
+<main class="pt-24 pb-32 px-6">
+<!-- Hero Section -->
+<section class="mb-12">
+<h1 class="font-headline text-4xl font-bold tracking-tight mb-4 leading-tight">Expertise Technique &amp; Renaissance</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-[90%]">
+                Au cœur de notre atelier, chaque composant est traité avec la précision d'un horloger. Découvrez nos solutions de réparation certifiées.
+            </p>
+</section>
+<!-- Service Cards (Vertical Layout) -->
+<div class="flex flex-col gap-8">
+<!-- Smartphone Card -->
+<article class="relative overflow-hidden rounded-xl bg-surface-container-low">
+<div class="h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover grayscale-[0.5] hover:grayscale-0 transition-all duration-500" data-alt="Close-up of a high-end smartphone screen replacement being performed with precision tweezers under bright white studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4yKhMJH6BBbPancIadNGsvquZlAUfzR_NBhSj04QehCfbwy0FtHarF7ewOWf-I4xxGYutEAEdiO27JzI-c1Hkd_KvfjS4fPWypDGNgchdkGqwujQBb5dl0xMjUJ1O7TVMB61o0EuJJ_Qpjgwpgw0uH16-sJcycVe7TO2eLF9uYyDypZOykzSN-96KYwu9IqviLxAoD73tb4mNTdxIVJ8lD5GmyXbrro8jluKs3kdXwdqilteztBK_7lRQHEf7wjzLR4D5rOWADEA"/>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<div class="px-3 py-1 bg-surface-container-high rounded-sm">
+<span class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">SMARTPHONE</span>
+</div>
+<span class="material-symbols-outlined text-primary">smartphone</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-3">Écrans &amp; Batteries</h3>
+<p class="text-on-surface-variant mb-6 text-sm">Remplacement express de dalles OLED et batteries d'origine pour iPhone et Samsung. Garantie 1 an incluse.</p>
+<button class="bg-on-surface text-white px-6 py-3 rounded-lg font-bold text-sm w-full transition-transform active:scale-95 duration-150">Détails Service</button>
+</div>
+</article>
+<!-- PC Card -->
+<article class="relative overflow-hidden rounded-xl bg-surface-container-low">
+<div class="h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover grayscale-[0.5] hover:grayscale-0 transition-all duration-500" data-alt="Aerial view of a clean technical workbench with various PC internal components like RAM sticks and heat sinks neatly organized" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3J1m2YbLIA-TQSjH_jT6sbCEbIzL8e3Ef5TEZ6zG6gZM_1LL8qUCkruaKj0pLrdc2aUV9CLbUqxz08aXQhCCBG-NC9T39Zo3MDqA5_GdcFmcAezRAX9Lv0Nh8zwumXLz4HVMqObXwCoalTL46_IVpmVsslr0mLxLoMFriJ_sPK2zP7Dz7jzX078tFuWFs4TBmlcuouXE6hv09a6vX6RglWceUwwDwsaS4_6Qtxl311sd6E8oH6u7_WpsFLqs-KXUB0VArGS8PM5Y"/>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<div class="px-3 py-1 bg-surface-container-high rounded-sm">
+<span class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">ORDINATEUR</span>
+</div>
+<span class="material-symbols-outlined text-primary">laptop_mac</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-3">Maintenance PC &amp; Mac</h3>
+<p class="text-on-surface-variant mb-6 text-sm">Optimisation logicielle, nettoyage thermique et upgrade matériel (SSD/RAM) pour redonner vie à votre machine.</p>
+<button class="bg-on-surface text-white px-6 py-3 rounded-lg font-bold text-sm w-full transition-transform active:scale-95 duration-150">Détails Service</button>
+</div>
+</article>
+<!-- Recovery Card -->
+<article class="relative overflow-hidden rounded-xl bg-surface-container-low">
+<div class="h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover grayscale-[0.5] hover:grayscale-0 transition-all duration-500" data-alt="Macro photo of an opened hard drive with the silver platter reflecting light in a clean technical environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0dYv_O8pqutUi7RG3csbOX-VJpOmc5jkjayAS7w9Ys1lusy-IqmTKrtYa3AJsb52R4GQUrcnrBrJtWzO0gLsIu1pb7nW9al-T18voHRGbIMmFKxmJSXbWl1QKmWruGQU-6PcaVXIxsUXQIZIspnanjwJFw3lpJojDf1u4HtqwPTPCqlxPDeZZRVWydlOPP00ZKn_9TDv9PKcSszrvPQL2dpnxmOn91c-v_gIlMpjncr3NnXjIdHiHjtjl3QMngaXkT7xpnoteNaA"/>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<div class="px-3 py-1 bg-surface-container-high rounded-sm">
+<span class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">DATA</span>
+</div>
+<span class="material-symbols-outlined text-primary">database</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-3">Récupération de Données</h3>
+<p class="text-on-surface-variant mb-6 text-sm">Diagnostic gratuit pour vos disques durs HS ou clés USB corrompues. Taux de succès supérieur à 90%.</p>
+<button class="bg-on-surface text-white px-6 py-3 rounded-lg font-bold text-sm w-full transition-transform active:scale-95 duration-150">Détails Service</button>
+</div>
+</article>
+</div>
+<!-- Mobile Pricing Table -->
+<section class="mt-16">
+<div class="flex items-center gap-3 mb-8">
+<div class="h-px flex-1 bg-on-surface/10"></div>
+<h2 class="font-label text-xs font-black uppercase tracking-widest text-primary">TARIFS DE BASE</h2>
+<div class="h-px flex-1 bg-on-surface/10"></div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-center py-5 border-b border-on-surface/5">
+<div>
+<p class="font-bold">Diagnostic Initial</p>
+<p class="text-xs text-on-surface-variant">Déduit de la réparation</p>
+</div>
+<span class="font-headline font-bold text-xl">29€</span>
+</div>
+<div class="flex justify-between items-center py-5 border-b border-on-surface/5">
+<div>
+<p class="font-bold">Main d'œuvre (h)</p>
+<p class="text-xs text-on-surface-variant">Intervention standard</p>
+</div>
+<span class="font-headline font-bold text-xl">55€</span>
+</div>
+<div class="flex justify-between items-center py-5 border-b border-on-surface/5">
+<div>
+<p class="font-bold">Installation OS</p>
+<p class="text-xs text-on-surface-variant">MacOS / Windows + Pilotes</p>
+</div>
+<span class="font-headline font-bold text-xl">89€</span>
+</div>
+<div class="flex justify-between items-center py-5">
+<div>
+<p class="font-bold">Nettoyage Thermique</p>
+<p class="text-xs text-on-surface-variant">Pâte thermique Premium</p>
+</div>
+<span class="font-headline font-bold text-xl">45€</span>
+</div>
+</div>
+<div class="mt-8 p-6 bg-surface-container-highest rounded-xl">
+<div class="flex items-center gap-3 text-tertiary mb-2">
+<span class="material-symbols-outlined text-lg">verified</span>
+<span class="font-label text-[10px] font-bold tracking-widest uppercase">Garantie Promedias</span>
+</div>
+<p class="text-sm leading-relaxed text-on-surface-variant">
+                    Toutes nos interventions sont couvertes par une garantie de 12 mois. Nous utilisons exclusivement des composants certifiés Grade A+.
+                </p>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="mt-16 mb-8">
+<div class="bg-signature-gradient p-8 rounded-xl text-white shadow-xl shadow-primary/20">
+<h3 class="font-headline text-3xl font-bold mb-4">Prêt à réparer ?</h3>
+<p class="opacity-90 mb-8 text-sm">Prenez rendez-vous en ligne ou passez directement au comptoir sans rendez-vous.</p>
+<div class="flex flex-col gap-4">
+<button class="bg-white text-primary px-6 py-4 rounded-lg font-bold flex justify-center items-center gap-2">
+                        Prendre RDV
+                        <span class="material-symbols-outlined text-sm">calendar_today</span>
+</button>
+<button class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-4 rounded-lg font-bold flex justify-center items-center gap-2">
+                        Nous Appeler
+                        <span class="material-symbols-outlined text-sm">call</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="mt-16 w-full py-12 flex flex-col space-y-8 items-start">
+<div class="font-headline font-bold text-[#1c1b1b]">PROMEDIAS</div>
+<div class="flex flex-col space-y-4">
+<a class="text-[#1c1b1b]/70 font-body text-sm hover:text-[#1c1b1b] transition-colors" href="#">Conditions</a>
+<a class="text-[#1c1b1b]/70 font-body text-sm hover:text-[#1c1b1b] transition-colors" href="#">Garantie</a>
+<a class="text-[#1c1b1b]/70 font-body text-sm hover:text-[#1c1b1b] transition-colors" href="#">Contact</a>
+</div>
+<p class="text-[#1c1b1b]/70 font-body text-xs mt-8">© 2024 PROMEDIAS — Votre Comptoir Informatique</p>
+</footer>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-[#fcf9f8]/90 backdrop-blur-xl border-t border-[#1c1b1b]/5 shadow-[0_-10px_30px_rgba(28,27,27,0.04)] z-50">
+<a class="flex flex-col items-center justify-center text-[#1c1b1b]/60" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Accueil</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#af101a] scale-110" href="#">
+<span class="material-symbols-outlined">build</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Réparations</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#1c1b1b]/60" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Suivi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#1c1b1b]/60" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Boutique</span>
+</a>
+</nav>
+</body></html>

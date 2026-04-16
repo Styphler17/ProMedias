@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Diagnostics | PROMEDIAS - Votre Comptoir Informatique</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#fcf9f8",
+                        "on-tertiary-fixed": "#001f2a",
+                        "tertiary-fixed-dim": "#7bd1f8",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-variant": "#e5e2e1",
+                        "on-secondary-container": "#741e1c",
+                        "inverse-primary": "#ffb3ac",
+                        "surface-dim": "#dcd9d9",
+                        "inverse-surface": "#313030",
+                        "on-primary-fixed": "#410003",
+                        "surface-container-high": "#eae7e7",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary-fixed-variant": "#802824",
+                        "primary-container": "#d32f2f",
+                        "on-surface-variant": "#5b403d",
+                        "tertiary": "#005f7b",
+                        "outline": "#8f6f6c",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#9f3f39",
+                        "outline-variant": "#e4beba",
+                        "on-tertiary-container": "#e9f7ff",
+                        "primary": "#af101a",
+                        "on-primary-fixed-variant": "#930010",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#f0eded",
+                        "on-surface": "#1c1b1b",
+                        "on-primary-container": "#fff2f0",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#bee9ff",
+                        "background": "#fcf9f8",
+                        "surface-tint": "#ba1a20",
+                        "secondary-fixed-dim": "#ffb3ac",
+                        "on-secondary-fixed": "#410003",
+                        "secondary-fixed": "#ffdad6",
+                        "on-background": "#1c1b1b",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f6f3f2",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#ffb3ac",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#fd867d",
+                        "on-tertiary-fixed-variant": "#004d65",
+                        "surface": "#fcf9f8",
+                        "tertiary-container": "#00799c",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #af101a 0%, #d32f2f 100%);
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto font-['Space_Grotesk'] tracking-tight">
+<div class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 uppercase">PROMEDIAS</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors duration-200 ease-in-out" href="#">Réparations</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors duration-200 ease-in-out" href="#">Boutique</a>
+<a class="text-red-700 dark:text-red-500 font-bold border-b-2 border-red-700 transition-colors duration-200 ease-in-out" href="#">Diagnostics</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors duration-200 ease-in-out" href="#">À Propos</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="signature-gradient text-white px-6 py-2.5 rounded-xl font-medium shadow-lg hover:opacity-90 transition-all text-sm uppercase tracking-wider">Prendre RDV</button>
+</div>
+</div>
+<div class="bg-zinc-100 dark:bg-zinc-800 h-[1px] w-full"></div>
+</nav>
+<main class="pt-24 pb-20">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 mb-16">
+<div class="relative overflow-hidden rounded-xl bg-surface-container-high aspect-[21/9] md:aspect-[3/1] flex items-center">
+<div class="absolute inset-0 opacity-40 mix-blend-overlay">
+<img alt="Diagnostics" class="w-full h-full object-cover" data-alt="Close-up of a high-end motherboard with glowing circuits and a technician's precision tool in soft focus cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu257PRkz4Ahh1oJCk5FjBxV9dhrI0EfKr9Cz4cKPCtIUJqdFfwi5cZr6x7-MBWg3c0m-fFFFVLzb1Y8LIHpkEHj43OqisYGv2T67MmziK7lKE2jeQv-Zb76O0UMTXn4UdobOmNe5P3E6fVXyMZUhIhgs3lwGis66Eo0nKrWdgckDJxTSCOLrEvlfBS8G6yXza0Of4V8b99DTMtGcQNfabxMTG_IrQ3bCawpaqs3_uh6zGrjuSDBYHEEGL2mB2WNSN92syCVM8sPk"/>
+</div>
+<div class="relative z-10 px-12 max-w-2xl">
+<span class="font-label text-primary font-extrabold tracking-[0.2em] text-xs mb-4 block">DIAGNOSTIC TECHNIQUE</span>
+<h1 class="font-headline text-5xl md:text-6xl font-bold tracking-tighter text-on-surface mb-6 leading-none">La précision au service de votre tech.</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed font-light">Identifiez l'origine exacte de la panne. Nos experts Liégeois analysent vos composants avec une rigueur chirurgicale sous 24h à 48h.</p>
+</div>
+</div>
+</section>
+<!-- Process & Form Grid -->
+<section class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Sidebar: Process Timeline -->
+<div class="lg:col-span-4 space-y-12">
+<div>
+<h2 class="font-headline text-2xl font-bold mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                        Le Processus
+                    </h2>
+<div class="space-y-0">
+<!-- Step 1 -->
+<div class="relative pl-8 pb-10">
+<div class="absolute left-0 top-0 h-full w-[2px] bg-surface-container-highest"></div>
+<div class="absolute left-[-3px] top-0 h-4 w-2 bg-primary"></div>
+<h3 class="font-label font-bold text-sm tracking-wider uppercase mb-2">01. Soumission</h3>
+<p class="text-on-surface-variant text-sm">Remplissez le formulaire avec précision pour nous aider à préparer le matériel de test nécessaire.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative pl-8 pb-10">
+<div class="absolute left-0 top-0 h-full w-[2px] bg-surface-container-highest"></div>
+<div class="absolute left-[-3px] top-0 h-4 w-2 bg-primary"></div>
+<h3 class="font-label font-bold text-sm tracking-wider uppercase mb-2">02. Dépôt &amp; Examen</h3>
+<p class="text-on-surface-variant text-sm">Déposez votre appareil à notre comptoir de Liège. Analyse complète des circuits et software.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative pl-8 pb-10">
+<div class="absolute left-0 top-0 h-full w-[2px] bg-surface-container-highest"></div>
+<div class="absolute left-[-3px] top-0 h-4 w-2 bg-primary"></div>
+<h3 class="font-label font-bold text-sm tracking-wider uppercase mb-2">03. Rapport Détaillé</h3>
+<p class="text-on-surface-variant text-sm">Réception d'un devis transparent par email. Aucune réparation n'est lancée sans votre accord.</p>
+</div>
+<!-- Step 4 -->
+<div class="relative pl-8">
+<div class="absolute left-[-3px] top-0 h-4 w-2 bg-primary"></div>
+<h3 class="font-label font-bold text-sm tracking-wider uppercase mb-2">04. Renaissance</h3>
+<p class="text-on-surface-variant text-sm">Réparation effectuée avec des pièces d'origine et tests de validation finale.</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl">
+<h3 class="font-headline font-bold text-lg mb-4">Délai d'exécution</h3>
+<div class="flex items-end gap-2 mb-2">
+<span class="text-4xl font-bold text-primary">24h</span>
+<span class="text-on-surface-variant font-medium pb-1">en moyenne</span>
+</div>
+<p class="text-sm text-on-surface-variant italic leading-snug">Sauf cas complexes nécessitant une micro-soudure ou commande de pièces spécifiques.</p>
+</div>
+</div>
+<!-- Main Content: Diagnostic Form -->
+<div class="lg:col-span-8">
+<div class="bg-surface-container-lowest p-10 rounded-xl shadow-[0_20px_40px_rgba(28,27,27,0.06)]">
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Device Type -->
+<div class="space-y-2">
+<label class="font-label text-xs font-extrabold uppercase tracking-widest text-on-surface-variant ml-1">Type d'appareil</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer">
+<option>Ordinateur Portable</option>
+<option>PC Fixe / Gaming</option>
+<option>MacBook / iMac</option>
+<option>Smartphone</option>
+<option>Console de Jeux</option>
+<option>Autre / Spécifique</option>
+</select>
+</div>
+<!-- Brand -->
+<div class="space-y-2">
+<label class="font-label text-xs font-extrabold uppercase tracking-widest text-on-surface-variant ml-1">Marque &amp; Modèle</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20" placeholder="ex: ASUS ROG Zephyrus G14" type="text"/>
+</div>
+</div>
+<!-- Problem Description -->
+<div class="space-y-2">
+<label class="font-label text-xs font-extrabold uppercase tracking-widest text-on-surface-variant ml-1">Description du problème</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-lg p-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20" placeholder="Décrivez les symptômes (ne s'allume plus, écran bleu, bruit suspect, liquide renversé...)" rows="4"></textarea>
+</div>
+<!-- Contact Details -->
+<div class="pt-6 border-t border-surface-container-high space-y-8">
+<h3 class="font-headline text-xl font-bold">Vos Coordonnées</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="font-label text-xs font-extrabold uppercase tracking-widest text-on-surface-variant ml-1">Nom Complet</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary/20" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-extrabold uppercase tracking-widest text-on-surface-variant ml-1">Téléphone</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary/20" type="tel"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-extrabold uppercase tracking-widest text-on-surface-variant ml-1">Adresse Email</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary/20" type="email"/>
+</div>
+</div>
+<div class="flex items-center gap-4 pt-4">
+<input class="rounded border-none bg-surface-container-high text-primary focus:ring-primary" id="urgency" type="checkbox"/>
+<label class="text-sm font-medium" for="urgency">Demande prioritaire (Intervention en urgence souhaitée)</label>
+</div>
+<button class="w-full signature-gradient text-white py-5 rounded-xl font-bold text-lg uppercase tracking-widest hover:scale-[1.01] transition-transform shadow-xl" type="submit">
+                            Envoyer ma demande de diagnostic
+                        </button>
+</form>
+</div>
+</div>
+</section>
+<!-- Trust Badges -->
+<section class="max-w-7xl mx-auto px-8 mt-24">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 bg-surface-container-low rounded-xl px-12">
+<div class="flex flex-col items-center text-center space-y-3">
+<span class="material-symbols-outlined text-primary text-3xl">verified</span>
+<span class="font-label text-[10px] font-black uppercase tracking-[0.2em]">Pièces Certifiées</span>
+</div>
+<div class="flex flex-col items-center text-center space-y-3">
+<span class="material-symbols-outlined text-primary text-3xl">shutter_speed</span>
+<span class="font-label text-[10px] font-black uppercase tracking-[0.2em]">Service Express</span>
+</div>
+<div class="flex flex-col items-center text-center space-y-3">
+<span class="material-symbols-outlined text-primary text-3xl">security</span>
+<span class="font-label text-[10px] font-black uppercase tracking-[0.2em]">Data Protection</span>
+</div>
+<div class="flex flex-col items-center text-center space-y-3">
+<span class="material-symbols-outlined text-primary text-3xl">workspace_premium</span>
+<span class="font-label text-[10px] font-black uppercase tracking-[0.2em]">Garantie 6 Mois</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-zinc-100 dark:bg-zinc-950 w-full py-12 px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="md:col-span-1">
+<div class="font-['Space_Grotesk'] font-bold text-lg uppercase tracking-widest mb-6">PROMEDIAS</div>
+<p class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400">Votre partenaire technique de confiance au cœur de Liège.</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-xs uppercase tracking-widest text-zinc-900 dark:text-zinc-100">Services</h4>
+<a class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400 hover:underline underline-offset-4" href="#">Réparation Mac</a>
+<a class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400 hover:underline underline-offset-4" href="#">PC Gaming</a>
+<a class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400 hover:underline underline-offset-4" href="#">Récupération de données</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-xs uppercase tracking-widest text-zinc-900 dark:text-zinc-100">Contact</h4>
+<div class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400">
+                    Rue de la Casquette 42,<br/>4000 Liège
+                </div>
+<div class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400">
+                    +32 4 123 45 67
+                </div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-xs uppercase tracking-widest text-zinc-900 dark:text-zinc-100">Légal</h4>
+<div class="flex flex-wrap gap-x-4 gap-y-2">
+<a class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400 hover:underline underline-offset-4" href="#">Contact</a>
+<a class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400 hover:underline underline-offset-4" href="#">Localisation</a>
+<a class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400 hover:underline underline-offset-4" href="#">CGV</a>
+<a class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400 hover:underline underline-offset-4" href="#">Mentions Légales</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+<p class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400">© 2024 PROMEDIAS Liège. Excellence en réparation informatique.</p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1c1b1b",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-primary-fixed-variant": "#930010",
+                        "on-secondary-fixed-variant": "#802824",
+                        "surface": "#fcf9f8",
+                        "on-tertiary-fixed-variant": "#004d65",
+                        "surface-tint": "#ba1a20",
+                        "outline": "#8f6f6c",
+                        "on-surface-variant": "#5b403d",
+                        "on-tertiary-container": "#e9f7ff",
+                        "primary-container": "#d32f2f",
+                        "inverse-surface": "#313030",
+                        "tertiary-fixed": "#bee9ff",
+                        "secondary-fixed-dim": "#ffb3ac",
+                        "primary-fixed-dim": "#ffb3ac",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#410003",
+                        "secondary": "#9f3f39",
+                        "inverse-primary": "#ffb3ac",
+                        "background": "#fcf9f8",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#fd867d",
+                        "primary": "#af101a",
+                        "tertiary-fixed-dim": "#7bd1f8",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f6f3f2",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#741e1c",
+                        "surface-container": "#f0eded",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dcd9d9",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#e4beba",
+                        "surface-container-high": "#eae7e7",
+                        "tertiary": "#005f7b",
+                        "on-primary-fixed": "#410003",
+                        "on-surface": "#1c1b1b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#001f2a",
+                        "on-primary-container": "#fff2f0",
+                        "surface-container-highest": "#e5e2e1",
+                        "tertiary-container": "#00799c",
+                        "secondary-fixed": "#ffdad6",
+                        "surface-variant": "#e5e2e1",
+                        "surface-bright": "#fcf9f8",
+                        "primary-fixed": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #af101a 0%, #d32f2f 100%);
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-6 h-20">
+<div class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-['Space_Grotesk']">
+                PROMEDIAS
+            </div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors font-['Space_Grotesk'] tracking-tight" href="#">Réparations</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors font-['Space_Grotesk'] tracking-tight" href="#">Boutique</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors font-['Space_Grotesk'] tracking-tight" href="#">Diagnostics</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors font-['Space_Grotesk'] tracking-tight" href="#">À Propos</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined">call</span>
+<span class="font-headline tracking-tight">+32 (0)4 123 45 67</span>
+</div>
+<button class="bg-primary hover:bg-primary-container text-white px-6 py-3 rounded-lg font-headline font-bold text-sm transition-all active:scale-95 duration-150">
+                    Prendre RDV
+                </button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative pt-32 pb-20 overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+<div class="absolute top-0 left-1/4 w-96 h-96 bg-primary rounded-full blur-[120px]"></div>
+<div class="absolute bottom-0 right-1/4 w-96 h-96 bg-tertiary rounded-full blur-[120px]"></div>
+</div>
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-7 space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="text-xs font-bold font-label tracking-widest uppercase">Expertise Certifiée à Liège</span>
+</div>
+<h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter text-on-surface leading-[0.95]">
+                    PROMEDIAS — <br/>
+<span class="text-primary italic">Votre Comptoir</span><br/>
+                    Informatique
+                </h1>
+<p class="text-lg md:text-xl text-on-surface-variant max-w-xl font-light leading-relaxed">
+                    De la micro-soudure de précision à la revente d'équipements reconditionnés. Nous redonnons vie à votre technologie avec la rigueur d'un atelier d'horlogerie.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="signature-gradient text-white px-8 py-4 rounded-lg font-headline font-bold text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+                        Demander un devis
+                    </button>
+<button class="bg-on-surface text-white px-8 py-4 rounded-lg font-headline font-bold text-lg hover:bg-on-surface/90 transition-all">
+                        Nos services
+                    </button>
+</div>
+</div>
+<div class="lg:col-span-5 relative">
+<div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl rotate-2">
+<img class="w-full h-[500px] object-cover" data-alt="close up of a technician working with precision tools on a smartphone motherboard in a clean modern workshop environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUbrwXoYdvgWKRP1ajippa5w364mhCEydLT3BIQRIchZ7a847uHJGZIB0fQ0ons8aiAYlqNFOdNqdVKNHKCHlP-j0gPG6THxZUUDQsY1GYnpHidJsdwERSsovr7nplsac1NK26FkRfLC6HWiaMWWgVTxpG27w4ePSwOhJbT9u12ohjAgUTrQVaXtVwjpiLjGkLofOYlqtPXTXY4W66boTZ6LnpzG3YztpL3FDPTOUOUn1MQxQyRzydEfz0B2B1jXqXtvyMPMAm_GU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+<div class="flex items-center gap-2 text-white">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-headline font-bold text-2xl">4.9/5</span>
+<span class="text-zinc-300">sur Google Reviews</span>
+</div>
+</div>
+</div>
+<div class="absolute -top-6 -right-6 w-full h-full border-2 border-primary/20 rounded-2xl -z-10 rotate-1"></div>
+</div>
+</div>
+</header>
+<!-- Trust Badges -->
+<section class="bg-surface-container-low py-12">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex items-center gap-6 p-6 bg-surface-container-lowest rounded-xl shadow-sm transition-all hover:translate-y-[-4px]">
+<div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl">10+ ans</h3>
+<p class="text-on-surface-variant text-sm font-medium">D'expérience métier</p>
+</div>
+</div>
+<div class="flex items-center gap-6 p-6 bg-surface-container-lowest rounded-xl shadow-sm transition-all hover:translate-y-[-4px]">
+<div class="w-16 h-16 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary">
+<svg class="w-8 h-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path><path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path></svg>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl">Note 4.9/5</h3>
+<p class="text-on-surface-variant text-sm font-medium">Avis clients vérifiés</p>
+</div>
+</div>
+<div class="flex items-center gap-6 p-6 bg-surface-container-lowest rounded-xl shadow-sm transition-all hover:translate-y-[-4px]">
+<div class="w-16 h-16 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl">Rapide &amp; Fiable</h3>
+<p class="text-on-surface-variant text-sm font-medium">Réparations express</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Bento Grid -->
+<section class="py-24">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+<div class="max-w-2xl">
+<span class="text-primary font-bold tracking-widest text-xs font-label uppercase">Nos Compétences</span>
+<h2 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight mt-4">Un service complet pour votre écosystème numérique.</h2>
+</div>
+<div class="pb-2">
+<a class="text-primary font-bold flex items-center gap-2 hover:gap-4 transition-all" href="#">
+                        Voir tous nos tarifs
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+<!-- Large Card -->
+<div class="md:col-span-3 bg-surface-container-high rounded-2xl p-8 group hover:bg-surface-container-highest transition-colors flex flex-col justify-between min-h-[320px]">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-5xl text-primary">smartphone</span>
+<div class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-on-surface-variant">open_in_new</span>
+</div>
+</div>
+<div>
+<h3 class="text-2xl font-headline font-bold mb-2">Réparation GSM</h3>
+<p class="text-on-surface-variant font-medium">Écrans, batteries et connecteurs de charge. iPhone, Samsung, Xiaomi et plus.</p>
+</div>
+</div>
+<div class="md:col-span-3 bg-on-background rounded-2xl p-8 group transition-all flex flex-col justify-between min-h-[320px] text-white">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-5xl text-primary-fixed-dim">laptop_mac</span>
+</div>
+<div>
+<h3 class="text-2xl font-headline font-bold mb-2">Réparation PC/Laptop</h3>
+<p class="text-zinc-400 font-medium">Optimisation système, remplacement clavier, nettoyage interne et upgrade SSD.</p>
+</div>
+</div>
+<div class="md:col-span-2 bg-surface-container-low rounded-2xl p-6 group hover:bg-white transition-all flex flex-col justify-between min-h-[280px]">
+<span class="material-symbols-outlined text-4xl text-tertiary">desktop_mac</span>
+<div>
+<h3 class="text-xl font-headline font-bold mb-2">Dépannage Mac</h3>
+<p class="text-on-surface-variant text-sm">Spécialiste Apple: MacBook, iMac et Mac Mini.</p>
+</div>
+</div>
+<div class="md:col-span-2 bg-primary text-white rounded-2xl p-6 group transition-all flex flex-col justify-between min-h-[280px]">
+<span class="material-symbols-outlined text-4xl">inventory_2</span>
+<div>
+<h3 class="text-xl font-headline font-bold mb-2">Vente Reconditionnée</h3>
+<p class="text-white/80 text-sm">Appareils testés en 50 points de contrôle avec garantie 1 an.</p>
+</div>
+</div>
+<div class="md:col-span-1 bg-surface-container-highest rounded-2xl p-6 transition-all flex flex-col justify-between min-h-[280px]">
+<span class="material-symbols-outlined text-4xl text-on-surface">currency_exchange</span>
+<h3 class="text-lg font-headline font-bold">Achat / Reprise</h3>
+</div>
+<div class="md:col-span-1 bg-surface-container-low border border-outline-variant/30 rounded-2xl p-6 transition-all flex flex-col justify-between min-h-[280px]">
+<span class="material-symbols-outlined text-4xl text-on-surface">cable</span>
+<h3 class="text-lg font-headline font-bold">Accessoires</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Products -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-headline font-extrabold tracking-tight">Le Reconditionné by PROMEDIAS</h2>
+<p class="text-on-surface-variant mt-4">Qualité premium, prix réduit, impact écologique positif.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<!-- Product Card -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm group">
+<div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="sleek professional photography of a refurbished space gray macbook pro on a clean minimalist desk with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAglLmkbcqFKmrPwPrBAGB7uGkeHglcDxbcLM7fxkZHLU2gOj3BoslesgG6T8nP5R-qW8usAk4CMVlMNuBF4V9psGaEV7nwrv1i0csBSAzdiWufuqomgg8JECkbTv-Hc66tf7_syqMcq2Gn0ttA57vAlxOKubR4Eb6ZWXJi45VpGLg96MwUwAu0MW8QtvnvEx3GVrerbl6EI4ewMLlbqtqQRBFZ6cfMfVlHDCgyl_35Xr-mb4jITuWsas8u9JOv3ZwsbmWwrl1Iiqw"/>
+<div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Garantie 12 Mois</div>
+</div>
+<div class="p-6">
+<h4 class="font-headline font-bold text-lg">MacBook Pro M1</h4>
+<p class="text-sm text-on-surface-variant mb-4">8GB RAM / 256GB SSD — État Comme Neuf</p>
+<div class="flex justify-between items-center border-t border-surface-container pt-4">
+<span class="text-xl font-headline font-extrabold text-primary">899€</span>
+<button class="w-10 h-10 rounded-full bg-on-surface text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm group">
+<div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="iphone 12 blue edition held against a neutral studio background highlighting its ceramic shield and flat edge design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT2pOFQSLwNvSOoBJtGopMkClYxRqukgr_L4TrxffenqTjWFDwarytDAImAz7STOGlshADtDUvXq5GXXp430yRzXgvgozR_kTg7rfsDteHe1EuM-dQs2688U6zsXGsKWEcxttMxj-z3TxjLD3DCt5v4cah_Ey97SFrpKxvlG_Z9M3MKR96JjdDC2G9cIg7YMG1Rxfu5-hwY9PIEF0oiFKerW76wkGSEAILZz2YfMwpz07qRhqdbdfErzU-QJsmP53hzpv6eFimiKY"/>
+</div>
+<div class="p-6">
+<h4 class="font-headline font-bold text-lg">iPhone 12</h4>
+<p class="text-sm text-on-surface-variant mb-4">64GB — Blue Edition — Très bon état</p>
+<div class="flex justify-between items-center border-t border-surface-container pt-4">
+<span class="text-xl font-headline font-extrabold text-primary">449€</span>
+<button class="w-10 h-10 rounded-full bg-on-surface text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm group">
+<div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="top view of a professional dell latitude business laptop with its screen glowing in a warm corporate office light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZYzCGJOgpZSO1GzepcFxKX2jVhNKCjoaAIAsdKnmxnhggGi3rcWMoQ8baZGJLdZaVk_3bzMhiQ4SfEDK2fA6v4_J5yPoizy4sNIFgIMGGPAHN45v9zTOyZbxGzRBKLsWb9rpIVHKpdk02y6D6f9iNBA2mbLR4fhdIDXQMPZFCpnSriw7yeWz3Rh9xGz9z3FWsfXjmKgu2Mpi8SnZ1V5WwPZJjasxp-04CwdR_zgnjbqqQ5icKwCzQR3j-W2zaejFbc4uSBWAIWoM"/>
+</div>
+<div class="p-6">
+<h4 class="font-headline font-bold text-lg">Dell Latitude 5420</h4>
+<p class="text-sm text-on-surface-variant mb-4">Intel i5 11th Gen / 16GB RAM</p>
+<div class="flex justify-between items-center border-t border-surface-container pt-4">
+<span class="text-xl font-headline font-extrabold text-primary">549€</span>
+<button class="w-10 h-10 rounded-full bg-on-surface text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm group">
+<div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="iphone 13 silver back glass and camera lenses in high detail macro photography with elegant reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxZiDpS4Kn9A1_eC87AbIiWzlXrxvFNtZWeWJwePPGbocXtLDQTcingQ01TMshcaaJHA4MpPlWIWCrHG33I2DLEu954XXc7tjRe5qHcX4edJTib4G4lrtVCqhIIieebj3Q1SfbXbB3Uu8hjqYjGlkBL_Ww58ggpbf0N9wKcK-J0ZN-aAUfOqr-WlA_NKCER7LB2rXIIwZgG5BJJxvZU4RHuWGfKlSRi5xo635TccArGPEhxXBR8qQqK_QsOjBMcR3DuZ90mipxl3o"/>
+<div class="absolute top-4 left-4 bg-tertiary text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Nouveauté</div>
+</div>
+<div class="p-6">
+<h4 class="font-headline font-bold text-lg">iPhone 13</h4>
+<p class="text-sm text-on-surface-variant mb-4">128GB — Midnight — État Neuf</p>
+<div class="flex justify-between items-center border-t border-surface-container pt-4">
+<span class="text-xl font-headline font-extrabold text-primary">599€</span>
+<button class="w-10 h-10 rounded-full bg-on-surface text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Map & Contact Info -->
+<section class="py-24">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16">
+<div class="space-y-12">
+<div>
+<h2 class="text-4xl font-headline font-extrabold tracking-tight">Passez nous voir</h2>
+<p class="text-on-surface-variant mt-4 text-lg">Notre atelier est situé au cœur de Liège, prêt à accueillir vos appareils défectueux.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<span class="text-xs font-label font-bold uppercase tracking-widest text-primary">Adresse</span>
+<p class="font-headline font-semibold text-lg">141 Rue St-Léonard,<br/>4000 Liège, Belgique</p>
+</div>
+<div class="space-y-2">
+<span class="text-xs font-label font-bold uppercase tracking-widest text-primary">Contact</span>
+<p class="font-headline font-semibold text-lg underline decoration-primary decoration-2">contact@promedias.be</p>
+<p class="font-headline font-semibold text-lg">+32 (0)4 123 45 67</p>
+</div>
+<div class="space-y-2 md:col-span-2">
+<span class="text-xs font-label font-bold uppercase tracking-widest text-primary">Horaires</span>
+<div class="grid grid-cols-2 gap-x-8 gap-y-1 mt-2 text-on-surface-variant font-medium">
+<p>Lundi - Vendredi</p> <p class="text-on-surface">10:00 — 18:30</p>
+<p>Samedi</p> <p class="text-on-surface">10:00 — 17:00</p>
+<p>Dimanche</p> <p class="text-primary font-bold">Fermé</p>
+</div>
+</div>
+</div>
+<div class="p-8 bg-on-background text-white rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="text-xl font-headline font-bold mb-2">Un diagnostic ?</h4>
+<p class="text-zinc-400 mb-6">Nos experts vous répondent en moins de 24h ouvrables.</p>
+<button class="bg-primary hover:bg-primary-container px-6 py-3 rounded-lg font-bold transition-all">Nous Contacter</button>
+</div>
+<span class="material-symbols-outlined absolute -bottom-8 -right-8 text-[160px] opacity-10 rotate-12">help_outline</span>
+</div>
+</div>
+<div class="relative h-[600px] bg-surface-container rounded-3xl overflow-hidden shadow-xl border border-outline-variant/20">
+<div class="w-full h-full bg-zinc-200 flex items-center justify-center" data-location="Liège, Belgium" style="">
+<img class="w-full h-full object-cover" data-alt="aerial satellite map view of liège city urban landscape with subtle minimalist styling in grayscale with primary red pin indicators" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWeJDt8528bcW4jsYDQ-vFtybYHiGl7Xlr5xPAkSvl92glmdmtd3uh5dEF3vai2hgqHrJg1AdybUOphh_CLWLZvkfIs0_ETewwKscuEeHyICKifdHk0Wx_qqq2DzOhGvsIPXzUlNxENSnihJdVoM-HxuIOmAV2V-sdg9dEAp2tC6GbCItNPrAkVfJXRugjvT3Svif2EKuSKh9Kn8sauEbb4W1-XDfyGPKdGiRy93wuo-84q-PUSsdnRrXhh4HY4nrhsT7XX0O6qNI"/>
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<div class="w-12 h-12 bg-primary rounded-full border-4 border-white shadow-2xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="mt-2 bg-white px-3 py-1 rounded shadow-lg text-xs font-bold font-headline uppercase tracking-tighter">PROMEDIAS Liège</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-zinc-900 dark:bg-black w-full py-12 px-6 border-t border-zinc-800">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="space-y-6">
+<div class="text-xl font-bold text-white uppercase tracking-widest font-['Manrope']">PROMEDIAS</div>
+<p class="text-zinc-400 text-sm leading-relaxed">
+                    Le comptoir informatique de précision à Liège. Expertise, rapidité et transparence pour tous vos besoins technologiques.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-red-500 hover:border-red-500 transition-all" href="#">
+<span class="material-symbols-outlined text-sm">social_leaderboard</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-red-500 hover:border-red-500 transition-all" href="#">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</a>
+</div>
+</div>
+<div class="space-y-6">
+<h5 class="text-white font-bold text-xs uppercase tracking-[0.2em]">Services</h5>
+<ul class="space-y-3 font-['Manrope'] text-sm tracking-wide">
+<li><a class="text-zinc-400 hover:text-red-500 transition-colors" href="#">Réparation GSM</a></li>
+<li><a class="text-zinc-400 hover:text-red-500 transition-colors" href="#">Réparation PC &amp; Mac</a></li>
+<li><a class="text-zinc-400 hover:text-red-500 transition-colors" href="#">Récupération de données</a></li>
+<li><a class="text-zinc-400 hover:text-red-500 transition-colors" href="#">Vente reconditionné</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h5 class="text-white font-bold text-xs uppercase tracking-[0.2em]">Aide</h5>
+<ul class="space-y-3 font-['Manrope'] text-sm tracking-wide">
+<li><a class="text-zinc-400 hover:text-red-500 transition-colors" href="#">Conditions Générales</a></li>
+<li><a class="text-zinc-400 hover:text-red-500 transition-colors" href="#">Garanties</a></li>
+<li><a class="text-zinc-400 hover:text-red-500 transition-colors" href="#">Protection des données</a></li>
+<li><a class="text-zinc-400 hover:text-red-500 transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h5 class="text-white font-bold text-xs uppercase tracking-[0.2em]">Newsletter</h5>
+<p class="text-zinc-400 text-sm">Recevez nos offres exclusives sur le reconditionné.</p>
+<div class="flex border-b border-zinc-700 pb-2">
+<input class="bg-transparent border-none focus:ring-0 text-white w-full text-sm" placeholder="Votre email" type="email"/>
+<button class="text-red-600 font-bold uppercase text-[10px] tracking-widest px-2">S'abonner</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-zinc-500 text-xs font-['Manrope'] tracking-wide">
+                © 2024 PROMEDIAS Liège — Le Comptoir Informatique de Précision.
+            </p>
+<div class="flex gap-6">
+<img alt="Visa" class="h-6 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGvXmBvTQHAUYcZWYvHQHpEhmJXePjQQFdeE6P79gUPVqUVd9YM_gXxvMJfLUgfZUm9IZpVLpwXAJSnei-UltVtN7pjatmKvB3BfFxyFCd5GuzD6j_ZdRm1gErj4vgqV8fV6gjQTB3xmktGv8o-lVhV2q7dgE0yqLVgUXsQ-Rv9BgoasFW0P9VZ_F6qnHXFMIYp94ql8XcDhVmOG62jFGXkknV6R74GCmOkK7HK2khbolylGyv8NQPkd1RH6A5CgR0_HNGP2uzg6E"/>
+<img alt="Mastercard" class="h-6 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYlS4Y1QGEWZSQNlGm5f3F_a5WYXWly01iFvMe9drikXoNP_MLqqZWkcr03cP--nc9YpFLjCIi6FMLSlmDc35oyfPap-4HOUzFiejCEE7o0S0sHoKm-8YOakqtaB7AcFOrw0eB8qO426E5KsfE_Ki2dz92BlbbNHCgGYrSyRo6ByooarMCwcs_4mNc-1_lW6ArFHwdrFSW6cUh_MkqXYHGNGCYW-FDfGU_W9g9sA1ncCSE4eb5DKO3fJIEzHU22zN2KP9q2LqLOjA"/>
+<img alt="Bancontact" class="h-6 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyB7haM77p2z71J92m9GQmqyEtAIM4o2rhFLjNPqkW5-uwkQFqB5mlbAnaWeuToZPTLuD7_ZbsOrXzHLP-3Y5GdU0FqZVoLxDWui7KeRCUhnU60dfpPDLhPPc8SgeAiA5THHOzjaoWYV8bapi48HuyuSzgDkKkK8yAE52J3Tsz8TMwSJcg6aFoGbirVVUi51JgnHvBBNF451WQxr8Y6QfkIfucV1P1-A5VwixzVynTAgq4uublasjWuNnG9x9MxSlkqIjPG2SP9Ks"/>
+</div>
+</div>
+</footer>
+<!-- FAB -->
+<a class="fixed bottom-8 right-8 w-16 h-16 signature-gradient text-white rounded-full flex items-center justify-center shadow-2xl z-40 hover:scale-110 active:scale-95 transition-all" href="tel:+32041234567">
+<span class="material-symbols-outlined text-3xl">phone_in_talk</span>
+</a>
+</body></html>

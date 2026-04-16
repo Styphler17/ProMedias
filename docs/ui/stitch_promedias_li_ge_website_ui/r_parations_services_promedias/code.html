@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Services | PROMEDIAS Liège - L'Atelier Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#fcf9f8",
+                    "on-tertiary-fixed": "#001f2a",
+                    "tertiary-fixed-dim": "#7bd1f8",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-variant": "#e5e2e1",
+                    "on-secondary-container": "#741e1c",
+                    "inverse-primary": "#ffb3ac",
+                    "surface-dim": "#dcd9d9",
+                    "inverse-surface": "#313030",
+                    "on-primary-fixed": "#410003",
+                    "surface-container-high": "#eae7e7",
+                    "primary-fixed": "#ffdad6",
+                    "on-secondary-fixed-variant": "#802824",
+                    "primary-container": "#d32f2f",
+                    "on-surface-variant": "#5b403d",
+                    "tertiary": "#005f7b",
+                    "outline": "#8f6f6c",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#9f3f39",
+                    "outline-variant": "#e4beba",
+                    "on-tertiary-container": "#e9f7ff",
+                    "primary": "#af101a",
+                    "on-primary-fixed-variant": "#930010",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#f0eded",
+                    "on-surface": "#1c1b1b",
+                    "on-primary-container": "#fff2f0",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#bee9ff",
+                    "background": "#fcf9f8",
+                    "surface-tint": "#ba1a20",
+                    "secondary-fixed-dim": "#ffb3ac",
+                    "on-secondary-fixed": "#410003",
+                    "secondary-fixed": "#ffdad6",
+                    "on-background": "#1c1b1b",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#f6f3f2",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#ffb3ac",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#fd867d",
+                    "on-tertiary-fixed-variant": "#004d65",
+                    "surface": "#fcf9f8",
+                    "tertiary-container": "#00799c",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-nav {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .signature-gradient {
+        background: linear-gradient(135deg, #af101a 0%, #d32f2f 100%);
+      }
+      .asymmetric-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+      @media (max-width: 768px) {
+        .asymmetric-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-headline uppercase">PROMEDIAS</div>
+<div class="hidden md:flex items-center space-x-8 font-headline tracking-tight text-sm">
+<a class="text-red-700 dark:text-red-500 font-bold border-b-2 border-red-700" href="#">Réparations</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#">Boutique</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#">Diagnostics</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#">À Propos</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="signature-gradient text-on-primary px-6 py-2.5 rounded-xl font-headline font-bold text-sm tracking-tight shadow-lg shadow-primary/20">Prendre RDV</button>
+</div>
+</div>
+<div class="bg-zinc-100 dark:bg-zinc-800 h-[1px] w-full"></div>
+</nav>
+<main class="pt-32">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 mb-24">
+<div class="asymmetric-grid gap-16 items-center">
+<div>
+<span class="font-label text-primary font-extrabold tracking-widest text-xs mb-4 block">L'ATELIER DIGITAL</span>
+<h1 class="font-headline text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] mb-8">
+                        La renaissance de vos appareils.
+                    </h1>
+<p class="text-lg text-on-surface-variant max-w-xl leading-relaxed mb-10">
+                        Diagnostics de précision, composants certifiés et expertise technique. Nous traitons chaque réparation comme une pièce d'orfèvrerie technologique au cœur de Liège.
+                    </p>
+<div class="flex gap-4">
+<button class="bg-on-surface text-white px-8 py-4 rounded-xl font-headline font-bold uppercase tracking-tight text-sm hover:opacity-90 transition-all">Consulter les tarifs</button>
+<button class="text-primary font-headline font-bold uppercase tracking-tight text-sm flex items-center gap-2 group px-4">
+                            Demander un devis 
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="relative h-[500px] rounded-xl overflow-hidden shadow-2xl">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="Close-up high-resolution shot of a professional electronic technician workspace with microscopic tools and macro view of a smartphone logic board" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKaO0uul0zZwPmUYBTL8T84IwlQTrlhQeLEcLfd0DSE8LsVLI7c3hvTyeMocqfOucbvcBnlDzKo0y2Y1oWSDihQEzJVdgyXYyjeYDO3RdAD0VHpVzvEejwoDXiQbMDk275CI1OhNLam5qFSwZyYmIQII1SZ4YpuOmFwXBZ0OE0lUi7CHA0t5-NZCGh_3_InCpVS-BtFODbJMENmPDz7ye63-yScNdv_jaqLTe4x3uRRNt4ZLeRPJKs8vhWGP5XS2kVM_p5epRPUBc"/>
+<div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+</div>
+</div>
+</section>
+<!-- Services Bento Grid -->
+<section class="bg-surface-container-low py-24">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- GSM Repair -->
+<div class="md:col-span-2 bg-surface-container-lowest p-10 rounded-xl flex flex-col justify-between relative overflow-hidden group">
+<div class="z-10">
+<span class="material-symbols-outlined text-primary text-4xl mb-6">smartphone</span>
+<h3 class="font-headline text-3xl font-bold mb-4">Réparation Smartphones</h3>
+<p class="text-on-surface-variant max-w-md mb-8">Écrans brisés, batteries fatiguées ou problèmes de connectivité. Nous intervenons sur iPhone, Samsung Galaxy et Xiaomi avec des pièces d'origine.</p>
+<div class="flex gap-2 flex-wrap">
+<span class="bg-surface-container-high px-3 py-1 rounded-lg font-label text-[10px] font-extrabold tracking-widest">IPHONE</span>
+<span class="bg-surface-container-high px-3 py-1 rounded-lg font-label text-[10px] font-extrabold tracking-widest">SAMSUNG</span>
+<span class="bg-surface-container-high px-3 py-1 rounded-lg font-label text-[10px] font-extrabold tracking-widest">XIAOMI</span>
+</div>
+</div>
+<div class="absolute right-[-10%] bottom-[-10%] opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[240px]" data-weight="fill">smartphone</span>
+</div>
+</div>
+<!-- Hardware Upgrades -->
+<div class="bg-on-surface text-white p-10 rounded-xl">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6">memory</span>
+<h3 class="font-headline text-3xl font-bold mb-4">Upgrades Matériels</h3>
+<p class="text-zinc-400 mb-8">Donnez une seconde jeunesse à votre PC. Installation de SSD ultra-rapides et extension de mémoire vive (RAM).</p>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 text-sm font-label uppercase tracking-widest font-bold">
+<span class="w-1 h-1 bg-primary rounded-full"></span> SSD NVMe/SATA
+                            </li>
+<li class="flex items-center gap-3 text-sm font-label uppercase tracking-widest font-bold">
+<span class="w-1 h-1 bg-primary rounded-full"></span> RAM DDR4/DDR5
+                            </li>
+</ul>
+</div>
+<!-- PC/Laptop -->
+<div class="bg-surface-container-lowest p-10 rounded-xl">
+<span class="material-symbols-outlined text-primary text-4xl mb-6">laptop_mac</span>
+<h3 class="font-headline text-3xl font-bold mb-4">PC &amp; Mac</h3>
+<p class="text-on-surface-variant mb-6">Maintenance logicielle, nettoyage système et réparation de charnières ou claviers sur Windows et macOS.</p>
+<button class="text-primary font-headline font-bold text-sm flex items-center gap-2 group">
+                            Voir les forfaits <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+<!-- Data Recovery -->
+<div class="md:col-span-2 bg-tertiary text-white p-10 rounded-xl relative overflow-hidden">
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex-1">
+<span class="material-symbols-outlined text-tertiary-fixed text-4xl mb-6">settings_backup_restore</span>
+<h3 class="font-headline text-3xl font-bold mb-4">Récupération de Données</h3>
+<p class="text-tertiary-fixed/80">Disque dur illisible, SSD corrompu ou suppression accidentelle. Nos techniciens déploient des solutions de récupération avancées.</p>
+</div>
+<div class="flex-shrink-0 bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/10">
+<div class="text-center">
+<div class="text-xs font-label uppercase tracking-widest mb-1 opacity-70">Taux de réussite</div>
+<div class="text-5xl font-headline font-bold text-tertiary-fixed">94%</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Table Section -->
+<section class="py-24 max-w-7xl mx-auto px-8">
+<div class="text-center mb-16">
+<span class="font-label text-primary font-extrabold tracking-widest text-xs mb-4 block uppercase">Transparence Totale</span>
+<h2 class="font-headline text-5xl font-bold tracking-tight">Tarification des interventions</h2>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<div class="grid grid-cols-4 bg-surface-container-highest p-6 font-label text-[11px] font-extrabold tracking-[0.2em] uppercase text-on-surface-variant">
+<div class="col-span-2">Service</div>
+<div class="text-center">Délai Estimé</div>
+<div class="text-right">À partir de</div>
+</div>
+<div class="divide-y divide-surface-container-high">
+<!-- Item 1 -->
+<div class="grid grid-cols-4 p-8 items-center hover:bg-surface-container-low transition-colors">
+<div class="col-span-2">
+<div class="font-headline font-bold text-lg">Écran iPhone (Série 12/13/14)</div>
+<div class="text-xs text-on-surface-variant mt-1">Pièce Grade A+ &amp; Joint d'étanchéité inclus</div>
+</div>
+<div class="text-center">
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-xs font-bold italic">1h Express</span>
+</div>
+<div class="text-right font-headline font-bold text-2xl">99€</div>
+</div>
+<!-- Item 2 -->
+<div class="grid grid-cols-4 p-8 items-center hover:bg-surface-container-low transition-colors">
+<div class="col-span-2">
+<div class="font-headline font-bold text-lg">Installation SSD 500GB</div>
+<div class="text-xs text-on-surface-variant mt-1">Clonage système &amp; Nettoyage interne offert</div>
+</div>
+<div class="text-center font-label text-sm opacity-60">24-48h</div>
+<div class="text-right font-headline font-bold text-2xl">125€</div>
+</div>
+<!-- Item 3 -->
+<div class="grid grid-cols-4 p-8 items-center hover:bg-surface-container-low transition-colors">
+<div class="col-span-2">
+<div class="font-headline font-bold text-lg">Diagnostic Avancé (Panne Inconnue)</div>
+<div class="text-xs text-on-surface-variant mt-1">Déduit du montant final si réparation</div>
+</div>
+<div class="text-center font-label text-sm opacity-60">Sur place</div>
+<div class="text-right font-headline font-bold text-2xl">25€</div>
+</div>
+<!-- Item 4 -->
+<div class="grid grid-cols-4 p-8 items-center hover:bg-surface-container-low transition-colors">
+<div class="col-span-2">
+<div class="font-headline font-bold text-lg">Récupération de données</div>
+<div class="text-xs text-on-surface-variant mt-1">Sur support externe ou Cloud sécurisé</div>
+</div>
+<div class="text-center font-label text-sm opacity-60">3-5 Jours</div>
+<div class="text-right font-headline font-bold text-2xl italic">Devis</div>
+</div>
+</div>
+</div>
+<p class="text-center mt-8 text-on-surface-variant text-sm italic">
+                * Les tarifs sont indicatifs et peuvent varier selon la complexité du modèle et le coût des composants.
+            </p>
+</section>
+<!-- CTA Section -->
+<section class="max-w-7xl mx-auto px-8 py-24">
+<div class="signature-gradient rounded-xl p-16 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12">
+<div class="relative z-10 text-center md:text-left">
+<h2 class="font-headline text-5xl font-bold text-white mb-6 tracking-tight">Une panne ? Un projet ?</h2>
+<p class="text-on-primary-container text-lg max-w-lg mb-0 opacity-90 leading-relaxed">
+                        Obtenez une estimation gratuite en moins de 24h. Nos techniciens sont à votre écoute pour redonner vie à vos outils de travail.
+                    </p>
+</div>
+<div class="relative z-10">
+<button class="bg-on-surface text-white px-10 py-5 rounded-xl font-headline font-bold text-lg shadow-2xl hover:scale-[1.02] transition-transform flex items-center gap-3">
+                        Demander un devis
+                        <span class="material-symbols-outlined">description</span>
+</button>
+</div>
+<!-- Abstract Design Elements -->
+<div class="absolute right-0 top-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="absolute left-1/4 bottom-0 w-32 h-32 bg-black/10 rounded-full blur-2xl"></div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-zinc-100 dark:bg-zinc-950 w-full py-12 px-8 mt-24">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="font-['Space_Grotesk'] font-bold text-lg uppercase tracking-widest mb-6">PROMEDIAS</div>
+<p class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                    Excellence technique et proximité au cœur de Liège. Votre partenaire de confiance pour tout votre écosystème digital.
+                </p>
+</div>
+<div class="font-['Manrope'] text-sm">
+<h4 class="font-bold text-red-700 dark:text-red-500 mb-6 uppercase tracking-wider">Expertise</h4>
+<ul class="space-y-4 text-zinc-500 dark:text-zinc-400">
+<li><a class="hover:underline underline-offset-4" href="#">Réparation iPhone</a></li>
+<li><a class="hover:underline underline-offset-4" href="#">Maintenance Mac</a></li>
+<li><a class="hover:underline underline-offset-4" href="#">Solutions Gaming</a></li>
+<li><a class="hover:underline underline-offset-4" href="#">Boutique Occasion</a></li>
+</ul>
+</div>
+<div class="font-['Manrope'] text-sm">
+<h4 class="font-bold text-red-700 dark:text-red-500 mb-6 uppercase tracking-wider">Navigation</h4>
+<ul class="space-y-4 text-zinc-500 dark:text-zinc-400">
+<li><a class="hover:underline underline-offset-4" href="#">Contact</a></li>
+<li><a class="hover:underline underline-offset-4" href="#">Localisation</a></li>
+<li><a class="hover:underline underline-offset-4" href="#">CGV</a></li>
+<li><a class="hover:underline underline-offset-4" href="#">Mentions Légales</a></li>
+</ul>
+</div>
+<div class="font-['Manrope'] text-sm">
+<h4 class="font-bold text-red-700 dark:text-red-500 mb-6 uppercase tracking-wider">Contact</h4>
+<ul class="space-y-4 text-zinc-500 dark:text-zinc-400">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                        Rue Saint-Gilles, 4000 Liège
+                    </li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-sm">phone</span>
+                        +32 (0) 4XX XX XX XX
+                    </li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                        Lun - Sam: 10h00 - 18h30
+                    </li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center">
+<p class="font-['Manrope'] text-sm text-zinc-500 dark:text-zinc-400">© 2024 PROMEDIAS Liège. Excellence en réparation informatique.</p>
+</div>
+</footer>
+</body></html>

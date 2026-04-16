@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#fcf9f8",
+                    "on-tertiary-fixed": "#001f2a",
+                    "tertiary-fixed-dim": "#7bd1f8",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-variant": "#e5e2e1",
+                    "on-secondary-container": "#741e1c",
+                    "inverse-primary": "#ffb3ac",
+                    "surface-dim": "#dcd9d9",
+                    "inverse-surface": "#313030",
+                    "on-primary-fixed": "#410003",
+                    "surface-container-high": "#eae7e7",
+                    "primary-fixed": "#ffdad6",
+                    "on-secondary-fixed-variant": "#802824",
+                    "primary-container": "#d32f2f",
+                    "on-surface-variant": "#5b403d",
+                    "tertiary": "#005f7b",
+                    "outline": "#8f6f6c",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#9f3f39",
+                    "outline-variant": "#e4beba",
+                    "on-tertiary-container": "#e9f7ff",
+                    "primary": "#af101a",
+                    "on-primary-fixed-variant": "#930010",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#f0eded",
+                    "on-surface": "#1c1b1b",
+                    "on-primary-container": "#fff2f0",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#bee9ff",
+                    "background": "#fcf9f8",
+                    "surface-tint": "#ba1a20",
+                    "secondary-fixed-dim": "#ffb3ac",
+                    "on-secondary-fixed": "#410003",
+                    "secondary-fixed": "#ffdad6",
+                    "on-background": "#1c1b1b",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#f6f3f2",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#ffb3ac",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#fd867d",
+                    "on-tertiary-fixed-variant": "#004d65",
+                    "surface": "#fcf9f8",
+                    "tertiary-container": "#00799c",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #af101a 0%, #d32f2f 100%);
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<a class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-['Space_Grotesk']" href="#">PROMEDIAS</a>
+<nav class="hidden md:flex items-center gap-8 font-['Space_Grotesk'] tracking-tight">
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 duration-200 ease-in-out" href="#">Réparations</a>
+<a class="text-red-700 dark:text-red-500 font-bold border-b-2 border-red-700 duration-200 ease-in-out" href="#">Boutique</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 duration-200 ease-in-out" href="#">Diagnostics</a>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 duration-200 ease-in-out" href="#">À Propos</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="signature-gradient text-white px-6 py-2.5 rounded-lg font-bold shadow-lg hover:brightness-110 transition-all">
+                    Prendre RDV
+                </button>
+</div>
+</div>
+<div class="bg-zinc-100 dark:bg-zinc-800 h-[1px] w-full"></div>
+</header>
+<main class="pt-24 pb-20 max-w-7xl mx-auto px-8">
+<!-- Hero Section -->
+<section class="py-12 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+<div class="md:col-span-7">
+<span class="inline-block px-3 py-1 bg-surface-container-high text-on-surface-variant font-label text-[10px] font-bold tracking-widest uppercase rounded-sm mb-4">L'Atelier Digital</span>
+<h1 class="text-5xl md:text-7xl font-headline font-bold text-on-surface tracking-tighter mb-6 leading-none">
+                    La renaissance de <span class="text-primary">vos appareils.</span>
+</h1>
+<p class="text-lg text-on-surface-variant max-w-xl font-light mb-8 leading-relaxed">
+                    Découvrez notre sélection exclusive d'appareils reconditionnés avec précision dans notre atelier liégeois. Performance garantie, impact environnemental réduit.
+                </p>
+</div>
+<div class="md:col-span-5 relative">
+<div class="aspect-square bg-surface-container-low overflow-hidden rounded-xl">
+<img alt="MacBook Pro" class="w-full h-full object-cover mix-blend-multiply opacity-90" data-alt="Close-up of a sleek silver MacBook Pro on a clean wooden desk with soft cinematic lighting and shallow depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwGlNy8dSBqCFL3nzah62B6soiy9D1gBFrUtAtFcomD_Pc1mh8cGDdcWjJ0z_KnfShxv00bbK7WTJvdw7v9xch2dAX9eZ8bIca9akk8rZhrd0WqMhz1TQTvMR98PbJx1k96SaeERFc6PD1-T184g-AKE790FEGTFIWsA_2Gie9OllF3i8eGmGdHyXGImY-4fyM5pZ1Aw5Q_hP0L7kXxFoaDeyUCQ9nDAUe-uy2sqm_KGPJtQKcSG0OEs4YpTZAEeX1wJFD3V3ppm0"/>
+</div>
+<div class="absolute -bottom-6 -left-6 p-6 bg-surface-container-lowest shadow-2xl rounded-lg max-w-[200px]">
+<p class="text-xs font-bold uppercase tracking-widest text-primary mb-1">Garantie</p>
+<p class="text-sm font-medium leading-tight">12 mois de sérénité sur tout le catalogue.</p>
+</div>
+</div>
+</section>
+<!-- Filters & Results Layout -->
+<div class="flex flex-col lg:flex-row gap-12 mt-12">
+<!-- Sidebar Filters -->
+<aside class="lg:w-64 flex-shrink-0">
+<div class="sticky top-28 space-y-10">
+<div>
+<h3 class="font-headline font-bold text-lg mb-6 uppercase tracking-tight text-on-surface">Catégories</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-5 h-5 border-2 border-outline rounded-sm group-hover:border-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] text-white bg-primary w-full h-full flex items-center justify-center" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-medium text-sm">MacBooks</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-5 h-5 border-2 border-outline rounded-sm group-hover:border-primary transition-colors"></div>
+<span class="text-on-surface-variant text-sm">iPhones</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-5 h-5 border-2 border-outline rounded-sm group-hover:border-primary transition-colors"></div>
+<span class="text-on-surface-variant text-sm">Tablettes Android</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-5 h-5 border-2 border-outline rounded-sm group-hover:border-primary transition-colors"></div>
+<span class="text-on-surface-variant text-sm">Accessoires</span>
+</label>
+</div>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg mb-6 uppercase tracking-tight text-on-surface">Budget</h3>
+<div class="px-2">
+<input class="w-full accent-primary h-1 bg-surface-container-high appearance-none rounded-full cursor-pointer" type="range"/>
+<div class="flex justify-between mt-4 text-xs font-bold font-label text-on-surface-variant">
+<span>200€</span>
+<span>2500€</span>
+</div>
+</div>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg mb-6 uppercase tracking-tight text-on-surface">État</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 bg-on-surface text-white text-xs font-bold rounded-md">Parfait</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant text-xs font-bold rounded-md hover:bg-surface-container-highest transition-colors">Très bon</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant text-xs font-bold rounded-md hover:bg-surface-container-highest transition-colors">Correct</button>
+</div>
+</div>
+</div>
+</aside>
+<!-- Product Grid -->
+<div class="flex-grow">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-12 gap-x-8">
+<!-- Card 1 -->
+<div class="group">
+<div class="relative aspect-[4/5] bg-surface-container-low mb-4 overflow-hidden rounded-sm transition-all duration-500 group-hover:shadow-xl">
+<img alt="MacBook Pro M2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="MacBook Pro M2 silver laptop on a minimalist background with soft shadows and high resolution tech aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW1F07-vRzhyqW4zciojUjp7IIX-DKTZ5YAxpoDV_TWMPssrFbbbC3yv9EHUqUVn2jMMPj1cwpRw8Y6U5toINA-glzZNFuX6uxFt3m1EkTSWePRRdeGuI0Bjs_AKA9CvWy-CJxQs4xjV6NsQodWf0jDL7czDHSwvW1ATzrOzfxL1t2j98PAjBpPsKlADccMOHs0Lj4eMmLJP14nTevIPkZ0uBC-sMw8QSwvZTbT5hpJPWLK8vu9E0vhe_EFamBaRTDEeyrBBveXZQ"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary text-white text-[10px] font-bold px-2 py-1 uppercase tracking-tighter">Premium</span>
+<span class="bg-surface-container-lowest text-on-surface text-[10px] font-bold px-2 py-1 uppercase tracking-tighter shadow-sm">Garanti 1 an</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline font-bold text-xl tracking-tight">MacBook Pro 14" M2</h4>
+<span class="text-xl font-headline font-bold text-primary">1 499 €</span>
+</div>
+<p class="text-xs font-label font-bold text-on-surface-variant uppercase tracking-widest">Puce M2 • 16GB RAM • 512GB SSD</p>
+<div class="pt-4 flex items-center gap-4">
+<button class="flex-grow bg-on-surface text-white py-3 font-bold text-sm rounded-sm hover:opacity-90 transition-opacity">
+                                    Ajouter au panier
+                                </button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group">
+<div class="relative aspect-[4/5] bg-surface-container-low mb-4 overflow-hidden rounded-sm transition-all duration-500 group-hover:shadow-xl">
+<img alt="iPhone 14 Pro" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close-up of three iPhone 14 Pro models in different colors standing upright on a reflective dark surface with professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjLd_xDV2yZ3Rq0KeOqObJemoReqNmT6NHtUZiV2nxfRB0DHjX37FbPDGQ78ONUOytIxbDEweja335T8JrDAgn5c9B71Eqf2p4xb31Jr3EaVfM3h-byitcH37LvlKoVyvGgby-H-M7HPpsFSihWW2hx9fcU-vKvuVjbhUj8d_tFLz7IANu9ZYzCM99BBF03LX3LZ3t4Ts4-jZbfcEfFMHiVtgMgc5ed6QO4M4IPmWtqu35jMkMhDzwY0E6Vc1YKU_mcHEKStpSGmg"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-tertiary text-white text-[10px] font-bold px-2 py-1 uppercase tracking-tighter">Occasion Or</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline font-bold text-xl tracking-tight">iPhone 14 Pro Max</h4>
+<span class="text-xl font-headline font-bold text-primary">849 €</span>
+</div>
+<p class="text-xs font-label font-bold text-on-surface-variant uppercase tracking-widest">Noir Sidéral • 256GB • État Neuf</p>
+<div class="pt-4 flex items-center gap-4">
+<button class="flex-grow bg-on-surface text-white py-3 font-bold text-sm rounded-sm hover:opacity-90 transition-opacity">
+                                    Ajouter au panier
+                                </button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group">
+<div class="relative aspect-[4/5] bg-surface-container-low mb-4 overflow-hidden rounded-sm transition-all duration-500 group-hover:shadow-xl">
+<img alt="iPad Air" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="iPad Air tablet with Apple Pencil lying on a bright white desk, overhead shot, clean aesthetic with blue highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgsMyIXLDDE5hN-IVuhpXezP4Chv7V7ygL_TfrLXcCxcpAz5hrrE0PZjeKR1n6-iVk4AAcTm8IMiQUfY2cgt_Ui8MPAeGjzTZndQX6PihfLNnYXr-4vQ4h70sv5jThqPqpJdqhvBPRn3KiDeeF1Q9RtfmWyuYBJO_KrAwUKMLpVRqc63vgKJTGJOOfivStIR_7joZPIYZUDwXe2tibraj3E8hvbrCZb9qLDMF6tcapeRqfz36ON7IzVHgdW32ocEGreZg1auZwB_s"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline font-bold text-xl tracking-tight">iPad Air (5ème Gen)</h4>
+<span class="text-xl font-headline font-bold text-primary">529 €</span>
+</div>
+<p class="text-xs font-label font-bold text-on-surface-variant uppercase tracking-widest">Bleu • 64GB • Wi-Fi • Grade A</p>
+<div class="pt-4 flex items-center gap-4">
+<button class="flex-grow bg-on-surface text-white py-3 font-bold text-sm rounded-sm hover:opacity-90 transition-opacity">
+                                    Ajouter au panier
+                                </button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group">
+<div class="relative aspect-[4/5] bg-surface-container-low mb-4 overflow-hidden rounded-sm transition-all duration-500 group-hover:shadow-xl">
+<img alt="MacBook Air" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="MacBook Air M1 in rose gold on a cream colored textured surface with soft morning sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-sBe6lpx_pfkVcGzKpH44Zk5n6oLMba4Jni7KVPU_6L0ToWzV-bSudHkmx6acUmWhOOLB1aM87Oa6KG48KtrqlAjXJoZit5CVfvA0JcIMRJGnjvi3S1i5sCqDTYHnJ_85jF9UiZCJ37xddINONMSHUZYrvWb6d0UBHBQ1lfT60xqR98D2LifF6RVLUTdx-9aU5EshMkbNSYM8RfAWMTJkCROtn-XI3kKz01ttsRwHP8JUJGZqd3BnhADkd76j2bjIet4cxSFpLqs"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline font-bold text-xl tracking-tight">MacBook Air M1</h4>
+<span class="text-xl font-headline font-bold text-primary">799 €</span>
+</div>
+<p class="text-xs font-label font-bold text-on-surface-variant uppercase tracking-widest">Or • 8GB RAM • 256GB SSD</p>
+<div class="pt-4 flex items-center gap-4">
+<button class="flex-grow bg-on-surface text-white py-3 font-bold text-sm rounded-sm hover:opacity-90 transition-opacity">
+                                    Ajouter au panier
+                                </button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group">
+<div class="relative aspect-[4/5] bg-surface-container-low mb-4 overflow-hidden rounded-sm transition-all duration-500 group-hover:shadow-xl">
+<img alt="iPhone 13" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="iPhone 13 in various colors arranged in a circle on a flat gray background, top view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAox4mX1MBqlD5O0U6mmUo3vzSvt2MaS015LEvaJa4JZEhn_LNkwDgs18NU7gltAkOGnXesYMYv3M0ygB_kBK4L78LU0IAnxVEnGiM_x5ph3BC9JHW3R7CngxuDskkT2uBBJF4CJezqe3vpCzUgdC5iJwoyhOSEsdi3o89L5umYc7dgJWlXS65U0o-Zc834mWZRg8PzEY1Az1xwhYnhJRV5PhNVAireeZR0QYuBWsHsVDWGJd8wsCAfA9zVkx1azuGo6dv1NP3L9tM"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline font-bold text-xl tracking-tight">iPhone 13</h4>
+<span class="text-xl font-headline font-bold text-primary">489 €</span>
+</div>
+<p class="text-xs font-label font-bold text-on-surface-variant uppercase tracking-widest">Minuit • 128GB • État Correct</p>
+<div class="pt-4 flex items-center gap-4">
+<button class="flex-grow bg-on-surface text-white py-3 font-bold text-sm rounded-sm hover:opacity-90 transition-opacity">
+                                    Ajouter au panier
+                                </button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="group">
+<div class="relative aspect-[4/5] bg-surface-container-low mb-4 overflow-hidden rounded-sm transition-all duration-500 group-hover:shadow-xl">
+<img alt="Samsung Galaxy Tab" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Samsung Galaxy Tab S8 with stylus on a modern desk setup with dark accessories and atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuaSVRngT93IdlVFGc4HkGBfXHeBXw72bhweSg9WVJuxdUhbLV4FHT1NY9iTfi1x12-cHvu8m4RADsdjuH20WOgRVfBHusowXmIdzOZOfAoqSVzZpnG1EdrdA81gsif28CPBtL2VjFvJMUzJ8COCTt9WA-BE6FGeaeLl2BOzos33KENFIBwQ_xB2CvoMvXtszML2gpPPBsShVBF9bfGWqo-3HEUT99ziaG0XrP57LiYpXNsciFS_Ac4fjlWjWRTmkvVbwF79QRHMY"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline font-bold text-xl tracking-tight">Galaxy Tab S8+</h4>
+<span class="text-xl font-headline font-bold text-primary">449 €</span>
+</div>
+<p class="text-xs font-label font-bold text-on-surface-variant uppercase tracking-widest">Gris • 128GB • S-Pen Inclus</p>
+<div class="pt-4 flex items-center gap-4">
+<button class="flex-grow bg-on-surface text-white py-3 font-bold text-sm rounded-sm hover:opacity-90 transition-opacity">
+                                    Ajouter au panier
+                                </button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">favorite</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-20 flex justify-center items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<span class="font-headline font-bold text-sm">PAGE 01 / 04</span>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-zinc-100 dark:bg-zinc-950 w-full py-12 px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto font-['Manrope'] text-sm">
+<div class="space-y-6">
+<span class="font-['Space_Grotesk'] font-bold text-lg uppercase tracking-widest text-on-surface">PROMEDIAS</span>
+<p class="text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                    Votre partenaire de confiance à Liège pour la vente et la réparation d'appareils Apple et PC haut de gamme.
+                </p>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-6 uppercase tracking-widest text-xs">Navigation</h4>
+<ul class="space-y-4 text-zinc-500 dark:text-zinc-400">
+<li><a class="hover:underline underline-offset-4 hover:text-red-700" href="#">Réparations</a></li>
+<li><a class="hover:underline underline-offset-4 hover:text-red-700" href="#">Boutique</a></li>
+<li><a class="hover:underline underline-offset-4 hover:text-red-700" href="#">Diagnostics</a></li>
+<li><a class="hover:underline underline-offset-4 hover:text-red-700" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-6 uppercase tracking-widest text-xs">Informations</h4>
+<ul class="space-y-4 text-zinc-500 dark:text-zinc-400">
+<li><a class="hover:underline underline-offset-4 hover:text-red-700" href="#">Localisation</a></li>
+<li><a class="hover:underline underline-offset-4 hover:text-red-700" href="#">CGV</a></li>
+<li><a class="hover:underline underline-offset-4 hover:text-red-700" href="#">Mentions Légales</a></li>
+<li><a class="hover:underline underline-offset-4 hover:text-red-700" href="#">Garanties</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-6 uppercase tracking-widest text-xs">Newsletter</h4>
+<p class="text-xs text-zinc-500 mb-4">Recevez nos derniers arrivages en avant-première.</p>
+<div class="flex">
+<input class="bg-white border-none py-2 px-4 w-full focus:ring-1 focus:ring-primary" placeholder="Votre email" type="email"/>
+<button class="bg-on-surface text-white px-4 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-zinc-500">
+<p>© 2024 PROMEDIAS Liège. Excellence en réparation informatique.</p>
+</div>
+</footer>
+</body></html>

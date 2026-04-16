@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#ffdad6",
+                    "surface-bright": "#fcf9f8",
+                    "primary-fixed-dim": "#ffb3ac",
+                    "on-secondary-fixed": "#410003",
+                    "surface-container-high": "#eae7e7",
+                    "on-primary-fixed-variant": "#930010",
+                    "on-surface": "#1c1b1b",
+                    "tertiary-fixed-dim": "#7bd1f8",
+                    "background": "#fcf9f8",
+                    "surface-container-low": "#f6f3f2",
+                    "on-secondary-fixed-variant": "#802824",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e5e2e1",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#001f2a",
+                    "on-secondary-container": "#741e1c",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#ffb3ac",
+                    "tertiary-container": "#00799c",
+                    "secondary-fixed-dim": "#ffb3ac",
+                    "error": "#ba1a1a",
+                    "secondary": "#9f3f39",
+                    "primary": "#af101a",
+                    "outline": "#8f6f6c",
+                    "inverse-on-surface": "#f3f0ef",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#d32f2f",
+                    "on-primary-fixed": "#410003",
+                    "on-background": "#1c1b1b",
+                    "surface-tint": "#ba1a20",
+                    "on-surface-variant": "#5b403d",
+                    "on-tertiary-container": "#e9f7ff",
+                    "surface": "#fcf9f8",
+                    "surface-container": "#f0eded",
+                    "secondary-fixed": "#ffdad6",
+                    "outline-variant": "#e4beba",
+                    "inverse-surface": "#313030",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#e5e2e1",
+                    "tertiary-fixed": "#bee9ff",
+                    "tertiary": "#005f7b",
+                    "on-primary-container": "#fff2f0",
+                    "secondary-container": "#fd867d",
+                    "on-tertiary-fixed-variant": "#004d65",
+                    "surface-dim": "#dcd9d9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-[#fcf9f8]/80 dark:bg-[#1c1b1b]/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface">menu</span>
+<span class="text-xl font-black tracking-tighter text-[#1c1b1b] dark:text-[#fcf9f8] uppercase font-headline">PROMEDIAS</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface">shopping_cart</span>
+<span class="material-symbols-outlined text-on-surface">account_circle</span>
+</div>
+</nav>
+<main class="pt-20 pb-24 px-4 min-h-screen">
+<!-- Header Section -->
+<header class="mb-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-tertiary/10 text-tertiary font-label text-[10px] font-bold tracking-widest uppercase rounded">Atelier Certifié</span>
+</div>
+<h1 class="text-3xl font-headline font-bold leading-tight tracking-tight mb-3">La Boutique <br/><span class="text-primary italic">Reconditionnée</span></h1>
+<p class="text-on-surface-variant text-sm leading-relaxed max-w-[90%]">Performance garantie, durabilité assurée. Chaque appareil est testé sur 40 points de contrôle dans notre atelier.</p>
+</header>
+<!-- Search & Filter Bar (Sticky) -->
+<div class="sticky top-20 z-40 mb-8 flex flex-col gap-3">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full h-12 pl-12 pr-4 bg-surface-container-low border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/60" placeholder="Rechercher un modèle..." type="text"/>
+</div>
+<!-- Category Chips -->
+<div class="flex gap-2 overflow-x-auto hide-scrollbar -mx-4 px-4">
+<button class="flex-shrink-0 px-5 py-2.5 bg-on-surface text-surface text-xs font-bold font-label uppercase tracking-wider rounded-full">Tous</button>
+<button class="flex-shrink-0 px-5 py-2.5 bg-surface-container-high text-on-surface-variant text-xs font-bold font-label uppercase tracking-wider rounded-full hover:bg-surface-container-highest transition-colors">Ordinateurs</button>
+<button class="flex-shrink-0 px-5 py-2.5 bg-surface-container-high text-on-surface-variant text-xs font-bold font-label uppercase tracking-wider rounded-full hover:bg-surface-container-highest transition-colors">Smartphones</button>
+<button class="flex-shrink-0 px-5 py-2.5 bg-surface-container-high text-on-surface-variant text-xs font-bold font-label uppercase tracking-wider rounded-full hover:bg-surface-container-highest transition-colors">Tablettes</button>
+<button class="flex-shrink-0 px-5 py-2.5 bg-surface-container-high text-on-surface-variant text-xs font-bold font-label uppercase tracking-wider rounded-full hover:bg-surface-container-highest transition-colors">Audio</button>
+</div>
+</div>
+<!-- Product Grid (2 columns) -->
+<div class="grid grid-cols-2 gap-3 mb-12">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(28,27,27,0.04)] flex flex-col">
+<div class="aspect-square relative overflow-hidden bg-surface-container-low">
+<img alt="MacBook Air" class="w-full h-full object-cover" data-alt="close-up of a sleek silver laptop on a minimalist white desk with natural soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_zhY5ooaIeMi5AFgpQYqbK8akErNNghDROqsmm8IT91rXxfheupdto67rK-HmXzR20zhTBDFZ2MK_0Rmw6b8P3154Q7U9fnGmzGCiWv0mijEZVOFpOAplGram-hLOhBgEzLfBTM2N8e5N1qmm2IBkRnkcp7OiAeoYqFJ_roqsVtuPsX10lPgqEDTGlB8JDrRwZ9SOmbhwxyoQBCuvWIb3qjlBk0swHW6jwfELit7ieGwPWHAE8kb4IBJ5TqquOiFyy4CY2jbBgCE"/>
+<div class="absolute top-2 left-2 px-2 py-1 bg-primary text-white text-[9px] font-bold uppercase tracking-tighter rounded-sm">Grade A+</div>
+</div>
+<div class="p-3 flex-grow flex flex-col">
+<h3 class="font-headline font-bold text-sm mb-1 line-clamp-1">MacBook Air M1</h3>
+<p class="text-[10px] text-on-surface-variant mb-2 font-medium">8GB RAM • 256GB SSD</p>
+<div class="mt-auto pt-2 flex items-baseline gap-1">
+<span class="text-primary font-bold text-base">749€</span>
+<span class="text-[10px] text-on-surface-variant line-through">999€</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(28,27,27,0.04)] flex flex-col border border-primary/5">
+<div class="aspect-square relative overflow-hidden bg-surface-container-low">
+<img alt="iPhone 13" class="w-full h-full object-cover" data-alt="modern blue smartphone laying on a clean textured gray surface with technical lighting reflecting on its glass screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2raQQyIzw3-RxuXeJboVy-SoxfVt9QJ48EFcM4g2q4TsAkZJO50r9LUVt2AAgTXHz1bZAlOq_Nco7ApeCCj_ez9VamVn5fdy3X7dhgxUBG6JtHhYA59wB60_A31y9NBZ9YvHjjH7WpIYdwq760_JEqO3kLMkuCuuyFWDMQSZwY4ksf13e4Y0A2xEVIxZaYQQYKtnG34TwF3gPI7MpRuEhnLrF2CWzVWmqbx1scyv1Nf4RlS6BgMzDyDY2LUprGlTD3WR8XX-EtSw"/>
+<div class="absolute top-2 left-2 px-2 py-1 bg-tertiary text-white text-[9px] font-bold uppercase tracking-tighter rounded-sm">Best Seller</div>
+</div>
+<div class="p-3 flex-grow flex flex-col">
+<h3 class="font-headline font-bold text-sm mb-1 line-clamp-1">iPhone 13 Pro</h3>
+<p class="text-[10px] text-on-surface-variant mb-2 font-medium">128GB • Bleu Alpin</p>
+<div class="mt-auto pt-2 flex items-baseline gap-1">
+<span class="text-primary font-bold text-base">629€</span>
+<span class="text-[10px] text-on-surface-variant line-through">799€</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(28,27,27,0.04)] flex flex-col">
+<div class="aspect-square relative overflow-hidden bg-surface-container-low">
+<img alt="iPad Pro" class="w-full h-full object-cover" data-alt="digital tablet with a stylus on its side, professional workspace setting with warm ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUJ3dsnWiEC22txg_ZI9uE_pPPPX6xaxfIO_Apz-3yD4JwjViqar-VcrOPR4iPp9CDr4-FKyiQmXK0J6siV2MZeNHOLoovexPnZkmbO0S7-9qJxG9seJEVsAmcoN4gXSkSYXR-dvwwdO4Hv3LFuCiTdhjGdBXXEAU0JnUc7m00EiFjuIAC7qPWq0t5eXAO4T3wNvCTdp3MUPwW1URDFKg_-DULDB2FPzRWYizHGLujiMIEfLTZ6EzaumeTkcKEM7hGR938sC-tWeI"/>
+<div class="absolute top-2 left-2 px-2 py-1 bg-on-surface text-surface text-[9px] font-bold uppercase tracking-tighter rounded-sm">Grade A</div>
+</div>
+<div class="p-3 flex-grow flex flex-col">
+<h3 class="font-headline font-bold text-sm mb-1 line-clamp-1">iPad Pro 11"</h3>
+<p class="text-[10px] text-on-surface-variant mb-2 font-medium">M2 • Wi-Fi • 128GB</p>
+<div class="mt-auto pt-2 flex items-baseline gap-1">
+<span class="text-primary font-bold text-base">829€</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_12px_rgba(28,27,27,0.04)] flex flex-col">
+<div class="aspect-square relative overflow-hidden bg-surface-container-low">
+<img alt="ThinkPad" class="w-full h-full object-cover" data-alt="professional black business laptop open on a wooden table, sharp focus on the keyboard, dark professional mood" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaL6gi2G1Z6G-OTNlZrdsh-Z5DzQObAhFCes7nuWtIqe8brVKY0cuSqILVqAw8CJYaB8rT0Kd8B44XumYtRTLYndkFgAPvMj127teQRAehOL2M3ZFVvFyefOl01QQ1M8A1NJW6PTIlWHAlxuCZW04v0yPdwWTeWMbKvCtY6jZ_gUjkD02oTU5M8fJ7nuvpo2AHaosh7Us2_yr_oDI0DfK2cqX7LPLkhcYVE_IyEPAKQ0gAyVH_X2kSinye79-uEqFYE6pK7__vm1c"/>
+<div class="absolute top-2 left-2 px-2 py-1 bg-primary text-white text-[9px] font-bold uppercase tracking-tighter rounded-sm">PRO</div>
+</div>
+<div class="p-3 flex-grow flex flex-col">
+<h3 class="font-headline font-bold text-sm mb-1 line-clamp-1">ThinkPad X1 Carbon</h3>
+<p class="text-[10px] text-on-surface-variant mb-2 font-medium">Core i7 • 16GB • 512GB</p>
+<div class="mt-auto pt-2 flex items-baseline gap-1">
+<span class="text-primary font-bold text-base">499€</span>
+<span class="text-[10px] text-on-surface-variant line-through">1200€</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Trust Banner (Bento style mobile version) -->
+<section class="bg-on-surface text-surface rounded-2xl p-6 mb-12">
+<h2 class="font-headline font-bold text-xl mb-6">Pourquoi choisir <br/>PROMEDIAS ?</h2>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white">verified</span>
+</div>
+<div>
+<h4 class="font-bold text-sm uppercase tracking-wider mb-1">Garantie 12 Mois</h4>
+<p class="text-xs text-surface/70 leading-relaxed">Sérénité totale. Nous couvrons toutes les pannes matérielles pendant un an.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 bg-tertiary rounded-lg flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white">precision_manufacturing</span>
+</div>
+<div>
+<h4 class="font-bold text-sm uppercase tracking-wider mb-1">Expertise Atelier</h4>
+<p class="text-xs text-surface/70 leading-relaxed">Pas de sous-traitance. Chaque appareil est remis à neuf ici, à notre comptoir.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter Subscription (Simplified for Mobile) -->
+<section class="py-8 border-t border-surface-container-high">
+<h3 class="font-headline font-bold text-lg mb-2">Ventes Privées</h3>
+<p class="text-on-surface-variant text-sm mb-4">Soyez alerté de l'arrivée des nouveaux stocks reconditionnés.</p>
+<div class="flex flex-col gap-3">
+<input class="h-12 px-4 bg-surface-container-low border-none rounded-lg text-sm" placeholder="votre@email.com" type="email"/>
+<button class="h-12 bg-primary text-white font-bold rounded-lg uppercase tracking-widest text-xs">S'inscrire</button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-12 px-4 bg-[#f6f3f2] dark:bg-[#1c1b1b] flex flex-col space-y-8 items-start mb-20">
+<div class="font-['Space_Grotesk'] font-bold text-[#1c1b1b] dark:text-[#fcf9f8] text-2xl tracking-tighter">PROMEDIAS</div>
+<div class="grid grid-cols-2 gap-x-12 gap-y-6 w-full">
+<div class="flex flex-col gap-3">
+<span class="font-['Manrope'] text-sm leading-relaxed text-[#1c1b1b]/70 dark:text-[#fcf9f8]/70">Conditions</span>
+<span class="font-['Manrope'] text-sm leading-relaxed text-[#1c1b1b]/70 dark:text-[#fcf9f8]/70">Garantie</span>
+<span class="font-['Manrope'] text-sm leading-relaxed text-[#1c1b1b]/70 dark:text-[#fcf9f8]/70">Contact</span>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-['Manrope'] text-sm leading-relaxed text-[#1c1b1b]/70 dark:text-[#fcf9f8]/70">Instagram</span>
+<span class="font-['Manrope'] text-sm leading-relaxed text-[#1c1b1b]/70 dark:text-[#fcf9f8]/70">LinkedIn</span>
+<span class="font-['Manrope'] text-sm leading-relaxed text-[#1c1b1b]/70 dark:text-[#fcf9f8]/70">Facebook</span>
+</div>
+</div>
+<p class="font-['Manrope'] text-xs text-[#1c1b1b]/50 dark:text-[#fcf9f8]/50 mt-4">© 2024 PROMEDIAS — Votre Comptoir Informatique</p>
+</footer>
+</main>
+<!-- Floating Filter Button (Mobile Trigger) -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-on-surface text-surface rounded-full shadow-2xl flex items-center justify-center z-50 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">tune</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-[#fcf9f8]/90 dark:bg-[#1c1b1b]/90 backdrop-blur-xl z-50 rounded-t-xl border-t border-[#1c1b1b]/5 shadow-[0_-10px_30px_rgba(28,27,27,0.04)]">
+<a class="flex flex-col items-center justify-center text-[#1c1b1b]/60 dark:text-[#fcf9f8]/60 hover:text-[#af101a] transition-all" href="#">
+<span class="material-symbols-outlined text-[22px]">home</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Accueil</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#1c1b1b]/60 dark:text-[#fcf9f8]/60 hover:text-[#af101a] transition-all" href="#">
+<span class="material-symbols-outlined text-[22px]">build</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Réparations</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#1c1b1b]/60 dark:text-[#fcf9f8]/60 hover:text-[#af101a] transition-all" href="#">
+<span class="material-symbols-outlined text-[22px]">analytics</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Suivi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#af101a] dark:text-[#d32f2f] scale-110 transition-all" href="#">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Boutique</span>
+</a>
+</nav>
+</body></html>
