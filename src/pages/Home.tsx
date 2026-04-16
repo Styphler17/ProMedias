@@ -184,12 +184,11 @@ const Home = () => {
         </div>
       </section>
       
-      {/* Brand Authority Grid */}
       <section className="py-12 border-y border-zinc-100 bg-white/50 overflow-hidden">
         <div className="container">
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
+          <div className="grid grid-cols-3 md:grid-cols-7 gap-8 md:gap-12 items-center opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
             {["APPLE", "SAMSUNG", "HUAWEI", "SONY", "ASUS", "HP", "DELL"].map((brand) => (
-              <span key={brand} className="font-headline font-black text-2xl tracking-[0.3em]">{brand}</span>
+              <span key={brand} className="font-headline font-black text-xl md:text-2xl tracking-[0.3em] text-center">{brand}</span>
             ))}
           </div>
         </div>
