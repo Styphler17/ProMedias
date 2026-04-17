@@ -19,6 +19,9 @@ This file serves as a persistent record of tasks and progress to ensure continui
 - [x] Update `src/pages/Shop.tsx` to fetch dynamic products instead of mock data.
 - [x] Implement robust attribute mapping in `woocommerce.ts`.
 - [x] Implement `isLoading` state handling in the UI (added high-end skeleton loaders).
+- [ ] Create WordPress Pages with these specific names/slugs:
+    - [ ] **Titre: À Propos** -> Slug: `about`
+    - [ ] **Titre: Accueil** -> Slug: `home`
 - [ ] Verify category mapping ("Téléphonie", "Informatique", "Accessoires") works with WordPress categories.
 
 ## 4. Testing & Optimization
@@ -27,4 +30,4 @@ This file serves as a persistent record of tasks and progress to ensure continui
 - [ ] Benchmark performance for large product catalogs.
 
 ## Current Status
-Connection is **READY**. Vite proxy is configured, API URLs are updated, and attribute mapping is robust (case-insensitive). Ready for user to test with their WordPress product.
+Connection is **READY**. Vite proxy is configured. Development uses English slugs (`about`, `home`) while the client sees French titles ("À Propos", "Accueil").

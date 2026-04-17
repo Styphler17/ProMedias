@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { 
   ShieldCheck, 
   Leaf, 
@@ -13,8 +14,23 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
+import { fetchPage, PageData } from "@/lib/woocommerce";
 
 const About = () => {
+  const [pageData, setPageData] = useState<PageData | null>(null);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await fetchPage("about");
+      setPageData(data);
+    };
+    loadData();
+  }, []);
+
+  // Helper to get ACF image with fallback
+  const getImg = (slug: string, fallback: string) => {
+    return pageData?.acf?.[slug] || fallback;
+  };
   return (
     <div className="pt-32 pb-24">
       <SEO 
@@ -40,7 +56,7 @@ const About = () => {
           <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl transform lg:rotate-3">
             <img 
               className="w-full h-full object-cover" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8ogJAQ2GTKG3xlUTnGYtnhZUPBzLNbo_GWLqgzTSiEf5PaCrQfUuYvChSkVjIKaSl8pLPS3GR-ZDzeYIQveXPF7rRJfuUdhBBscLaDtF4PnqqatBlo4YS1gz1n6bumSibxXrnVBgE9jbaiC_GeqXGPcm-V-7U38TrW779mx_U1el7ZNNRMsIyxuVhQ8_M1pODZaLLAxV5V4t8jaQ3uESs116O_j6vshM4JtsxMIaasQQW4mpDV1NaA-khxgcGKJi-7U9oMkZz3nA" 
+              src={getImg("hero_image", "https://lh3.googleusercontent.com/aida-public/AB6AXuB8ogJAQ2GTKG3xlUTnGYtnhZUPBzLNbo_GWLqgzTSiEf5PaCrQfUuYvChSkVjIKaSl8pLPS3GR-ZDzeYIQveXPF7rRJfuUdhBBscLaDtF4PnqqatBlo4YS1gz1n6bumSibxXrnVBgE9jbaiC_GeqXGPcm-V-7U38TrW779mx_U1el7ZNNRMsIyxuVhQ8_M1pODZaLLAxV5V4t8jaQ3uESs116O_j6vshM4JtsxMIaasQQW4mpDV1NaA-khxgcGKJi-7U9oMkZz3nA")} 
               alt="Technician"
             />
           </div>
@@ -91,7 +107,7 @@ const About = () => {
           <div className="md:col-span-2 md:row-span-2 rounded-[2.5rem] overflow-hidden relative group">
             <img 
               className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDO7YQO7QUlqoVYwIzLePWc1Mpb61kTZxMzH_JdLhZHN5OF3ZYsr7z7jrFBNj7BnvFwzNluJ44raQdyTUQn-Z5uexErSLSg2BzXirJx-Kiy7bNLFXpB-gFyQT60y3KvYwr_lt0hqVb65c3Unju3_W8LGufbFH4vIzyQImuYlMCoHerU6KB6dmeOXn6IK-WExFEoygG4C5rR-G5r9Ap8DJ3Ur_tzh69Mf0gm-6677_26GEeT2TkMEGa4g9AdocOeD5ML6gDu0dPYAh0" 
+              src={getImg("environmental_impact_image", "https://lh3.googleusercontent.com/aida-public/AB6AXuDO7YQO7QUlqoVYwIzLePWc1Mpb61kTZxMzH_JdLhZHN5OF3ZYsr7z7jrFBNj7BnvFwzNluJ44raQdyTUQn-Z5uexErSLSg2BzXirJx-Kiy7bNLFXpB-gFyQT60y3KvYwr_lt0hqVb65c3Unju3_W8LGufbFH4vIzyQImuYlMCoHerU6KB6dmeOXn6IK-WExFEoygG4C5rR-G5r9Ap8DJ3Ur_tzh69Mf0gm-6677_26GEeT2TkMEGa4g9AdocOeD5ML6gDu0dPYAh0")} 
               alt="Recycling"
             />
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
@@ -128,13 +144,13 @@ const About = () => {
         <div className="container grid lg:grid-cols-2 gap-20 items-center">
             <div className="grid grid-cols-2 gap-6 transform lg:-rotate-2">
                 {[
-                  { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDVszKE-7YOrUU6f_3YdB8mvTmeiXpXfyh2o5K9Zh4NKlegXv_zTsIFm5GDgol-G6Rv3xeXTAWBCLIIHKJqdF3wxxzxeUep6Zy4-r-d1opep-0-c8CTRXRooaGSQtmJW8qUKXkjXt-lAV94Tsqm0kd030NBEiHKgYyk0Qd6g0TUuDezqPl9JtTtKxxdTGjF_7U0BwXsNGKjf1pje4V5uYceTtonn-FsN66RGOOIS3p67pWWlFcv9YPR1r2fpE4cnXJW7ge1eB-mX0Y", role: "Expert iPhone" },
-                  { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBm-YSb1tRksBS6805h-klqPd0gWMfoBGvk9KQsDnfkTv9QVXY9e6bwVuYNypfigtcA7aGOV_cR-ZfrQfnax-3r5C_p7Uyi1l223TzSDz2VkacDFS9j4iZjl-SweTEF-ejaKQDAqmoNqyVHkvmo2QTg4tNWkorLPG52Vme1g9g1MIaK-nbMk0ouevhvBp3PZ7qkAFDh_RxsLkiPSqHJD8_S1Zet-mnS5YveSlyZfKsd8GoPtu1Fiz2IPDHnLvn2pFJvfFhtMRqGQ08", role: "Specialiste Mac" },
-                  { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDkT1JCZnR3rpV566MRMrnjS7vhNR9REAlEJ8oStnpG_VvRVv5C7yUhwym97gFp8NrtpvBc-erLIo5urEIPV6zRQTDqzdiXv8ROmpUmmkhxhNF2VHKmV0Dv0BkYTLLKkZs0F-Khq1G3GZ3LTQqdpiOyR9JAlL2wfXdFQY9OKqW3F2IPFYwvHAH5ojaMAQDJ4jFQIbY_OMBNFJTLy0psjxKDN5EsKCJ108uirFl-HxJo8wdtZGCMlK9HProWpx5W8pd9lk3NPdTpBJA", role: "Micro-Soudure" },
-                  { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDZua75j2aCKUqcbKcnpyF0466roC_RRHBt0umZOAVQRy_-NFq9CjKk3ZDuZXt2CDfDNkErjFSJk9Sw2GfSb74-9M9DlrJlXWcBZgeq67dANPcAJPP4rJyRAupwS9iMTutxYFle5oNFvLLZ--NmkcbgpPW7WhMtDEOM2Cu7lZkNhP_eUwLCwxWyar4rUHpBCnwEqh7mil3nmmc6bIV_lrmQTM1yZzn8wVNJ53wf_7JGeXkw_6sO6QBVUjgLQCyp034iUdcHiXp3HBE", role: "Diagnostic" }
+                  { slug: "team_1", fallback: "https://lh3.googleusercontent.com/aida-public/AB6AXuDVszKE-7YOrUU6f_3YdB8mvTmeiXpXfyh2o5K9Zh4NKlegXv_zTsIFm5GDgol-G6Rv3xeXTAWBCLIIHKJqdF3wxxzxeUep6Zy4-r-d1opep-0-c8CTRXRooaGSQtmJW8qUKXkjXt-lAV94Tsqm0kd030NBEiHKgYyk0Qd6g0TUuDezqPl9JtTtKxxdTGjF_7U0BwXsNGKjf1pje4V5uYceTtonn-FsN66RGOOIS3p67pWWlFcv9YPR1r2fpE4cnXJW7ge1eB-mX0Y", role: "Expert iPhone" },
+                  { slug: "team_2", fallback: "https://lh3.googleusercontent.com/aida-public/AB6AXuBm-YSb1tRksBS6805h-klqPd0gWMfoBGvk9KQsDnfkTv9QVXY9e6bwVuYNypfigtcA7aGOV_cR-ZfrQfnax-3r5C_p7Uyi1l223TzSDz2VkacDFS9j4iZjl-SweTEF-ejaKQDAqmoNqyVHkvmo2QTg4tNWkorLPG52Vme1g9g1MIaK-nbMk0ouevhvBp3PZ7qkAFDh_RxsLkiPSqHJD8_S1Zet-mnS5YveSlyZfKsd8GoPtu1Fiz2IPDHnLvn2pFJvfFhtMRqGQ08", role: "Specialiste Mac" },
+                  { slug: "team_3", fallback: "https://lh3.googleusercontent.com/aida-public/AB6AXuDkT1JCZnR3rpV566MRMrnjS7vhNR9REAlEJ8oStnpG_VvRVv5C7yUhwym97gFp8NrtpvBc-erLIo5urEIPV6zRQTDqzdiXv8ROmpUmmkhxhNF2VHKmV0Dv0BkYTLLKkZs0F-Khq1G3GZ3LTQqdpiOyR9JAlL2wfXdFQY9OKqW3F2IPFYwvHAH5ojaMAQDJ4jFQIbY_OMBNFJTLy0psjxKDN5EsKCJ108uirFl-HxJo8wdtZGCMlK9HProWpx5W8pd9lk3NPdTpBJA", role: "Micro-Soudure" },
+                  { slug: "team_4", fallback: "https://lh3.googleusercontent.com/aida-public/AB6AXuDZua75j2aCKUqcbKcnpyF0466roC_RRHBt0umZOAVQRy_-NFq9CjKk3ZDuZXt2CDfDNkErjFSJk9Sw2GfSb74-9M9DlrJlXWcBZgeq67dANPcAJPP4rJyRAupwS9iMTutxYFle5oNFvLLZ--NmkcbgpPW7WhMtDEOM2Cu7lZkNhP_eUwLCwxWyar4rUHpBCnwEqh7mil3nmmc6bIV_lrmQTM1yZzn8wVNJ53wf_7JGeXkw_6sO6QBVUjgLQCyp034iUdcHiXp3HBE", role: "Diagnostic" }
                 ].map((member, i) => (
                     <div key={i} className="aspect-[3/4] rounded-2xl overflow-hidden shadow-xl grayscale hover:grayscale-0 transition-all duration-700 relative group">
-                        <img src={member.src} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" alt="Expert" />
+                        <img src={getImg(member.slug, member.fallback)} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" alt="Expert" />
                         <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center">
                             <span className="text-white font-headline font-bold text-lg leading-tight">{member.role}</span>
                             <div className="w-8 h-px bg-white/50 mt-2" />
@@ -190,7 +206,7 @@ const About = () => {
             <div className="w-full lg:w-1/2 relative group">
               <div className="aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 relative">
                 <img 
-                  src="https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=awRRmECzGmtnHHzk42XHQw&cb_client=lu.gallery.gps&w=800&h=450&yaw=301.9327&pitch=0&thumbfov=100" 
+                  src={getImg("boutique_storefront_image", "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=awRRmECzGmtnHHzk42XHQw&cb_client=lu.gallery.gps&w=800&h=450&yaw=301.9327&pitch=0&thumbfov=100")} 
                   alt="Storefront ProMedias Liège" 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[3s]"
                 />

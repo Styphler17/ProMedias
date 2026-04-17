@@ -61,3 +61,37 @@ export const fetchProducts = async () => {
     return [];
   }
 };
+
+export interface PageData {
+  title: string;
+  content: string;
+  acf: Record<string, any>;
+}
+
+// SEO Mapper: Code (English) -> WordPress (French)
+const PAGE_SLUGS: Record<string, string> = {
+  "about": "a-propos",
+  "home": "accueil",
+  "services": "services"
+};
+
+export const fetchPage = async (slug: string): Promise<PageData | null> => {
+  const finalSlug = PAGE_SLUGS[slug] || slug; // Use mapper or fallback to original
+  try {
+    const response = await fetch(`/wp-json/wp/v2/pages?slug=${finalSlug}`);
+    if (!response.ok) throw new Error('Failed to fetch page');
+    
+    const data = await response.json();
+    if (data.length === 0) return null;
+
+    const page = data[0];
+    return {
+      title: page.title.rendered,
+      content: page.content.rendered,
+      acf: page.acf || {}
+    };
+  } catch (error) {
+    console.error('WordPress Page Fetch Error:', error);
+    return null;
+  }
+};
