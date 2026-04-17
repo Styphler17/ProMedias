@@ -65,7 +65,7 @@ export const fetchProducts = async () => {
 export interface PageData {
   title: string;
   content: string;
-  acf: Record<string, any>;
+  acf: Record<string, string | number | boolean | undefined | null>;
 }
 
 // SEO Mapper: Code (English) -> WordPress (French)

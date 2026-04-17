@@ -14,7 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
-import { fetchPage, PageData } from "@/lib/woocommerce";
+import { fetchPage, type PageData } from "@/lib/woocommerce";
 
 const About = () => {
   const [pageData, setPageData] = useState<PageData | null>(null);
@@ -28,8 +28,9 @@ const About = () => {
   }, []);
 
   // Helper to get ACF image with fallback
-  const getImg = (slug: string, fallback: string) => {
-    return pageData?.acf?.[slug] || fallback;
+  const getImg = (slug: string, fallback: string): string => {
+    const val = pageData?.acf?.[slug];
+    return typeof val === 'string' ? val : fallback;
   };
   return (
     <div className="pt-32 pb-24">
