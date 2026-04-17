@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Check,
   ChevronRight,
@@ -17,7 +17,9 @@ import {
 import { cn } from "@/lib/utils";
 import { BauhausCard } from "@/components/ui/bauhaus-card";
 import { PaginationCustom } from "@/components/ui/pagination-custom";
+import { CardSkeleton } from "@/components/ui/skeleton";
 import { SEO } from "@/components/SEO";
+import { fetchProducts } from "@/lib/woocommerce";
 
 interface Product {
   id: number;
@@ -44,187 +46,6 @@ const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
   </svg>
 );
-
-const PRODUCTS: Product[] = [
-  {
-    id: 1,
-    name: "MacBook Pro 14\" M2",
-    price: "1 499 €",
-    specs: "Puce M2 • 16GB RAM • 512GB SSD",
-    tag: "Premium",
-    condition: "État Clinique",
-    conditionScore: 98,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAW1F07-vRzhyqW4zciojUjp7IIX-DKTZ5YAxpoDV_TWMPssrFbbbC3yv9EHUqUVn2jMMPj1cwpRw8Y6U5toINA-glzZNFuX6uxFt3m1EkTSWePRRdeGuI0Bjs_AKA9CvWy-CJxQs4xjV6NsQodWf0jDL7czDHSwvW1ATzrOzfxL1t2j98PAjBpPsKlADccMOHs0Lj4eMmLJP14nTevIPkZ0uBC-sMw8QSwvZTbT5hpJPWLK8vu9E0vhe_EFamBaRTDEeyrBBveXZQ",
-    gallery: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAW1F07-vRzhyqW4zciojUjp7IIX-DKTZ5YAxpoDV_TWMPssrFbbbC3yv9EHUqUVn2jMMPj1cwpRw8Y6U5toINA-glzZNFuX6uxFt3m1EkTSWePRRdeGuI0Bjs_AKA9CvWy-CJxQs4xjV6NsQodWf0jDL7czDHSwvW1ATzrOzfxL1t2j98PAjBpPsKlADccMOHs0Lj4eMmLJP14nTevIPkZ0uBC-sMw8QSwvZTbT5hpJPWLK8vu9E0vhe_EFamBaRTDEeyrBBveXZQ",
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBwGlNy8dSBqCFL3nzah62B6soiy9D1gBFrUtAtFcomD_Pc1mh8cGDdcWjJ0z_KnfShxv00bbK7WTJvdw7v9xch2dAX9eZ8bIca9akk8rZhrd0WqMhz1TQTvMR98PbJx1k96SaeERFc6PD1-T184g-AKE790FEGTFIWsA_2Gie9OllF3i8eGmGdHyXGImY-4fyM5pZ1Aw5Q_hP0L7kXxFoaDeyUCQ9nDAUe-uy2sqm_KGPJtQKcSG0OEs4YpTZAEeX1wJFD3V3ppm0",
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA9kO8qA_5O382rTInX-K6hZJbeK_h9J5lA3C-F_0C5Jv1rN87fHqO79w4xPqY"
-    ],
-    mainCategory: "Informatique",
-    category: "Laptops"
-  },
-  {
-    id: 2,
-    name: "iPhone 14 Pro Max",
-    price: "849 €",
-    specs: "Noir Sidéral • 256GB • État Neuf",
-    tag: "Occasion Or",
-    condition: "Comme Neuf",
-    conditionScore: 95,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDjLd_xDV2yZ3Rq0KeOqObJemoReqNmT6NHtUZiV2nxfRB0DHjX37FbPDGQ78ONUOytIxbDEweja335T8JrDAgn5c9B71Eqf2p4xb31Jr3EaVfM3h-byitcH37LvlKoVyvGgby-H-M7HPpsFSihWW2hx9fcU-vKvuVjbhUj8d_tFLz7IANu9ZYzCM99BBF03LX3LZ3t4Ts4-jZbfcEfFMHiVtgMgc5ed6QO4M4IPmWtqu35jMkMhDzwY0E6Vc1YKU_mcHEKStpSGmg",
-    gallery: [
-       "https://lh3.googleusercontent.com/aida-public/AB6AXuDjLd_xDV2yZ3Rq0KeOqObJemoReqNmT6NHtUZiV2nxfRB0DHjX37FbPDGQ78ONUOytIxbDEweja335T8JrDAgn5c9B71Eqf2p4xb31Jr3EaVfM3h-byitcH37LvlKoVyvGgby-H-M7HPpsFSihWW2hx9fcU-vKvuVjbhUj8d_tFLz7IANu9ZYzCM99BBF03LX3LZ3t4Ts4-jZbfcEfFMHiVtgMgc5ed6QO4M4IPmWtqu35jMkMhDzwY0E6Vc1YKU_mcHEKStpSGmg"
-    ],
-    mainCategory: "Téléphonie",
-    category: "iPhones"
-  },
-  {
-    id: 3,
-    name: "Samsung Galaxy S23 Ultra",
-    price: "899 €",
-    specs: "Phantom Black • 512GB • Stylet Inclus",
-    condition: "Excellent",
-    conditionScore: 94,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDS_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuDS_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Téléphonie",
-    category: "Androids"
-  },
-  {
-    id: 4,
-    name: "iPad Air (5ème Gen)",
-    price: "529 €",
-    specs: "Bleu • 64GB • Wi-Fi • Grade A",
-    condition: "Excellent",
-    conditionScore: 92,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAgsMyIXLDDE5hN-IVuhpXezP4Chv7V7ygL_TfrLXcCxcpAz5hrrE0PZjeKR1n6-iVk4AAcTm8IMiQUfY2cgt_Ui8MPAeGjzTZndQX6PihfLNnYXr-4vQ4h70sv5jThqPqpJdqhvBPRn3KiDeeF1Q9RtfmWyuYBJO_KrAwUKMLpVRqc63vgKJTGJOOfivStIR_7joZPIYZUDwXe2tibraj3E8hvbrCZb9qLDMF6tcapeRqfz36ON7IzVHgdW32ocEGreZg1auZwB_s",
-    gallery: [
-       "https://lh3.googleusercontent.com/aida-public/AB6AXuAgsMyIXLDDE5hN-IVuhpXezP4Chv7V7ygL_TfrLXcCxcpAz5hrrE0PZjeKR1n6-iVk4AAcTm8IMiQUfY2cgt_Ui8MPAeGjzTZndQX6PihfLNnYXr-4vQ4h70sv5jThqPqpJdqhvBPRn3KiDeeF1Q9RtfmWyuYBJO_KrAwUKMLpVRqc63vgKJTGJOOfivStIR_7joZPIYZUDwXe2tibraj3E8hvbrCZb9qLDMF6tcapeRqfz36ON7IzVHgdW32ocEGreZg1auZwB_s"
-    ],
-    mainCategory: "Téléphonie",
-    category: "Tablettes"
-  },
-  {
-    id: 5,
-    name: "Écran Gaming 27\" 4K",
-    price: "349 €",
-    specs: "144Hz • 1ms • HDR600 Pro",
-    condition: "Neuf boîte ouverte",
-    conditionScore: 100,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuEM_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuEM_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Informatique",
-    category: "Écrans"
-  },
-  {
-    id: 6,
-    name: "Clavier Logitech MX Keys",
-    price: "89 €",
-    specs: "Saisie Fluide • Rétroéclairé Smart",
-    condition: "Excellent",
-    conditionScore: 98,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuEK_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuEK_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Accessoires",
-    category: "Claviers"
-  },
-  {
-    id: 7,
-    name: "Souris MX Master 3S",
-    price: "79 €",
-    specs: "Ergonomique • 8K DPI • Silencieuse",
-    condition: "Comme Neuf",
-    conditionScore: 97,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuSM_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuSM_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Accessoires",
-    category: "Souris"
-  },
-  {
-    id: 8,
-    name: "Casque Bose QC45",
-    price: "249 €",
-    specs: "Réduction Bruit Elite • Bluetooth 5.1",
-    condition: "Grade A+",
-    conditionScore: 95,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCS_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuCS_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Accessoires",
-    category: "Casques"
-  },
-  {
-    id: 9,
-    name: "Mac Mini M2",
-    price: "599 €",
-    specs: "Puce M2 • 8GB RAM • 256GB SSD",
-    condition: "Neuf",
-    conditionScore: 100,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDF_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuDF_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Informatique",
-    category: "Laptops"
-  },
-  {
-    id: 10,
-    name: "iPhone 12",
-    price: "329 €",
-    specs: "Bleu • 64GB • État Correct",
-    condition: "Bon État",
-    conditionScore: 82,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD12_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuD12_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Téléphonie",
-    category: "iPhones"
-  },
-  {
-    id: 11,
-    name: "PC Gamer - Pro Edition",
-    price: "1 299 €",
-    specs: "RTX 3070 • i7-12700K • 32GB RAM",
-    condition: "Reconditionné Master",
-    conditionScore: 98,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuPC_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuPC_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Informatique",
-    category: "Systèmes fixes"
-  },
-  {
-    id: 12,
-    name: "Samsung Galaxy A54",
-    price: "249 €",
-    specs: "Lime • 128GB • 5G • État Neuf",
-    condition: "Comme Neuf",
-    conditionScore: 97,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA54_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuA54_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Téléphonie",
-    category: "Androids"
-  },
-  {
-    id: 13,
-    name: "Coque Silicone Magsafe",
-    price: "29 €",
-    specs: "Plusieurs coloris dispos",
-    condition: "Neuf",
-    conditionScore: 100,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCO_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuCO_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Accessoires",
-    category: "Protections"
-  },
-  {
-    id: 14,
-    name: "Huawei MatePad 11",
-    price: "299 €",
-    specs: "128GB • Écran 120Hz HarmonyOS",
-    condition: "Excellent",
-    conditionScore: 92,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuHU_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q",
-    gallery: ["https://lh3.googleusercontent.com/aida-public/AB6AXuHU_p-vX3_E9fQ-6I6Fv-T_iYm1_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q-y-G_6-y_K_Q"],
-    mainCategory: "Téléphonie",
-    category: "Tablettes"
-  }
-];
 
 const ITEMS_PER_PAGE = 12;
 
@@ -256,6 +77,8 @@ const CATEGORY_GROUPS = {
 };
 
 const Shop = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("Tous");
   const [expandedGroups, setExpandedGroups] = useState<string[]>(["Téléphonie"]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -264,7 +87,17 @@ const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredProducts = PRODUCTS.filter(p => {
+  useEffect(() => {
+    const loadProducts = async () => {
+      setIsLoading(true);
+      const data = await fetchProducts();
+      setProducts(data);
+      setIsLoading(false);
+    };
+    loadProducts();
+  }, []);
+
+  const filteredProducts = products.filter(p => {
     const matchesCategory = selectedCategory === "Tous" 
       ? true 
       : (p.category === selectedCategory || p.mainCategory === selectedCategory);
@@ -527,11 +360,17 @@ const Shop = () => {
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              key={`${selectedCategory}-${currentPage}`}
+              key={`${selectedCategory}-${currentPage}-${isLoading}`}
               className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-12 flex-grow"
             >
               <AnimatePresence mode="popLayout">
-                {paginatedProducts.length > 0 ? (
+                {isLoading ? (
+                  Array.from({ length: 6 }).map((_, i) => (
+                    <motion.div key={`skeleton-${i}`} variants={itemVariants}>
+                      <CardSkeleton />
+                    </motion.div>
+                  ))
+                ) : paginatedProducts.length > 0 ? (
                   paginatedProducts.map((product) => (
                     <motion.article
                       key={product.id}
