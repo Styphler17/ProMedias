@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
+import { PageHero } from "@/components/PageHero";
 
 const Diagnostic = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -22,7 +23,7 @@ const Diagnostic = () => {
   };
 
   return (
-    <div className="pt-32 pb-24 min-h-screen">
+    <div className="pb-24 min-h-screen">
       <SEO 
         title={isSubmitted ? "Demande Envoyée - ProMedias" : "Diagnostic Complet & Devis Gratuit"}
         description="Obtenez un diagnostic technique pour vos smartphones, ordinateurs et Mac à Liège. Devis transparent, pièces garanties et intervention en 24h."
@@ -35,7 +36,7 @@ const Diagnostic = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="container py-32 text-center"
+            className="container pt-44 pb-32 text-center"
           >
               <div className="max-w-xl mx-auto space-y-8 bg-zinc-50 p-16 rounded-[4rem] border border-zinc-100">
                   <div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-primary/30">
@@ -69,26 +70,12 @@ const Diagnostic = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <section className="container mb-16">
-              <div className="relative overflow-hidden rounded-3xl bg-zinc-100 min-h-[400px] flex items-center">
-                  <div className="absolute inset-0 opacity-20 transform scale-110">
-                      <img 
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu257PRkz4Ahh1oJCk5FjBxV9dhrI0EfKr9Cz4cKPCtIUJqdFfwi5cZr6x7-MBWg3c0m-fFFFVLzb1Y8LIHpkEHj43OqisYGv2T67MmziK7lKE2jeQv-Zb76O0UMTXn4UdobOmNe5P3E6fVXyMZUhIhgs3lwGis66Eo0nKrWdgckDJxTSCOLrEvlfBS8G6yXza0Of4V8b99DTMtGcQNfabxMTG_IrQ3bCawpaqs3_uh6zGrjuSDBYHEEGL2mB2WNSN92syCVM8sPk" 
-                        className="w-full h-full object-cover grayscale" 
-                        alt="" 
-                      />
-                  </div>
-                  <div className="relative z-10 px-8 md:px-20 max-w-4xl">
-                    <span className="text-primary font-bold tracking-[0.2em] text-xs mb-4 block uppercase font-headline">Diagnostic Technique</span>
-                    <h1 className="text-5xl md:text-7xl font-headline font-bold tracking-tighter mb-6 leading-[1.1]">
-                      La précision au service <br /> de <span className="text-primary italic">votre technologie.</span>
-                    </h1>
-                    <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed max-w-2xl">
-                      Identifiez l'origine exacte de la panne. Nos experts Liégeois analysent vos composants avec une rigueur chirurgicale sous 24h à 48h.
-                    </p>
-                  </div>
-              </div>
-            </section>
+            <PageHero
+              label="Diagnostic Technique"
+              title="La précision au service de"
+              accent="votre technologie."
+              subtitle="Identifiez l'origine exacte de la panne. Nos experts Liégeois analysent vos composants avec une rigueur chirurgicale sous 24h à 48h."
+            />
 
             <section className="container grid grid-cols-1 lg:grid-cols-12 gap-16">
               <aside className="lg:col-span-4 space-y-12">

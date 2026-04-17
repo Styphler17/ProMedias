@@ -19,7 +19,8 @@ import { BauhausCard } from "@/components/ui/bauhaus-card";
 import { PaginationCustom } from "@/components/ui/pagination-custom";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { SEO } from "@/components/SEO";
-import { fetchProducts } from "@/lib/woocommerce";
+import { PageHero } from "@/components/PageHero";
+import { fetchProducts, fetchCategories, fetchPage, type WCCategory, type PageData } from "@/lib/woocommerce";
 
 interface Product {
   id: number;
@@ -73,11 +74,32 @@ const itemVariants = {
 const CATEGORY_GROUPS = {
   "Téléphonie": ["iPhones", "Androids", "Tablettes"],
   "Informatique": ["Laptops", "Écrans", "Systèmes fixes"],
-  "Accessoires": ["Chargeurs", "Casques", "Protections", "Souris", "Claviers"]
+  "Accessoires": ["Chargeurs", "Coques", "Verres Trempés", "Casques", "Souris", "Claviers"]
+};
+
+const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  "Tous": "Chaque appareil est minutieusement inspecté, testé et certifié par nos techniciens à Liège. Performance d'origine, prix réduit.",
+  "Téléphonie": "Le meilleur des iPhones et smartphones reconditionnés avec une batterie certifiée et un écran d'origine.",
+  "Informatique": "Des MacBook et ordinateurs performants pour les pros et les étudiants, rigoureusement vérifiés.",
+  "Accessoires": "Une sélection d'accessoires de haute qualité pour protéger et optimiser vos appareils préférés.",
+  "iPhones": "La puissance de l'écosystème Apple, reconditionnée avec soin et garantie 12 mois.",
+  "Androids": "Une large gamme de smartphones performants, testés sur plus de 50 points de contrôle.",
+  "Tablettes": "iPad et tablettes polyvalentes pour le dessin, le travail ou les loisirs.",
+  "Laptops": "Des ordinateurs portables comme neufs, idéaux pour la productivité et le divertissement.",
+  "Écrans": "Améliorez votre espace de travail avec nos moniteurs haute performance.",
+  "Systèmes fixes": "La puissance brute au meilleur prix pour vos projets créatifs ou bureautiques.",
+  "Chargeurs": "Alimentation certifiée et sécurisée pour la longévité de vos batteries.",
+  "Coques": "Protection élégante et robuste pour sécuriser votre smartphone au quotidien.",
+  "Verres Trempés": "La protection ultime contre les chocs et les rayures pour votre écran.",
+  "Casques": "L'excellence sonore reconditionnée pour une immersion totale.",
+  "Souris": "Précision et ergonomie pour votre setup informatique.",
+  "Claviers": "Confort de frappe et durabilité pour tous vos supports."
 };
 
 const Shop = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<WCCategory[]>([]);
+  const [shopContent, setShopContent] = useState<PageData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("Tous");
   const [expandedGroups, setExpandedGroups] = useState<string[]>(["Téléphonie"]);
@@ -88,13 +110,19 @@ const Shop = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const loadProducts = async () => {
+    const loadData = async () => {
       setIsLoading(true);
-      const data = await fetchProducts();
-      setProducts(data);
+      const [prodData, catData, shopData] = await Promise.all([
+        fetchProducts(),
+        fetchCategories(),
+        fetchPage("shop")
+      ]);
+      setProducts(prodData);
+      setCategories(catData);
+      setShopContent(shopData);
       setIsLoading(false);
     };
-    loadProducts();
+    loadData();
   }, []);
 
   const filteredProducts = products.filter(p => {
@@ -107,6 +135,14 @@ const Shop = () => {
     
     return matchesCategory && matchesSearch;
   });
+
+  const getCategoryCount = (category: string) => {
+    if (category === "Tous") return products.length;
+    if (Object.keys(CATEGORY_GROUPS).includes(category)) {
+        return products.filter(p => p.mainCategory === category).length;
+    }
+    return products.filter(p => p.category === category).length;
+  };
 
   const renderFilters = (isMobile = false) => (
     <div className="space-y-12">
@@ -122,7 +158,15 @@ const Shop = () => {
                 : "bg-white border-zinc-100 text-zinc-900 hover:border-primary/30"
             )}
         >
-            Voir Tout le Catalogue
+            <span className="flex items-center gap-2">
+                Voir Tout le Catalogue
+                <span className={cn(
+                    "text-[10px] px-2 py-0.5 rounded-full font-bold",
+                    selectedCategory === "Tous" ? "bg-white/20 text-white" : "bg-zinc-100 text-zinc-400"
+                )}>
+                    {getCategoryCount("Tous")}
+                </span>
+            </span>
             <ChevronRight size={18} className={selectedCategory === "Tous" ? "opacity-100" : "opacity-0 group-hover:opacity-100 transition-opacity"} />
         </button>
 
@@ -141,6 +185,7 @@ const Shop = () => {
                     className={cn("transition-transform duration-300", expandedGroups.includes(main) ? "rotate-90 text-primary" : "text-zinc-300")} 
                 />
                 {main}
+                <span className="text-[10px] text-zinc-400 font-bold ml-2 lowercase tracking-normal">({getCategoryCount(main)})</span>
                 </span>
                 <span className="h-px bg-zinc-100 flex-grow ml-4 opacity-50"></span>
             </button>
@@ -184,7 +229,12 @@ const Shop = () => {
                         )}
                         >
                         {sub}
-                        <Check size={14} className={cn("transition-opacity", selectedCategory === sub ? "opacity-100" : "opacity-0")} />
+                        <span className={cn(
+                            "text-[10px] px-2 py-0.5 rounded-full font-bold",
+                            selectedCategory === sub ? "bg-white/10 text-white/50" : "bg-zinc-100 text-zinc-400"
+                        )}>
+                            {getCategoryCount(sub)}
+                        </span>
                         </button>
                     ))}
                     </div>
@@ -245,50 +295,27 @@ const Shop = () => {
   };
 
   return (
-    <div className="pt-32 pb-24">
-      <SEO 
+    <div className="pb-24">
+      <SEO
         title="Boutique Reconditionnée Apple"
         description="Découvrez le meilleur d'Apple reconditionné à Liège. iPhone, MacBook et iPad rigoureusement testés et certifiés avec une garantie de 12 mois. La performance sans le prix du neuf."
       />
-      {/* Hero Header */}
-      <section className="container mb-16">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative overflow-hidden rounded-[2.5rem] bg-zinc-900 text-white p-12 md:p-20 shadow-2xl"
-        >
-          <div className="absolute top-0 right-0 w-1/2 h-full opacity-30 pointer-events-none group-hover:scale-105 transition-transform duration-[3s]">
-             <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwGlNy8dSBqCFL3nzah62B6soiy9D1gBFrUtAtFcomD_Pc1mh8cGDdcWjJ0z_KnfShxv00bbK7WTJvdw7v9xch2dAX9eZ8bIca9akk8rZhrd0WqMhz1TQTvMR98PbJx1k96SaeERFc6PD1-T184g-AKE790FEGTFIWsA_2Gie9OllF3i8eGmGdHyXGImY-4fyM5pZ1Aw5Q_hP0L7kXxFoaDeyUCQ9nDAUe-uy2sqm_KGPJtQKcSG0OEs4YpTZAEeX1wJFD3V3ppm0" className="w-full h-full object-cover" alt="" />
-          </div>
-          <div className="relative z-10 max-w-2xl">
-            <motion.span 
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-primary font-bold tracking-[0.2em] text-xs mb-4 block uppercase font-headline"
-            >
-              BOUTIQUE RECONDITIONNÉE
-            </motion.span>
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="font-headline tracking-tighter mb-6"
-            >
-              Le meilleur d'Apple, <br /><span className="text-zinc-500">sans le prix du neuf.</span>
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="text-lg text-zinc-400 font-light leading-relaxed"
-            >
-              Chaque appareil est minutieusement inspecté, testé et certifié par nos techniciens à Liège. Performance d'origine, prix réduit.
-            </motion.p>
-          </div>
-        </motion.div>
-      </section>
+      <PageHero
+        label="Boutique Reconditionnée"
+        title={selectedCategory === "Tous" ? "Le meilleur d'Apple," : selectedCategory}
+        accent={selectedCategory === "Tous" ? "sans le prix du neuf." : undefined}
+        subtitle={(() => {
+          const acf = shopContent?.acf;
+          if (selectedCategory === "Tous") return acf?.desc_tous || CATEGORY_DESCRIPTIONS["Tous"];
+          if (selectedCategory === "Téléphonie") return acf?.desc_telephonie || CATEGORY_DESCRIPTIONS["Téléphonie"];
+          if (selectedCategory === "Informatique") return acf?.desc_informatique || CATEGORY_DESCRIPTIONS["Informatique"];
+          if (selectedCategory === "Accessoires") return acf?.desc_accessoires || CATEGORY_DESCRIPTIONS["Accessoires"];
+          const nativeCat = categories.find(c => c.name === selectedCategory);
+          if (nativeCat?.description) return nativeCat.description.replace(/<[^>]*>?/gm, "");
+          return CATEGORY_DESCRIPTIONS[selectedCategory] || CATEGORY_DESCRIPTIONS["Tous"];
+        })()}
+        animKey={selectedCategory}
+      />
 
       <section className="container">
         <div className="flex flex-col lg:flex-row gap-16">

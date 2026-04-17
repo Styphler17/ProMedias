@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
+import { PageHero } from "@/components/PageHero";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -82,38 +83,17 @@ const Services = () => {
   ];
 
   return (
-    <div className="pt-32 pb-24">
-      <SEO 
+    <div className="pb-24">
+      <SEO
         title="Services de Réparation & Expertise IT"
         description="Nos services de réparation à Liège : écrans, batteries, connecteurs de charge, micro-soudure et IT Consulting. Diagnostic complet pour mobiles Apple, Samsung et ordinateurs PC/Mac."
       />
-      {/* Hero Section */}
-      <section className="container mb-32">
-        <div className="max-w-4xl">
-          <motion.span 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="text-primary font-bold tracking-[0.2em] text-xs mb-4 block uppercase font-headline"
-          >
-            NOTRE CATALOGUE D'EXPERTISE
-          </motion.span>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="font-headline tracking-tighter mb-8"
-          >
-            Toutes les solutions <br /><span className="text-zinc-400">sous un même toit.</span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-xl text-muted-foreground max-w-2xl leading-relaxed font-light"
-          >
-            Du simple changement d'écran à l'IT Consulting complexe, nous déployons une rigueur technique absolue pour chaque demande.
-          </motion.p>
-        </div>
-      </section>
+      <PageHero
+        label="Notre Catalogue d'Expertise"
+        title="Toutes les solutions"
+        accent="sous un même toit."
+        subtitle="Du simple changement d'écran à l'IT Consulting complexe, nous déployons une rigueur technique absolue pour chaque demande."
+      />
 
       {/* Modern Services Grid */}
       <section className="container mb-32">

@@ -25,10 +25,21 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { SEO } from "@/components/SEO";
-import ThreeHero from "@/components/ThreeHero";
+import { ScrollSequence } from "@/components/ScrollSequence";
+import { fetchSiteOptions, type SiteOptions } from "@/lib/woocommerce";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import AutoScroll from "embla-carousel-auto-scroll";
 
 const containerVariants = {
 // ... existing variants
@@ -52,6 +63,14 @@ const itemVariants = {
 };
 
 const Home = () => {
+  const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
+
+  useEffect(() => {
+    fetchSiteOptions().then(setSiteOptions);
+  }, []);
+
+  const heroBg = siteOptions.home_hero_bg || '/hero-bg.png';
+
   return (
     <>
       <SEO 
@@ -59,95 +78,66 @@ const Home = () => {
         description="PROMEDIAS redonne vie à vos smartphones, laptops et Mac au cœur de Liège. Micro-soudure de précision, pièces premium et boutique d'appareils reconditionnés garantis."
       />
       {/* Hero Section */}
-      <section id="hero" className="relative pt-40 pb-20 overflow-hidden">
-        <ThreeHero />
+      <section id="hero" className="relative h-screen min-h-[600px] lg:min-h-[800px] flex items-center overflow-hidden bg-black">
+        {/* Cinematic Background */}
         <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 5, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] -z-10" 
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1.2, 1, 1.2],
-            rotate: [0, -5, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-[120px] -z-10" 
-        />
-        
-        <div className="container grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="space-y-8 text-center lg:text-left"
-          >
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-bold tracking-widest uppercase mx-auto lg:mx-0">
-              <ShieldCheck size={14} />
-              Expertise Certifiée à Liège
-            </motion.div>
-            
-            <motion.h1 variants={itemVariants} className="font-headline tracking-tighter">
-              PROMEDIAS — <br />
-              <span className="text-primary italic">Votre Comptoir</span><br />
-              Informatique
-            </motion.h1>
-            
-            <motion.p variants={itemVariants} className="text-lg md:text-xl text-muted-foreground max-w-xl font-light leading-relaxed mx-auto lg:mx-0">
-              De la micro-soudure de précision à la revente d'équipements reconditionnés. Nous redonnons vie à votre technologie avec la rigueur d'un atelier d'horlogerie.
-            </motion.p>
-            
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
-              <Link to="/diagnostic">
-                <Button size="xl" className="text-lg font-bold h-14 w-full sm:w-auto hover:scale-105 transition-transform duration-300">
-                  Demander un devis
-                </Button>
-              </Link>
-              <Link to="/services">
-                <Button size="xl" variant="outline" className="text-lg font-bold h-14 w-full sm:w-auto bg-foreground text-background hover:bg-foreground/90 transition-all border-none hover:translate-x-1 duration-300">
-                  Nos services
-                </Button>
-              </Link>
-            </motion.div>
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-            animate={{ opacity: 1, scale: 1, rotate: 2 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
-            className="relative hidden lg:block"
-          >
-            <div className="relative z-10 rounded-2xl overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] border border-border/50">
-              <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUbrwXoYdvgWKRP1ajippa5w364mhCEydLT3BIQRIchZ7a847uHJGZIB0fQ0ons8aiAYlqNFOdNqdVKNHKCHlP-j0gPG6THxZUUDQsY1GYnpHidJsdwERSsovr7nplsac1NK26FkRfLC6HWiaMWWgVTxpG27w4ePSwOhJbT9u12ohjAgUTrQVaXtVwjpiLjGkLofOYlqtPXTXY4W66boTZ6LnpzG3YztpL3FDPTOUOUn1MQxQyRzydEfz0B2B1jXqXtvyMPMAm_GU" 
-                alt="Workshop" 
-                className="w-full h-[550px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-12 text-white">
-                <div className="flex items-center gap-3">
-                  <div className="flex -space-x-2">
-                    {[1,2,3].map(i => (
-                        <div key={i} className="w-8 h-8 rounded-full border-2 border-black bg-zinc-800" />
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <Star className="text-yellow-400 fill-yellow-400" size={20} />
-                    <span className="font-headline font-bold text-xl">4.9/5</span>
-                    <span className="text-zinc-400 text-[10px] uppercase tracking-widest font-bold ml-2">Google Reviews</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.7 }}
+          transition={{ duration: 2.5, ease: "easeOut" }}
+          className="absolute inset-0 z-0"
+        >
+          <img 
+            src={heroBg}
+            className="w-full h-full object-cover object-[70%_center] lg:object-center"
+            alt="Macro ProMedias detail"
+          />
+          <div className="absolute inset-0 animate-shimmer pointer-events-none opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-transparent to-transparent hidden lg:block" />
+          <div className="absolute inset-0 bg-black/40 lg:hidden" />
+        </motion.div>
+
+        <div className="container relative z-10">
+          <div className="max-w-4xl mx-auto lg:mx-0 text-center lg:text-left">
             <motion.div 
-              animate={{ rotate: [1, -2, 1], x: [0, 5, 0] }}
-              transition={{ duration: 10, repeat: Infinity }}
-              className="absolute -top-6 -right-6 w-full h-full border-2 border-primary/20 rounded-2xl -z-10" 
-            />
-          </motion.div>
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="space-y-6 md:space-y-8"
+            >
+              <motion.div variants={itemVariants} className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass-panel text-primary text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase">
+                <ShieldCheck size={16} />
+                L'Excellence Certifiée à Liège
+              </motion.div>
+              
+              <motion.h1 variants={itemVariants} className="text-white font-headline tracking-tighter text-4xl md:text-6xl lg:text-hero leading-[0.9] lg:leading-[0.85] drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                PROMEDIAS <br />
+                <span className="text-primary italic">L'Art de la</span> <br />
+                Résurrection.
+              </motion.h1>
+              
+              <motion.p variants={itemVariants} className="text-lg md:text-xl lg:text-2xl text-zinc-300 max-w-2xl font-light leading-relaxed drop-shadow-md mx-auto lg:mx-0">
+                De la micro-soudure de précision au reconditionnement d'élite. Nous redonnons vie à votre technologie avec la rigueur d'une manufacture d'horlogerie.
+              </motion.p>
+              
+              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 md:gap-6 pt-4 md:pt-8">
+                <Link to="/diagnostic" className="w-full sm:w-auto">
+                  <Button size="xl" className="w-full text-lg font-bold h-14 md:h-16 px-12 rounded-2xl hover:scale-105 bg-primary text-white hover:shadow-[0_0_40px_rgba(209,44,44,0.4)] transition-all duration-300">
+                    Demander un devis
+                  </Button>
+                </Link>
+                <Link to="/shop" className="w-full sm:w-auto">
+                  <Button size="xl" variant="outline" className="w-full text-lg font-bold h-14 md:h-16 px-12 bg-zinc-900/60 backdrop-blur-md text-white hover:bg-white hover:text-black transition-all border-white/20 rounded-2xl">
+                    Explorer la boutique
+                  </Button>
+                </Link>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
+        
+        {/* Transition to next section */}
+        <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-zinc-50 to-transparent z-20 pointer-events-none" />
       </section>
 
       {/* Trust Badges */}
@@ -184,13 +174,34 @@ const Home = () => {
         </div>
       </section>
       
-      <section className="py-12 border-y border-zinc-100 bg-white/50 overflow-hidden">
-        <div className="container">
-          <div className="grid grid-cols-3 md:grid-cols-7 gap-8 md:gap-12 items-center opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
-            {["APPLE", "SAMSUNG", "HUAWEI", "SONY", "ASUS", "HP", "DELL"].map((brand) => (
-              <span key={brand} className="font-headline font-black text-xl md:text-2xl tracking-[0.3em] text-center">{brand}</span>
-            ))}
-          </div>
+      <section className="py-12 border-y border-zinc-100 bg-white overflow-hidden">
+        <div className="w-full">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            plugins={[
+              AutoScroll({
+                speed: 1,
+                stopOnInteraction: false,
+                playOnInit: true,
+              }),
+            ]}
+            className="w-full"
+          >
+            <CarouselContent className="flex items-center -ml-0">
+              {["APPLE", "SAMSUNG", "HUAWEI", "SONY", "ASUS", "HP", "DELL", "LENOVO", "XIAOMI", "ACER", "APPLE", "SAMSUNG", "HUAWEI", "SONY"].map((brand, idx) => (
+                <CarouselItem key={`${brand}-${idx}`} className="pl-0 basis-auto px-12">
+                  <span 
+                    className="font-headline font-black text-3xl md:text-6xl tracking-[0.4em] text-zinc-300/60 hover:text-primary transition-colors cursor-grab active:cursor-grabbing select-none uppercase"
+                  >
+                    {brand}
+                  </span>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
       </section>
 
@@ -300,6 +311,9 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Scroll-Driven Sequence */}
+      <ScrollSequence />
+
       {/* The Journey / How it Works */}
       <section className="py-32 bg-zinc-900 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/10 -skew-x-12 translate-x-1/2" />
@@ -335,82 +349,110 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
       <section className="py-32 bg-zinc-50 overflow-hidden">
         <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-            <div className="max-w-xl">
+          <div className="flex flex-col items-center text-center mb-20 gap-12">
+            <div className="max-w-3xl">
               <span className="text-primary font-bold tracking-[0.2em] text-xs uppercase font-headline">La Voix de nos Clients</span>
-              <h2 className="text-4xl md:text-6xl font-headline font-bold mt-4 tracking-tighter italic">Approuvé par <span className="text-primary italic">Liège.</span></h2>
+              <h2 className="text-4xl md:text-7xl font-headline font-bold mt-4 tracking-tighter italic">Approuvé par <span className="text-primary italic">Liège.</span></h2>
             </div>
-            <div className="flex gap-4">
-              <div className="bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 border border-zinc-100">
-                <div className="text-right">
-                    <p className="font-bold text-xl">4.9/5</p>
-                    <p className="text-[10px] text-zinc-400 uppercase font-black tracking-widest">Sur Google Reviews</p>
+            <div className="flex justify-center w-full">
+              <div className="bg-white p-6 md:p-8 rounded-[2rem] shadow-2xl flex flex-col items-center gap-3 border border-zinc-100 min-w-[280px]">
+                <div className="flex items-center gap-3 mb-1">
+                  <svg viewBox="0 0 24 24" className="w-6 h-6" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                  </svg>
+                  <span className="font-headline font-bold text-2xl tracking-tight text-zinc-900">4.9/5</span>
                 </div>
-                <div className="flex gap-1 text-primary">
-                    <Star size={16} fill="currentColor" />
-                    <Star size={16} fill="currentColor" />
-                    <Star size={16} fill="currentColor" />
-                    <Star size={16} fill="currentColor" />
-                    <Star size={16} fill="currentColor" />
+                <div className="flex gap-1.5 text-yellow-400">
+                    <Star size={18} fill="currentColor" />
+                    <Star size={18} fill="currentColor" />
+                    <Star size={18} fill="currentColor" />
+                    <Star size={18} fill="currentColor" />
+                    <Star size={18} fill="currentColor" />
                 </div>
+                <p className="text-[10px] text-zinc-400 uppercase font-black tracking-widest text-center mt-1">Sur Google Reviews</p>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { 
-                text: "Service exceptionnel ! Mon iPhone 13 Pro était complètement brisé, il a été réparé en 45 minutes chrono avec des pièces de qualité. Merci ProMedias !",
-                author: "Jean Dupont",
-                role: "Client Fidèle (Liège)",
-                initials: "JD"
-              },
-              { 
-                text: "J'ai acheté un MacBook reconditionné ici il y a 6 mois. L'état est impeccable et les conseils techniques étaient excellents. Une adresse incontournable.",
-                author: "Marie Leclerc",
-                role: "Graphiste (Angleur)",
-                initials: "ML"
-              },
-              { 
-                text: "Expertise incroyable en micro-soudure. Là où d'autres m'ont dit que ma carte mère était morte, ProMedias l'a sauvée. Sauvetage réussi !",
-                author: "Thomas Berger",
-                role: "Photographe (Grivegnée)",
-                initials: "TB"
-              }
-            ].map((testimonial, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-zinc-100 flex flex-col justify-between hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
-              >
-                <div className="space-y-6">
-                    <div className="flex gap-1 text-primary">
-                        <Star size={14} fill="currentColor" />
-                        <Star size={14} fill="currentColor" />
-                        <Star size={14} fill="currentColor" />
-                        <Star size={14} fill="currentColor" />
-                        <Star size={14} fill="currentColor" />
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 5000,
+              }),
+            ]}
+            className="w-full relative"
+          >
+            <CarouselContent className="-ml-4 py-8">
+              {[
+                { 
+                  text: "Service exceptionnel ! Mon iPhone 13 Pro était complètement brisé, il a été réparé en 45 minutes chrono avec des pièces de qualité. Merci ProMedias !",
+                  author: "Jean Dupont",
+                  role: "Client Fidèle (Liège)",
+                  initials: "JD"
+                },
+                { 
+                  text: "J'ai acheté un MacBook reconditionné ici il y a 6 mois. L'état est impeccable et les conseils techniques étaient excellents. Une adresse incontournable.",
+                  author: "Marie Leclerc",
+                  role: "Graphiste (Angleur)",
+                  initials: "ML"
+                },
+                { 
+                  text: "Expertise incroyable en micro-soudure. Là où d'autres m'ont dit que ma carte mère était morte, ProMedias l'a sauvée. Sauvetage réussi !",
+                  author: "Thomas Berger",
+                  role: "Photographe (Grivegnée)",
+                  initials: "TB"
+                },
+                { 
+                  text: "Très professionnel et honnête sur les prix. Pas de frais cachés et un travail soigné. Je recommande les yeux fermés.",
+                  author: "Sarah Martin",
+                  role: "Entrepreneur",
+                  initials: "SM"
+                }
+              ].map((testimonial, i) => (
+                <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="bg-white p-10 h-full rounded-[2.5rem] shadow-sm border border-zinc-100 flex flex-col justify-between hover:shadow-2xl transition-all duration-500"
+                  >
+                    <div className="space-y-6">
+                        <div className="flex gap-1 text-primary">
+                            <Star size={14} fill="currentColor" />
+                            <Star size={14} fill="currentColor" />
+                            <Star size={14} fill="currentColor" />
+                            <Star size={14} fill="currentColor" />
+                            <Star size={14} fill="currentColor" />
+                        </div>
+                        <p className="text-lg font-light leading-relaxed italic text-zinc-600">"{testimonial.text}"</p>
                     </div>
-                    <p className="text-lg font-light leading-relaxed italic text-zinc-600">"{testimonial.text}"</p>
-                </div>
-                <div className="mt-10 flex items-center gap-4 pt-6 border-t border-zinc-50">
-                    <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-white font-bold text-xs">
-                        {testimonial.initials}
+                    <div className="mt-10 flex items-center gap-4 pt-6 border-t border-zinc-50">
+                        <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-white font-bold text-xs uppercase">
+                            {testimonial.initials}
+                        </div>
+                        <div>
+                            <p className="font-bold text-sm">{testimonial.author}</p>
+                            <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{testimonial.role}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className="font-bold text-sm">{testimonial.author}</p>
-                        <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{testimonial.role}</p>
-                    </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="hidden md:flex justify-end gap-3 mt-8">
+              <CarouselPrevious className="static translate-y-0" />
+              <CarouselNext className="static translate-y-0" />
+            </div>
+          </Carousel>
         </div>
       </section>
 

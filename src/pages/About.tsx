@@ -14,6 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
+import { PageHero } from "@/components/PageHero";
 import { fetchPage, type PageData } from "@/lib/woocommerce";
 
 const About = () => {
@@ -33,40 +34,32 @@ const About = () => {
     return typeof val === 'string' ? val : fallback;
   };
   return (
-    <div className="pt-32 pb-24">
-      <SEO 
+    <div className="pb-24">
+      <SEO
         title="À Propos de l'Atelier"
         description="Plongez au cœur de l'Atelier ProMedias à Liège : 10 ans d'expertise dans la réparation de haute précision et un engagement fort pour l'économie circulaire et la technologie durable."
       />
-      {/* Hero Section */}
-      <section className="container py-20 lg:py-32 grid lg:grid-cols-2 gap-20 items-center">
-        <div className="space-y-10">
-          <span className="text-primary font-bold tracking-[0.2em] text-xs uppercase font-headline">L'Atelier de Précision</span>
-          <h1 className="font-headline tracking-tighter">
-            La renaissance de <br/><span className="text-primary italic">vos appareils.</span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-xl leading-relaxed font-light">
-            Depuis plus de 10 ans au cœur de Liège, PROMEDIAS redéfinit la réparation informatique. Nous ne changeons pas seulement des pièces ; nous restaurons l'excellence technique de vos outils de travail et de vie.
-          </p>
-          <div className="flex items-center gap-6">
-            <div className="h-px w-20 bg-primary"></div>
-            <span className="text-sm font-bold uppercase tracking-widest text-zinc-900">Fondé en 2014 • Liège, Belgique</span>
+      <PageHero
+        label="L'Atelier de Précision"
+        title="La renaissance de"
+        accent="vos appareils."
+        subtitle="Depuis plus de 10 ans au cœur de Liège, PROMEDIAS redéfinit la réparation informatique. Nous restaurons l'excellence technique de vos outils de travail et de vie."
+        aside={
+          <div className="relative shrink-0 w-full lg:w-80">
+            <div className="aspect-square rounded-[2.5rem] overflow-hidden shadow-2xl transform lg:rotate-2">
+              <img
+                className="w-full h-full object-cover"
+                src={getImg("hero_image", "https://lh3.googleusercontent.com/aida-public/AB6AXuB8ogJAQ2GTKG3xlUTnGYtnhZUPBzLNbo_GWLqgzTSiEf5PaCrQfUuYvChSkVjIKaSl8pLPS3GR-ZDzeYIQveXPF7rRJfuUdhBBscLaDtF4PnqqatBlo4YS1gz1n6bumSibxXrnVBgE9jbaiC_GeqXGPcm-V-7U38TrW779mx_U1el7ZNNRMsIyxuVhQ8_M1pODZaLLAxV5V4t8jaQ3uESs116O_j6vshM4JtsxMIaasQQW4mpDV1NaA-khxgcGKJi-7U9oMkZz3nA")}
+                alt="Technician"
+              />
+            </div>
+            <div className="absolute -bottom-6 -left-6 bg-white p-8 rounded-[2rem] shadow-2xl hidden lg:block max-w-[200px]">
+              <p className="text-4xl font-headline font-bold text-primary mb-1">10+</p>
+              <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground leading-loose">Années d'expertise à Liège</p>
+            </div>
           </div>
-        </div>
-        <div className="relative">
-          <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl transform lg:rotate-3">
-            <img 
-              className="w-full h-full object-cover" 
-              src={getImg("hero_image", "https://lh3.googleusercontent.com/aida-public/AB6AXuB8ogJAQ2GTKG3xlUTnGYtnhZUPBzLNbo_GWLqgzTSiEf5PaCrQfUuYvChSkVjIKaSl8pLPS3GR-ZDzeYIQveXPF7rRJfuUdhBBscLaDtF4PnqqatBlo4YS1gz1n6bumSibxXrnVBgE9jbaiC_GeqXGPcm-V-7U38TrW779mx_U1el7ZNNRMsIyxuVhQ8_M1pODZaLLAxV5V4t8jaQ3uESs116O_j6vshM4JtsxMIaasQQW4mpDV1NaA-khxgcGKJi-7U9oMkZz3nA")} 
-              alt="Technician"
-            />
-          </div>
-          <div className="absolute -bottom-10 -left-10 bg-white p-10 rounded-[2.5rem] shadow-2xl hidden lg:block max-w-xs border border-zinc-50">
-            <p className="text-5xl font-headline font-bold text-primary mb-2">10+</p>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground leading-loose">Années d'expertise technique certifiée à Liège</p>
-          </div>
-        </div>
-      </section>
+        }
+      />
 
       {/* Values Section */}
       <section className="bg-zinc-50 py-32">
