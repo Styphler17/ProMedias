@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
+import { fetchSiteOptions, type SiteOptions } from "@/lib/woocommerce";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -25,7 +26,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isStoreOpen, setIsStoreOpen] = useState(false);
+  const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
   const location = useLocation();
+
+  useEffect(() => {
+    fetchSiteOptions().then(setSiteOptions);
+  }, []);
+
+  const logoSrc       = siteOptions.site_logo       || logo;
+  const logoWhiteSrc  = siteOptions.site_logo_white || logo;
 
   useEffect(() => {
     const checkStatus = () => {
@@ -82,7 +91,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center gap-4"
             >
-              <img src={logo} alt="Promedias Logo" className="h-8 md:h-12 w-auto object-contain" />
+              <img src={logoSrc} alt="Promedias Logo" className="h-10 md:h-14 w-auto object-contain" />
               <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-50 border border-zinc-100">
                 <span className={cn(
                     "w-2 h-2 rounded-full",
@@ -119,10 +128,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
 
             <button 
-              className="md:hidden text-foreground"
+              className={cn(
+                "md:hidden transition-colors duration-500",
+                isScrolled || isMobileMenuOpen ? "text-foreground" : "text-white"
+              )}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </nav>
         </div>
@@ -168,7 +180,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
             <div className="space-y-6">
               <Link to="/" className="flex items-center">
-                <img src={logo} alt="Promedias Logo" className="h-12 w-auto object-contain brightness-0 invert" />
+                <img src={logoWhiteSrc} alt="Promedias Logo" className="h-12 w-auto object-contain brightness-0 invert" />
               </Link>
               <p className="text-zinc-500 text-sm leading-relaxed">
                 Le comptoir informatique de précision à Liège. Expertise, rapidité et transparence pour tous vos besoins technologiques.
