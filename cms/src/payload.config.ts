@@ -1,5 +1,5 @@
 import { buildConfig } from 'payload'
-import { mysqlAdapter } from '@payloadcms/db-mysql'
+import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { nextPayload } from '@payloadcms/next'
 import path from 'path'
@@ -44,9 +44,9 @@ export default buildConfig({
     AboutPage,
   ],
 
-  db: mysqlAdapter({
-    pool: {
-      uri: process.env.DATABASE_URI || 'mysql://root:root@127.0.0.1:3306/promedias_cms',
+  db: sqliteAdapter({
+    client: {
+      url: process.env.DATABASE_URI || 'file:./promedias.db',
     },
   }),
 

@@ -24,3 +24,11 @@ dist-ssr
 *.sw?
 
 .env
+
+# Payload CMS
+cms/.next
+cms/node_modules
+cms/*.db
+cms/*.db-shm
+cms/*.db-wal
+cms/media
