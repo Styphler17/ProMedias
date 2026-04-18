@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
-import { fetchSiteOptions, type SiteOptions } from "@/lib/woocommerce";
+import { fetchSiteOptions, fetchContact, type SiteOptions } from "@/lib/woocommerce";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,10 +28,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [isStoreOpen, setIsStoreOpen] = useState(false);
   const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
+  const [facebookUrl, setFacebookUrl] = useState('');
   const location = useLocation();
 
   useEffect(() => {
     fetchSiteOptions().then(setSiteOptions);
+    fetchContact().then(c => setFacebookUrl(c.contact_facebook ?? ''));
   }, []);
 
   const logoSrc       = siteOptions.site_logo       || logo;
@@ -199,14 +201,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 Le comptoir informatique de précision à Liège. Expertise, rapidité et transparence pour tous vos besoins technologiques.
               </p>
               <div className="flex gap-4">
-                <a 
-                  href="https://www.facebook.com/people/Promedias-Liege/61555319957302/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border border-zinc-800 text-zinc-400 hover:text-primary hover:border-primary flex items-center justify-center transition-all bg-transparent"
-                >
-                  <FacebookIcon size={20} />
-                </a>
+                {facebookUrl && (
+                  <a
+                    href={facebookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full border border-zinc-800 text-zinc-400 hover:text-primary hover:border-primary flex items-center justify-center transition-all bg-transparent"
+                  >
+                    <FacebookIcon size={20} />
+                  </a>
+                )}
               </div>
             </div>
             

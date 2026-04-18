@@ -15,15 +15,19 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { PageHero } from "@/components/PageHero";
-import { fetchPage, type PageData } from "@/lib/woocommerce";
+import { fetchPage, fetchContact, type PageData } from "@/lib/woocommerce";
 
 const About = () => {
   const [pageData, setPageData] = useState<PageData | null>(null);
+  const [mapsUrl, setMapsUrl] = useState<string | null>(null);
+  const [storefrontUrl, setStorefrontUrl] = useState<string>('');
 
   useEffect(() => {
     const loadData = async () => {
-      const data = await fetchPage("about");
+      const [data, contact] = await Promise.all([fetchPage("about"), fetchContact()]);
       setPageData(data);
+      setMapsUrl(contact.contact_maps_url ?? null);
+      setStorefrontUrl(contact.contact_storefront_url ?? '');
     };
     loadData();
   }, []);
@@ -185,15 +189,17 @@ const About = () => {
                 Situé au cœur de Liège, notre atelier vous accueille dans un espace moderne dédié à la haute technicité. Venez découvrir notre expertise en direct et explorez notre sélection d'appareils reconditionnés.
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
-                <a 
-                  href="https://maps.app.goo.gl/hqZzndPS1J5E5r6h9" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white text-zinc-900 px-8 py-4 rounded-2xl font-bold hover:bg-primary hover:text-white transition-all duration-500 shadow-2xl"
-                >
-                  <Eye size={20} />
-                  Voir la Vitrine (360°)
-                </a>
+                {storefrontUrl && (
+                  <a
+                    href={storefrontUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-white text-zinc-900 px-8 py-4 rounded-2xl font-bold hover:bg-primary hover:text-white transition-all duration-500 shadow-2xl"
+                  >
+                    <Eye size={20} />
+                    Voir la Vitrine (360°)
+                  </a>
+                )}
               </div>
             </div>
 
@@ -268,13 +274,15 @@ const About = () => {
             </Link>
           </div>
           <div className="w-full md:w-1/2 min-h-[500px] relative transition-all duration-1000 grayscale hover:grayscale-0">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2530.0768461741517!2d5.5947761!3d50.6442654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c0fa3e595e595b%3A0xc3f1406e23730e70!2sRue%20Saint-L%C3%A9onard%20141%2C%204000%20Li%C3%A8ge!5e0!3m2!1sfr!2sbe!4v1700000000000!5m2!1sfr!2sbe" 
+            {mapsUrl && (
+              <iframe
+                src={mapsUrl}
                 className="w-full h-full min-h-[500px] border-none"
                 allowFullScreen={true}
-                loading="lazy" 
+                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+              />
+            )}
           </div>
         </div>
       </section>
