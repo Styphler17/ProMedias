@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "vite"
 
-const CMS_BASE = 'http://localhost:3001'
+const SERVER_BASE = 'http://localhost:3002'
 
 export default defineConfig({
   plugins: [
@@ -12,15 +12,13 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      // Payload REST API
       '/api': {
-        target: CMS_BASE,
+        target: SERVER_BASE,
         changeOrigin: true,
         secure: false,
       },
-      // Payload media uploads
-      '/media': {
-        target: CMS_BASE,
+      '/uploads': {
+        target: SERVER_BASE,
         changeOrigin: true,
         secure: false,
       },

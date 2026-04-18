@@ -1,7 +1,7 @@
 # CLAUDE.md — ProMedias Frontend
 
-React + Vite + TypeScript headless frontend for the ProMedias Liège website.
-Backend: WordPress + WooCommerce + ACF at `C:\MAMP\htdocs\promedias-cms`.
+React + Vite + TypeScript frontend for the ProMedias Liège website.
+Backend: **Express + MariaDB** custom API server in `server/`, running on port 3002.
 
 ---
 
@@ -12,6 +12,7 @@ Backend: WordPress + WooCommerce + ACF at `C:\MAMP\htdocs\promedias-cms`.
 - **Routing**: React Router v6
 - **Animation**: Framer Motion
 - **Carousel**: Embla Carousel
+- **Backend**: Express 5 + MariaDB (`server/` directory, port 3002 in dev)
 
 ---
 
@@ -25,93 +26,128 @@ src/
     SEO.tsx          — React Helmet wrapper
     ScrollSequence.tsx — Scroll-driven iPhone exploded view
     ui/              — shadcn/ui primitives + custom components
+    admin/
+      AdminLayout.tsx — Shared layout for admin pages
   pages/
     Home.tsx         — Landing page
     About.tsx        — About / team / store
     Services.tsx     — Service catalogue
-    Shop.tsx         — WooCommerce product browser
+    Shop.tsx         — Product browser
     Diagnostic.tsx   — Diagnostic request form
+    admin/
+      Login.tsx      — Admin login
+      Dashboard.tsx  — Admin dashboard
+      Products.tsx   — Manage products
+      Categories.tsx — Manage categories
+      Settings.tsx   — Manage site settings & images
   lib/
-    woocommerce.ts   — All WordPress / WooCommerce / ACF API calls
+    woocommerce.ts   — Public API client (fetchSiteOptions, fetchPage, fetchProducts, fetchCategories)
+    admin.ts         — Admin API client (auth + CRUD for products, categories, settings, upload)
+
+server/
+  index.ts           — Express entry point, port 3002
+  db.ts              — MariaDB connection pool
+  schema.sql         — Database schema
+  routes/
+    auth.ts          — POST /api/auth/login, /api/auth/register
+    products.ts      — CRUD /api/products
+    categories.ts    — CRUD /api/categories
+    settings.ts      — GET/PUT /api/settings, GET /api/settings/site, GET /api/settings/about
+    upload.ts        — POST /api/upload (multer → /uploads)
 ```
 
 ---
 
-## WordPress / ACF Image Loading Pattern
+## API Layer (`src/lib/woocommerce.ts`)
 
-All CMS-controlled images flow through `src/lib/woocommerce.ts`.
+All public CMS data flows through `src/lib/woocommerce.ts` (kept as-is to avoid renaming imports).
 
-### How it works
+### Endpoints used
 
-1. **ACF fields** are defined in `functions.php` of the WordPress theme.
-2. **`fetchSiteOptions()`** fetches the `reglages` WP page and returns all its ACF image fields as `SiteOptions` (a flat `Record<string, string | undefined>`).
-3. **`fetchPage(slug)`** fetches a specific WP page and returns its `acf` object (typed as `Record<string, unknown>`).
-4. **`acfImageUrl(field)`** (internal helper) accepts either a string URL or an ACF image array and normalises to a string URL.
-5. **`rewriteUrl(url)`** (internal helper) strips the WP base URL so the Vite dev proxy (`/wp-content`) can serve images locally.
+| Function             | Express endpoint              | Used in                                  |
+|----------------------|-------------------------------|------------------------------------------|
+| `fetchSiteOptions()` | `GET /api/settings/site`      | Layout, Home, Services, Shop, Diagnostic |
+| `fetchPage('about')` | `GET /api/settings/about`     | About.tsx                                |
+| `fetchProducts()`    | `GET /api/products?status=published` | Shop.tsx                          |
+| `fetchCategories()`  | `GET /api/categories`         | Shop.tsx                                 |
 
-### Global site images (on the `reglages` WP page)
+### SiteOptions keys
 
-| ACF field name         | Used in          | Description                        |
-|------------------------|------------------|------------------------------------|
-| `site_logo`            | `Layout.tsx`     | Navbar logo (dark background)      |
-| `site_logo_white`      | `Layout.tsx`     | Footer logo (light-on-dark)        |
-| `home_hero_bg`         | `Home.tsx`       | Full-screen hero background        |
-| `services_hero_bg`     | `Services.tsx`   | PageHero background image          |
-| `shop_hero_bg`         | `Shop.tsx`       | PageHero background image          |
-| `diagnostic_hero_bg`   | `Diagnostic.tsx` | PageHero background image          |
+| Key                   | DB field (settings table) | Used in          |
+|-----------------------|---------------------------|------------------|
+| `site_logo`           | `logo`                    | Layout.tsx       |
+| `site_logo_white`     | `logo_white`              | Layout.tsx       |
+| `home_hero_bg`        | `home_hero_bg`            | Home.tsx         |
+| `services_hero_bg`    | `services_hero_bg`        | Services.tsx     |
+| `shop_hero_bg`        | `shop_hero_bg`            | Shop.tsx         |
+| `diagnostic_hero_bg`  | `diagnostic_hero_bg`      | Diagnostic.tsx   |
 
-**All global images are optional** — pages fall back gracefully (gradient or local asset).
+All images are optional — pages fall back gracefully.
 
-### Per-page images (on their own WP pages)
+### About page image keys (`pageData.acf.*`)
 
-| ACF field name                 | WP page   | Used in      |
-|--------------------------------|-----------|--------------|
-| `hero_image`                   | a-propos  | `About.tsx`  |
-| `environmental_impact_image`   | a-propos  | `About.tsx`  |
-| `team_1` … `team_4`           | a-propos  | `About.tsx`  |
-| `boutique_storefront_image`    | a-propos  | `About.tsx`  |
+`hero_image`, `environmental_impact_image`, `boutique_storefront_image`, `team_1`–`team_4`
 
-### Adding a new ACF image to a page
+### Adding a new CMS image
 
-1. **Backend** (`functions.php`): add a new `array(...)` entry inside the relevant `acf_add_local_field_group`. Set `'return_format' => 'url'`. Add it to the `reglages` group for global images, or the page-specific group for per-page images.
-2. **Frontend** (`woocommerce.ts`): if it's a global image, add its key to the `SiteOptions` interface (optional, for IDE autocomplete).
-3. **Frontend** (page component): consume it:
-   - Global: `const img = siteOptions.your_field_name ?? '/fallback.png'`
-   - Per-page: `const img = typeof pageData?.acf?.your_field_name === 'string' ? pageData.acf.your_field_name : '/fallback.png'`
+1. **DB**: add a row to the `settings` table (key/value pair).
+2. **`server/routes/settings.ts`**: expose the new key via `/api/settings/site` or `/api/settings/about`.
+3. **`woocommerce.ts`**: add to `SiteOptions` interface and map in `fetchSiteOptions()`, or handle in `fetchPage()`.
+4. **Component**: consume via `siteOptions.your_field` or `pageData?.acf?.your_field`.
 
 ### PageHero `bgImage` prop
 
-`PageHero` accepts an optional `bgImage?: string` prop. When provided, the image is rendered at 30% opacity behind the gradient. When omitted, the component falls back to a pure dark gradient — so all existing usages are unchanged.
+Accepts `bgImage?: string`. Renders at 30% opacity behind gradient. Omit for pure dark gradient fallback.
 
 ---
 
 ## Vite Proxy (dev)
 
-`vite.config.ts` proxies `/wp-json` and `/wp-content` to `http://localhost/promedias-cms` so all WordPress API calls and image URLs work without CORS issues in development.
+`vite.config.ts` proxies `/api` and `/uploads` → `http://localhost:3002` (Express backend).
 
 ---
 
-## Environment Variables (`.env.local`)
+## Environment Variables
 
+**Frontend (`.env`):**
 ```
-VITE_WC_URL=http://localhost/promedias-cms
-VITE_WC_CONSUMER_KEY=ck_...
-VITE_WC_CONSUMER_SECRET=cs_...
+VITE_CMS_URL=http://localhost:3002
+
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASS=root
+DB_NAME=promedias
+
+JWT_SECRET=dev-jwt-secret-change-me
+FRONTEND_URL=http://localhost:5173
+```
+
+**Production (`.env.production`):**
+```
+VITE_CMS_URL=https://api.promedias-liege.be
+
+DB_HOST=your-db-host
+DB_PORT=3306
+DB_USER=your_db_user
+DB_PASS=your_db_password
+DB_NAME=promedias
+
+JWT_SECRET=change-me-to-a-long-random-string
+FRONTEND_URL=https://promedias-liege.be
 ```
 
 ---
 
-## WP Page Slugs
+## Admin Panel
 
-The frontend maps its own slug names to French WordPress slugs:
+Protected routes under `/admin/*`. Auth uses JWT stored in `localStorage`.
 
-| Code slug  | WP slug    |
-|------------|------------|
-| `about`    | `a-propos` |
-| `home`     | `accueil`  |
-| `services` | `services` |
-| `shop`     | `boutique` |
-| `options`  | `reglages` |
+- `/admin/login` — public login page
+- `/admin` — dashboard
+- `/admin/products` — product CRUD + image upload
+- `/admin/categories` — category CRUD
+- `/admin/settings` — site settings + hero image uploads
 
 ---
 
