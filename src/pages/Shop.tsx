@@ -19,11 +19,12 @@ import { BauhausCard } from "@/components/ui/bauhaus-card";
 import { PaginationCustom } from "@/components/ui/pagination-custom";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { SEO } from "@/components/SEO";
+import AnnouncementsSlider from "@/components/AnnouncementsSlider";
 import { PageHero } from "@/components/PageHero";
 import { fetchProducts, fetchCategories, fetchPage, fetchSiteOptions, type WCCategory, type PageData, type SiteOptions } from "@/lib/woocommerce";
 
 interface Product {
-  id: number;
+  id: string | number;
   name: string;
   price: string;
   specs: string;
@@ -71,29 +72,11 @@ const itemVariants = {
   }
 };
 
-const CATEGORY_GROUPS = {
-  "Téléphonie": ["iPhones", "Androids", "Tablettes"],
-  "Informatique": ["Laptops", "Écrans", "Systèmes fixes"],
-  "Accessoires": ["Chargeurs", "Coques", "Verres Trempés", "Casques", "Souris", "Claviers"]
-};
-
-const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+const MAIN_CATEGORY_DESCRIPTIONS: Record<string, string> = {
   "Tous": "Chaque appareil est minutieusement inspecté, testé et certifié par nos techniciens à Liège. Performance d'origine, prix réduit.",
   "Téléphonie": "Le meilleur des iPhones et smartphones reconditionnés avec une batterie certifiée et un écran d'origine.",
   "Informatique": "Des MacBook et ordinateurs performants pour les pros et les étudiants, rigoureusement vérifiés.",
   "Accessoires": "Une sélection d'accessoires de haute qualité pour protéger et optimiser vos appareils préférés.",
-  "iPhones": "La puissance de l'écosystème Apple, reconditionnée avec soin et garantie 12 mois.",
-  "Androids": "Une large gamme de smartphones performants, testés sur plus de 50 points de contrôle.",
-  "Tablettes": "iPad et tablettes polyvalentes pour le dessin, le travail ou les loisirs.",
-  "Laptops": "Des ordinateurs portables comme neufs, idéaux pour la productivité et le divertissement.",
-  "Écrans": "Améliorez votre espace de travail avec nos moniteurs haute performance.",
-  "Systèmes fixes": "La puissance brute au meilleur prix pour vos projets créatifs ou bureautiques.",
-  "Chargeurs": "Alimentation certifiée et sécurisée pour la longévité de vos batteries.",
-  "Coques": "Protection élégante et robuste pour sécuriser votre smartphone au quotidien.",
-  "Verres Trempés": "La protection ultime contre les chocs et les rayures pour votre écran.",
-  "Casques": "L'excellence sonore reconditionnée pour une immersion totale.",
-  "Souris": "Précision et ergonomie pour votre setup informatique.",
-  "Claviers": "Confort de frappe et durabilité pour tous vos supports."
 };
 
 const Shop = () => {
@@ -127,6 +110,14 @@ const Shop = () => {
     };
     loadData();
   }, []);
+
+  // Build category groups dynamically from fetched categories
+  const categoryGroups = categories.reduce((acc, cat) => {
+    const main = cat.mainCategory
+    if (!acc[main]) acc[main] = []
+    acc[main].push(cat.name)
+    return acc
+  }, {} as Record<string, string[]>)
 
   const filteredProducts = products.filter(p => {
     const matchesCategory = selectedCategory === "Tous" 
@@ -173,7 +164,7 @@ const Shop = () => {
             <ChevronRight size={18} className={selectedCategory === "Tous" ? "opacity-100" : "opacity-0 group-hover:opacity-100 transition-opacity"} />
         </button>
 
-        {Object.entries(CATEGORY_GROUPS).map(([main, subs]) => (
+        {Object.entries(categoryGroups).map(([main, subs]) => (
             <div key={main} className="space-y-2">
             <button 
                 onClick={() => toggleGroup(main)}
@@ -308,14 +299,10 @@ const Shop = () => {
         title={selectedCategory === "Tous" ? "Le meilleur d'Apple," : selectedCategory}
         accent={selectedCategory === "Tous" ? "sans le prix du neuf." : undefined}
         subtitle={(() => {
-          const acf = shopContent?.acf;
-          if (selectedCategory === "Tous") return acf?.desc_tous || CATEGORY_DESCRIPTIONS["Tous"];
-          if (selectedCategory === "Téléphonie") return acf?.desc_telephonie || CATEGORY_DESCRIPTIONS["Téléphonie"];
-          if (selectedCategory === "Informatique") return acf?.desc_informatique || CATEGORY_DESCRIPTIONS["Informatique"];
-          if (selectedCategory === "Accessoires") return acf?.desc_accessoires || CATEGORY_DESCRIPTIONS["Accessoires"];
-          const nativeCat = categories.find(c => c.name === selectedCategory);
-          if (nativeCat?.description) return nativeCat.description.replace(/<[^>]*>?/gm, "");
-          return CATEGORY_DESCRIPTIONS[selectedCategory] || CATEGORY_DESCRIPTIONS["Tous"];
+          if (MAIN_CATEGORY_DESCRIPTIONS[selectedCategory]) return MAIN_CATEGORY_DESCRIPTIONS[selectedCategory];
+          const cat = categories.find(c => c.name === selectedCategory);
+          if (cat?.description) return cat.description.replace(/<[^>]*>?/gm, "");
+          return MAIN_CATEGORY_DESCRIPTIONS["Tous"];
         })()}
         animKey={selectedCategory}
         bgImage={siteOptions.shop_hero_bg}
@@ -558,6 +545,8 @@ const Shop = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      <AnnouncementsSlider />
     </div>
   );
 };

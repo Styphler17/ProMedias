@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { PageHero } from "@/components/PageHero";
 import { fetchSiteOptions, type SiteOptions } from "@/lib/woocommerce";
+import AnnouncementsSlider from "@/components/AnnouncementsSlider";
 
 const Diagnostic = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -197,6 +198,8 @@ const Diagnostic = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AnnouncementsSlider />
     </div>
   );
 };

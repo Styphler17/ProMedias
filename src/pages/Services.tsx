@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { PageHero } from "@/components/PageHero";
 import { fetchSiteOptions, type SiteOptions } from "@/lib/woocommerce";
+import AnnouncementsSlider from "@/components/AnnouncementsSlider";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -225,6 +226,8 @@ const Services = () => {
           </div>
         </div>
       </section>
+
+      <AnnouncementsSlider />
     </div>
   );
 };

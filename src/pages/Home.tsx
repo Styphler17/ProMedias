@@ -31,6 +31,7 @@ import { cn } from "@/lib/utils";
 import { SEO } from "@/components/SEO";
 import { ScrollSequence } from "@/components/ScrollSequence";
 import { fetchSiteOptions, type SiteOptions } from "@/lib/woocommerce";
+import AnnouncementsSlider from "@/components/AnnouncementsSlider";
 import {
   Carousel,
   CarouselContent,
@@ -502,6 +503,8 @@ const Home = () => {
           </Accordion>
         </div>
       </section>
+
+      <AnnouncementsSlider />
     </>
   );
 };
