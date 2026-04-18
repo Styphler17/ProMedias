@@ -70,7 +70,7 @@ const Home = () => {
     fetchSiteOptions().then(setSiteOptions);
   }, []);
 
-  const heroBg = siteOptions.home_hero_bg || '/hero-bg.png';
+  const heroBg = siteOptions.home_hero_bg || '';
 
   return (
     <>
