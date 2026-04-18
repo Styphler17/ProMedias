@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(C:/MAMP/bin/php/php8.2.14/bin/php.exe -r ':*)",
+      "Bash(C:/MAMP/bin/php/php8.2.14/php.exe -r ':*)",
+      "Bash(powershell -Command \"Compress-Archive -Path src,public,index.html,package.json,vite.config.ts,tsconfig.json,tsconfig.app.json,tsconfig.node.json,components.json,.env.production.example -DestinationPath docs/promedias_react_backup_v2.zip -Force\")",
+      "Bash(npm list:*)",
+      "Bash(node -e \"const p = require\\('./node_modules/payload/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(\"C:\\\\MAMP\\\\bin\\\\mysql\\\\bin\\\\mysql.exe\" -u root -proot -e \"CREATE DATABASE IF NOT EXISTS promedias CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\")",
+      "Bash(C:\\\\MAMP\\\\bin\\\\mysql\\\\bin\\\\mysql.exe:*)",
+      "Bash(npx tsx:*)",
+      "Bash(curl -s http://localhost:3001/api/categories)",
+      "Bash(curl -s http://localhost:3001/api/products)",
+      "Bash(node --input-type=module)",
+      "Bash(taskkill /F /PID 34792)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill:*)",
+      "Bash(rm pnpm-lock.yaml)",
+      "Bash(rm src/lib/payload.ts)"
+    ]
+  }
+}
