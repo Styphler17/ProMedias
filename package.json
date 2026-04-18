@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:cms": "cd cms && npm run dev",
     "build": "tsc -b && vite build",
+    "build:cms": "cd cms && npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
