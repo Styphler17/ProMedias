@@ -21,7 +21,7 @@ import { CardSkeleton } from "@/components/ui/skeleton";
 import { SEO } from "@/components/SEO";
 import AnnouncementsSlider from "@/components/AnnouncementsSlider";
 import { PageHero } from "@/components/PageHero";
-import { fetchProducts, fetchCategories, fetchPage, fetchSiteOptions, type WCCategory, type PageData, type SiteOptions } from "@/lib/woocommerce";
+import { fetchProducts, fetchCategories, fetchSiteOptions, type WCCategory, type SiteOptions } from "@/lib/woocommerce";
 
 interface Product {
   id: string | number;
@@ -82,7 +82,7 @@ const MAIN_CATEGORY_DESCRIPTIONS: Record<string, string> = {
 const Shop = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<WCCategory[]>([]);
-  const [shopContent, setShopContent] = useState<PageData | null>(null);
+
   const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("Tous");
@@ -96,15 +96,13 @@ const Shop = () => {
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
-      const [prodData, catData, shopData, opts] = await Promise.all([
+      const [prodData, catData, opts] = await Promise.all([
         fetchProducts(),
         fetchCategories(),
-        fetchPage("shop"),
         fetchSiteOptions(),
       ]);
       setProducts(prodData);
       setCategories(catData);
-      setShopContent(shopData);
       setSiteOptions(opts);
       setIsLoading(false);
     };
@@ -132,7 +130,7 @@ const Shop = () => {
 
   const getCategoryCount = (category: string) => {
     if (category === "Tous") return products.length;
-    if (Object.keys(CATEGORY_GROUPS).includes(category)) {
+    if (Object.keys(categoryGroups).includes(category)) {
         return products.filter(p => p.mainCategory === category).length;
     }
     return products.filter(p => p.category === category).length;
