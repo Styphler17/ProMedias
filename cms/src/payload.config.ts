@@ -1,5 +1,5 @@
 import { buildConfig } from 'payload'
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { nextPayload } from '@payloadcms/next'
 import path from 'path'
@@ -44,9 +44,9 @@ export default buildConfig({
     AboutPage,
   ],
 
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URI || 'file:./promedias.db',
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URI || '',
     },
   }),
 

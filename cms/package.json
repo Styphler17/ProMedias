@@ -10,15 +10,15 @@
     "generate:importmap": "payload generate:importmap"
   },
   "dependencies": {
-    "payload": "^3.0.0",
+    "@payloadcms/db-postgres": "^3.83.0",
     "@payloadcms/next": "^3.0.0",
     "@payloadcms/richtext-lexical": "^3.0.0",
-    "@payloadcms/db-sqlite": "^3.0.0",
     "@payloadcms/ui": "^3.0.0",
+    "graphql": "^16.8.1",
     "next": "15.3.9",
+    "payload": "^3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "graphql": "^16.8.1",
     "sharp": "^0.32.6"
   },
   "devDependencies": {
