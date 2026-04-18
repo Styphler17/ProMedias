@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { 
-  ShieldCheck, 
+import { useState, useEffect } from "react";
+import {
+  ShieldCheck,
   Settings,
   Clock,
   CheckCircle2,
@@ -12,9 +12,15 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { PageHero } from "@/components/PageHero";
+import { fetchSiteOptions, type SiteOptions } from "@/lib/woocommerce";
 
 const Diagnostic = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
+
+  useEffect(() => {
+    fetchSiteOptions().then(setSiteOptions);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,6 +81,7 @@ const Diagnostic = () => {
               title="La précision au service de"
               accent="votre technologie."
               subtitle="Identifiez l'origine exacte de la panne. Nos experts Liégeois analysent vos composants avec une rigueur chirurgicale sous 24h à 48h."
+              bgImage={siteOptions.diagnostic_hero_bg}
             />
 
             <section className="container grid grid-cols-1 lg:grid-cols-12 gap-16">

@@ -20,7 +20,7 @@ import { PaginationCustom } from "@/components/ui/pagination-custom";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { SEO } from "@/components/SEO";
 import { PageHero } from "@/components/PageHero";
-import { fetchProducts, fetchCategories, fetchPage, type WCCategory, type PageData } from "@/lib/woocommerce";
+import { fetchProducts, fetchCategories, fetchPage, fetchSiteOptions, type WCCategory, type PageData, type SiteOptions } from "@/lib/woocommerce";
 
 interface Product {
   id: number;
@@ -100,6 +100,7 @@ const Shop = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<WCCategory[]>([]);
   const [shopContent, setShopContent] = useState<PageData | null>(null);
+  const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("Tous");
   const [expandedGroups, setExpandedGroups] = useState<string[]>(["Téléphonie"]);
@@ -112,14 +113,16 @@ const Shop = () => {
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
-      const [prodData, catData, shopData] = await Promise.all([
+      const [prodData, catData, shopData, opts] = await Promise.all([
         fetchProducts(),
         fetchCategories(),
-        fetchPage("shop")
+        fetchPage("shop"),
+        fetchSiteOptions(),
       ]);
       setProducts(prodData);
       setCategories(catData);
       setShopContent(shopData);
+      setSiteOptions(opts);
       setIsLoading(false);
     };
     loadData();
@@ -315,6 +318,7 @@ const Shop = () => {
           return CATEGORY_DESCRIPTIONS[selectedCategory] || CATEGORY_DESCRIPTIONS["Tous"];
         })()}
         animKey={selectedCategory}
+        bgImage={siteOptions.shop_hero_bg}
       />
 
       <section className="container">

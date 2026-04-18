@@ -5,11 +5,13 @@ import {
   SmartphoneIcon,
   Printer
 } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { PageHero } from "@/components/PageHero";
+import { fetchSiteOptions, type SiteOptions } from "@/lib/woocommerce";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -32,6 +34,12 @@ const itemVariants = {
 };
 
 const Services = () => {
+  const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
+
+  useEffect(() => {
+    fetchSiteOptions().then(setSiteOptions);
+  }, []);
+
   const serviceGroups = [
     {
       title: "Réparation Mobiles & Tablettes",
@@ -93,6 +101,7 @@ const Services = () => {
         title="Toutes les solutions"
         accent="sous un même toit."
         subtitle="Du simple changement d'écran à l'IT Consulting complexe, nous déployons une rigueur technique absolue pour chaque demande."
+        bgImage={siteOptions.services_hero_bg}
       />
 
       {/* Modern Services Grid */}

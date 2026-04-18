@@ -5,17 +5,26 @@ interface PageHeroProps {
   title: string;
   accent?: string;
   subtitle?: string;
+  /** Optional background image URL (from ACF). Overlaid with dark gradient. */
+  bgImage?: string;
   /** Optional extra content rendered to the right on desktop */
   aside?: React.ReactNode;
   /** Key to re-trigger animations (e.g. when title changes dynamically) */
   animKey?: string;
 }
 
-export function PageHero({ label, title, accent, subtitle, aside, animKey }: PageHeroProps) {
+export function PageHero({ label, title, accent, subtitle, bgImage, aside, animKey }: PageHeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden pt-36 md:pt-44 pb-20 md:pb-28">
       {/* Background layers */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-950 to-zinc-900 pointer-events-none" />
+      {bgImage ? (
+        <>
+          <img src={bgImage} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-950/80 to-zinc-900/60 pointer-events-none" />
+        </>
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-950 to-zinc-900 pointer-events-none" />
+      )}
       <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none"
         style={{ background: "radial-gradient(ellipse 80% 100% at 100% 0%, rgba(209,44,44,0.06) 0%, transparent 70%)" }}
       />
