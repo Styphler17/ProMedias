@@ -1,15 +1,23 @@
-const WC_URL = '/wp-json/wc/v3';
-const WP_URL = '/wp-json/wp/v2';
-
 const CONSUMER_KEY    = import.meta.env.VITE_WC_CONSUMER_KEY    as string;
 const CONSUMER_SECRET = import.meta.env.VITE_WC_CONSUMER_SECRET as string;
-// Base URL of the WordPress install — used to rewrite absolute image URLs to
-// relative paths so the Vite proxy (/wp-content) can serve them in dev.
+
+// Base URL of the WordPress install.
 const WP_BASE = import.meta.env.VITE_WC_URL as string || 'http://localhost/promedias-cms';
 
-/** Rewrite absolute WordPress image URLs to relative so the Vite proxy serves them. */
-const rewriteUrl = (url: string): string =>
-  url ? url.replace(WP_BASE, '') : url;
+// In dev, Vite proxies /wp-json and /wp-content to WP_BASE, so use relative paths.
+// In production, no proxy exists — use absolute URLs pointing directly at the CMS.
+const IS_DEV  = import.meta.env.DEV;
+const WC_URL  = IS_DEV ? '/wp-json/wc/v3'  : `${WP_BASE}/wp-json/wc/v3`;
+const WP_URL  = IS_DEV ? '/wp-json/wp/v2'  : `${WP_BASE}/wp-json/wp/v2`;
+
+/**
+ * In dev: strip WP_BASE so the Vite proxy (/wp-content) serves images locally.
+ * In prod: keep the full absolute URL — images are served directly from the CMS domain.
+ */
+const rewriteUrl = (url: string): string => {
+  if (!url) return url;
+  return IS_DEV ? url.replace(WP_BASE, '') : url;
+};
 
 /** Safely extract an image URL from an ACF field (string URL or ACF image array/object). */
 const acfImageUrl = (field: unknown): string | undefined => {
