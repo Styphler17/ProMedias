@@ -164,7 +164,7 @@ const Diagnostic = () => {
                           </div>
 
                           <Button size="xl" type="submit" className="w-full h-20 text-lg font-bold uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/20 group">
-                              Soumettre ma demande
+                              Envoyer
                               <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform duration-300" />
                           </Button>
                       </form>

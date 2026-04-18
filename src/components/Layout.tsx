@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { 
   PhoneCall,
@@ -25,6 +25,7 @@ const FacebookIcon = ({ size = 18 }: { size?: number }) => (
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [isStoreOpen, setIsStoreOpen] = useState(false);
   const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
   const location = useLocation();
@@ -66,6 +67,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
     { name: "Réparations", path: "/services" },
     { name: "Boutique", path: "/shop" },
@@ -75,7 +87,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header 
+      <header
+        ref={mobileMenuRef}
         className={cn(
           "fixed top-0 w-full z-50 transition-all duration-500",
           isScrolled ? "py-4" : "py-8"
