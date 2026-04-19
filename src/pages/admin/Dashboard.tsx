@@ -9,7 +9,6 @@ export default function Dashboard() {
   const [loading, setLoading]   = useState(true)
 
   useEffect(() => {
-    setLoading(true)
     Promise.all([
       adminGetProducts(), 
       adminGetCategories(),
