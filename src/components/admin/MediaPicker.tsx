@@ -9,6 +9,9 @@ const CATEGORIES = [
   { value: 'product',        label: 'Produits' },
   { value: 'logo',           label: 'Logos' },
   { value: 'page',           label: 'Pages' },
+  { value: 'hero',           label: 'Hero Backgrounds' },
+  { value: 'announcement',   label: 'Annonces' },
+  { value: 'team',           label: 'Profils Équipe' },
   { value: 'uncategorized',  label: 'Non classé' },
 ]
 
