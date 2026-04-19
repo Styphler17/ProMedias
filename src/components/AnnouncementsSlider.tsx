@@ -51,37 +51,37 @@ export default function AnnouncementsSlider() {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {announcements.map(a => (
-            <div key={a.id} className="relative flex-none w-full">
+            <div key={a.id} className="relative flex-none w-full flex flex-col md:block">
               {/* Image */}
-              <div className="relative w-full aspect-[16/7] md:aspect-[16/6] overflow-hidden bg-zinc-950">
+              <div className="relative w-full aspect-[4/3] md:aspect-[16/6] overflow-hidden bg-zinc-900 md:bg-zinc-950">
                 <img
                   src={resolveUrl(a.image_url)}
                   alt={a.title}
                   className="absolute inset-0 w-full h-full object-contain"
                 />
-                {/* Gradient overlay — left side only so image stays visible */}
-                <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/85 via-zinc-950/40 to-transparent" />
+                {/* Gradient overlay — only on desktop since text is below on mobile */}
+                <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-zinc-950/85 via-zinc-950/40 to-transparent" />
+              </div>
 
-                {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-center px-10 md:px-16 max-w-xl">
-                  {a.subtitle && (
-                    <p className="text-xs font-semibold uppercase tracking-widest text-[hsl(357,83%,60%)] mb-2">
-                      {a.subtitle}
-                    </p>
-                  )}
-                  <p className="text-2xl md:text-4xl font-bold text-white leading-tight mb-5">
-                    {a.title}
+              {/* Content */}
+              <div className="px-8 py-10 md:py-0 md:absolute md:inset-0 md:flex md:flex-col md:justify-center md:px-16 md:max-w-xl">
+                {a.subtitle && (
+                  <p className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-[hsl(357,83%,60%)] mb-2">
+                    {a.subtitle}
                   </p>
-                  <a
-                    href={buildWaUrl(a.whatsapp_message)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors w-fit shadow-lg"
-                  >
-                    <WhatsAppIcon />
-                    Demander sur WhatsApp
-                  </a>
-                </div>
+                )}
+                <p className="text-xl md:text-4xl font-bold text-white leading-tight mb-6 md:mb-5">
+                  {a.title}
+                </p>
+                <a
+                  href={buildWaUrl(a.whatsapp_message)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold text-sm px-6 py-3 md:px-5 md:py-2.5 rounded-xl transition-all w-fit shadow-lg active:scale-95"
+                >
+                  <WhatsAppIcon />
+                  Demander sur WhatsApp
+                </a>
               </div>
             </div>
           ))}
@@ -92,16 +92,16 @@ export default function AnnouncementsSlider() {
       {announcements.length > 1 && (
         <>
           <button onClick={scrollPrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white flex items-center justify-center transition-colors">
+            className="absolute left-4 top-[28%] md:top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white flex items-center justify-center transition-colors">
             <ChevronLeft size={18} />
           </button>
           <button onClick={scrollNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white flex items-center justify-center transition-colors">
+            className="absolute right-4 top-[28%] md:top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white flex items-center justify-center transition-colors">
             <ChevronRight size={18} />
           </button>
-
+ 
           {/* Dots */}
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
             {announcements.map((_, i) => (
               <button key={i} onClick={() => emblaApi?.scrollTo(i)}
                 className={`h-1.5 rounded-full transition-all ${i === selectedIndex ? 'w-6 bg-white' : 'w-1.5 bg-white/40'}`} />
