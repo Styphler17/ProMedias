@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Package, Tag, Settings, ArrowRight, History, PlusCircle, Trash, RefreshCcw, FileText } from 'lucide-react'
-import { adminGetProducts, adminGetCategories, adminGetDashboard, AdminActivity } from '@/lib/admin'
+import { adminGetProducts, adminGetCategories, adminGetDashboard, type AdminActivity } from '@/lib/admin'
 
 export default function Dashboard() {
   const [counts, setCounts]     = useState({ products: 0, categories: 0 })
