@@ -16,6 +16,7 @@ const NAV_PAGES: Hit[] = [
   { type: 'page', label: 'Dashboard',    to: '/admin',            icon: LayoutDashboard },
   { type: 'page', label: 'Produits',     to: '/admin/products',   icon: Package        },
   { type: 'page', label: 'Catégories',   to: '/admin/categories', icon: Tag            },
+  { type: 'page', label: 'Utilisateurs', to: '/admin/users',      icon: User           },
   { type: 'page', label: 'Médiathèque',  to: '/admin/media',      icon: Image          },
   { type: 'page', label: 'Corbeille',    to: '/admin/trash',      icon: Trash2         },
   { type: 'page', label: 'Réglages',     to: '/admin/settings',   icon: Settings       },
@@ -141,6 +142,7 @@ const NAV_TOP = [
 ]
 
 const NAV_BOTTOM = [
+  { to: '/admin/users',      icon: User,            label: 'Utilisateurs' },
   { to: '/admin/media',      icon: Image,           label: 'Médiathèque'  },
   { to: '/admin/settings',   icon: Settings,        label: 'Réglages'     },
   { to: '/admin/contact',    icon: Phone,           label: 'Contact'      },

@@ -26,7 +26,8 @@ class AuthController {
                     "id" => $user['id'],
                     "display_name" => $user['display_name'],
                     "email" => $user['email'],
-                    "avatar" => $user['avatar']
+                    "avatar" => $user['avatar'],
+                    "role" => $user['role']
                 ]
             ];
         }

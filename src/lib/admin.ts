@@ -14,13 +14,20 @@ export const isLoggedIn = () => !!getToken()
 export interface ApiError {
   error?: string
 }
-
 export interface AdminProfile {
   id: number
   email: string
   display_name: string | null
   avatar: string | null
+  role: 'super_admin' | 'administrator' | 'editor'
+}
+
+export interface AdminUser extends AdminProfile {
   created_at: string
+}
+
+export interface ApiError {
+  error: string
 }
 
 export interface AdminProduct {
@@ -195,3 +202,9 @@ export const adminUpload = async (file: File, category = 'uncategorized'): Promi
   const CMS_URL = (import.meta.env.VITE_CMS_URL as string) || 'http://localhost:3002'
   return IS_DEV ? url : `${CMS_URL}${url}`
 }
+
+// Admin Users (Super Admin Only)
+export const adminGetUsers   = () => req<AdminUser[]>('GET', '/users')
+export const adminCreateUser = (data: Partial<AdminUser> & { password?: string }) => req<AdminUser>('POST', '/users', data)
+export const adminUpdateUser = (id: number, data: Partial<AdminUser> & { password?: string }) => req<AdminUser>('PATCH', `/users/${id}`, data)
+export const adminDeleteUser = (id: number) => req<{ success: boolean }>('DELETE', `/users/${id}`)

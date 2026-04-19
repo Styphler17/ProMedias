@@ -53,6 +53,7 @@ try {
                 case 'GET':    $result = $controller->index(['id' => $id_param]); break;
                 case 'POST':   $result = $controller->create($body); break;
                 case 'PUT':    $result = $controller->update($id_param, $body); break;
+                case 'PATCH':  $result = method_exists($controller, 'patch') ? $controller->patch($id_param, $body) : $controller->update($id_param, $body); break;
                 case 'DELETE': $result = $controller->delete($id_param); break;
                 default:       respond(["error" => "Method $method not allowed"], 405);
             }
