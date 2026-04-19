@@ -199,7 +199,9 @@ const Diagnostic = () => {
         )}
       </AnimatePresence>
 
-      <AnnouncementsSlider />
+      <div className="mt-16">
+        <AnnouncementsSlider />
+      </div>
     </div>
   );
 };

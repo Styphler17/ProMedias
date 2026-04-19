@@ -504,7 +504,9 @@ const Home = () => {
         </div>
       </section>
 
-      <AnnouncementsSlider />
+      <div className="mt-16">
+        <AnnouncementsSlider />
+      </div>
     </>
   );
 };
