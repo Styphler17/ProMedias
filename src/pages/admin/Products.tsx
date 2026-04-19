@@ -246,40 +246,49 @@ export default function Products() {
         )}
 
         <div className="bg-white rounded-2xl border border-zinc-100 overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm min-w-[600px] sm:min-w-full">
-              <thead className="bg-zinc-50 border-b border-zinc-100">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-200">
+            <table className="w-full text-sm min-w-full">
+              <thead className="bg-zinc-50 border-b border-zinc-100 uppercase tracking-wider text-[10px] font-bold text-zinc-400">
                 <tr>
-                  <th className="text-left px-4 lg:px-6 py-3 font-medium text-zinc-500 w-12"></th>
-                  <th className="text-left px-4 lg:px-6 py-3 font-medium text-zinc-500">Nom</th>
-                  <th className="text-left px-4 lg:px-6 py-3 font-medium text-zinc-500">Prix</th>
-                  <th className="text-left px-4 lg:px-6 py-3 font-medium text-zinc-500">Catégorie</th>
-                  <th className="text-left px-4 lg:px-6 py-3 font-medium text-zinc-500">Statut</th>
-                  <th className="text-right px-4 lg:px-6 py-3"></th>
+                  <th className="text-left px-4 py-3 w-12"></th>
+                  <th className="text-left px-4 py-3">Produit</th>
+                  <th className="text-left px-4 py-3">Prix</th>
+                  <th className="text-left px-4 py-3 hidden sm:table-cell">Catégorie</th>
+                  <th className="text-left px-4 py-3">Statut</th>
+                  <th className="text-right px-4 py-3"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-50">
                 {products.map(p => (
-                  <tr key={p.id} className="hover:bg-zinc-50/50">
-                    <td className="px-4 lg:px-6 py-4">
-                      {p.image
-                        ? <img src={resolveUrl(p.image)} alt="" className="h-10 w-12 object-cover rounded-lg" />
-                        : <div className="h-10 w-12 bg-zinc-100 rounded-lg" />}
+                  <tr key={p.id} className="hover:bg-zinc-50/50 transition-colors group">
+                    <td className="px-4 py-3">
+                      <div className="h-10 w-12 bg-zinc-100 rounded-lg overflow-hidden border border-zinc-100 shrink-0">
+                        {p.image
+                          ? <img src={resolveUrl(p.image)} alt="" className="h-full w-full object-cover" />
+                          : <div className="h-full w-full flex items-center justify-center bg-zinc-50"><Package size={14} className="text-zinc-300" /></div>}
+                      </div>
                     </td>
-                    <td className="px-4 lg:px-6 py-4 font-medium max-w-[150px] truncate">{p.name}</td>
-                    <td className="px-4 lg:px-6 py-4 text-zinc-600 font-medium">{p.price}</td>
-                    <td className="px-4 lg:px-6 py-4 text-zinc-500">{p.category}</td>
-                    <td className="px-4 lg:px-6 py-4"><StatusBadge status={p.status} /></td>
-                    <td className="px-4 lg:px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-3">
-                        <button onClick={() => openEdit(p)} className="text-zinc-400 hover:text-zinc-900 transition-colors"><Pencil size={14} /></button>
-                        <button onClick={() => del(p.id)} className="text-zinc-400 hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
+                    <td className="px-4 py-3">
+                      <div className="min-w-0">
+                        <p className="font-medium text-zinc-900 truncate max-w-[120px] sm:max-w-none">{p.name}</p>
+                        <p className="text-[10px] text-zinc-400 sm:hidden mt-0.5 truncate">{p.category_name || 'Sans catégorie'}</p>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-zinc-600 font-medium whitespace-nowrap">{p.price}</td>
+                    <td className="px-4 py-3 text-zinc-500 hidden sm:table-cell whitespace-nowrap">{p.category_name || '—'}</td>
+                    <td className="px-4 py-3">
+                      <StatusBadge status={p.status} />
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex items-center justify-end gap-1 sm:gap-3">
+                        <button onClick={() => openEdit(p)} className="p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-all"><Pencil size={15} /></button>
+                        <button onClick={() => del(p.id)} className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"><Trash2 size={15} /></button>
                       </div>
                     </td>
                   </tr>
                 ))}
                 {products.length === 0 && (
-                  <tr><td colSpan={6} className="px-6 py-12 text-center text-zinc-400">Aucun produit</td></tr>
+                  <tr><td colSpan={6} className="px-6 py-12 text-center text-zinc-400 font-medium italic">Aucun produit trouvé</td></tr>
                 )}
               </tbody>
             </table>
