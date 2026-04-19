@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Pencil, Trash2, Plus, X, Check, Upload, Image, Search, Package } from 'lucide-react'
+import { useSearchParams } from 'react-router-dom'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
 import { adminGetProducts, adminGetCategories, adminCreateProduct, adminUpdateProduct, adminDeleteProduct, adminUpload } from '@/lib/admin'
@@ -60,6 +61,9 @@ interface Product {
 }
 
 export default function Products() {
+  const [searchParams]          = useSearchParams()
+  const catParam               = searchParams.get('category_id')
+  
   const [products, setProducts]   = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [form, setForm]           = useState(EMPTY_FORM)
@@ -71,6 +75,10 @@ export default function Products() {
 
   const [query, setQuery]         = useState('')
   const [filterCat, setFilterCat] = useState('')
+
+  useEffect(() => {
+    if (catParam) setFilterCat(catParam)
+  }, [catParam])
 
   const load = async () => {
     const [p, c] = await Promise.all([adminGetProducts(), adminGetCategories()])

@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Package, Tag, Settings, LogOut, Image, Phone, User, ExternalLink, Search, X, Megaphone, Menu, Trash2 } from 'lucide-react'
-import { clearToken, adminGetProfile, adminGetProducts, adminGetCategories } from '@/lib/admin'
+import { 
+  LayoutDashboard, Package, Tag, Settings, LogOut, 
+  Image, Phone, User, ExternalLink, Search, X, 
+  Megaphone, Menu, Trash2, ChevronDown, ChevronRight 
+} from 'lucide-react'
+import { clearToken, adminGetProfile, adminGetProducts, adminGetCategories, type AdminCategory } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
 import { cn } from '@/lib/utils'
 import logo from '@/assets/logo.png'
@@ -27,23 +31,16 @@ interface SearchProduct {
   image?: string
 }
 
-interface SearchCategory {
-  id: number
-  name: string
-  slug: string
-}
-
 function GlobalSearch() {
   const navigate = useNavigate()
   const [query, setQuery]           = useState('')
   const [hits, setHits]             = useState<Hit[]>([])
   const [open, setOpen]             = useState(false)
   const [products, setProducts]     = useState<SearchProduct[] | null>(null)
-  const [categories, setCategories] = useState<SearchCategory[] | null>(null)
+  const [categories, setCategories] = useState<AdminCategory[] | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const boxRef   = useRef<HTMLDivElement>(null)
 
-  // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (boxRef.current && !boxRef.current.contains(e.target as Node)) setOpen(false)
@@ -52,7 +49,6 @@ function GlobalSearch() {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  // Lazy-load data on first keystroke
   const ensureData = async () => {
     if (products !== null) return
     const [p, c] = await Promise.all([adminGetProducts(), adminGetCategories()])
@@ -74,9 +70,9 @@ function GlobalSearch() {
       .map((p: SearchProduct) => ({ type: 'product', label: p.name, sub: 'Produit', to: '/admin/products', icon: Package }))
 
     const categoryHits: Hit[] = (categories ?? [])
-      .filter((c: SearchCategory) => c.name.toLowerCase().includes(lq))
+      .filter((c: AdminCategory) => c.name.toLowerCase().includes(lq))
       .slice(0, 4)
-      .map((c: SearchCategory) => ({ type: 'category', label: c.name, to: '/admin/categories', icon: Tag }))
+      .map((c: AdminCategory) => ({ type: 'category', label: c.name, to: `/admin/products?category_id=${c.id}`, icon: Tag }))
 
     setHits([...pageHits, ...productHits, ...categoryHits])
     setOpen(true)
@@ -90,9 +86,7 @@ function GlobalSearch() {
   }
 
   const clear = () => { setQuery(''); setHits([]); setOpen(false); inputRef.current?.focus() }
-
   const groupLabel: Record<string, string> = { page: 'Pages', product: 'Produits', category: 'Catégories' }
-
   const grouped = hits.reduce<Record<string, Hit[]>>((acc, h) => {
     ;(acc[h.type] ??= []).push(h)
     return acc
@@ -137,53 +131,50 @@ function GlobalSearch() {
           ))}
         </div>
       )}
-
-      {open && query && hits.length === 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-zinc-200 rounded-xl shadow-lg px-4 py-3 z-50">
-          <p className="text-sm text-zinc-400">Aucun résultat pour « {query} »</p>
-        </div>
-      )}
     </div>
   )
 }
 
-const NAV = [
+const NAV_TOP = [
   { to: '/admin',            icon: LayoutDashboard, label: 'Dashboard'    },
   { to: '/admin/products',   icon: Package,         label: 'Produits'     },
-  { to: '/admin/categories', icon: Tag,             label: 'Catégories'   },
+]
+
+const NAV_BOTTOM = [
   { to: '/admin/media',      icon: Image,           label: 'Médiathèque'  },
-  { to: '/admin/trash',      icon: Trash2,          label: 'Corbeille'    },
   { to: '/admin/settings',   icon: Settings,        label: 'Réglages'     },
-  { to: '/admin/contact',        icon: Phone,      label: 'Contact'    },
-  { to: '/admin/announcements',  icon: Megaphone,  label: 'Annonces'   },
+  { to: '/admin/contact',    icon: Phone,           label: 'Contact'      },
+  { to: '/admin/announcements', icon: Megaphone,    label: 'Annonces'     },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const navigate = useNavigate()
-  const [profile, setProfile] = useState<{ display_name: string | null; email: string; avatar: string | null } | null>(null)
+  const [profile, setProfile]       = useState<{ display_name: string | null; email: string; avatar: string | null } | null>(null)
+  const [categories, setCategories] = useState<AdminCategory[]>([])
+  const [showCatDropdown, setShowCatDropdown] = useState(false)
   const [showMobileSidebar, setShowMobileSidebar] = useState(false)
 
   useEffect(() => {
     adminGetProfile().then(setProfile).catch(() => {})
+    adminGetCategories().then(setCategories).catch(() => {})
   }, [])
 
   const logout = () => { clearToken(); navigate('/admin/login') }
 
-  const pageLabel = NAV.find(n => n.to === location.pathname)?.label
-    ?? (location.pathname === '/admin/profile' ? 'Mon profil' : '')
+  const activeLabel = NAV_TOP.find(n => n.to === location.pathname)?.label
+    || NAV_BOTTOM.find(n => n.to === location.pathname)?.label
+    || (location.pathname === '/admin/trash' ? 'Corbeille' : '')
+    || (location.pathname === '/admin/profile' ? 'Mon profil' : '')
+    || (location.pathname === '/admin/categories' ? 'Gestion Catégories' : '')
+    || ''
 
   return (
     <div className="flex h-screen overflow-hidden bg-zinc-100 font-[Manrope,sans-serif]">
-      {/* Mobile Sidebar Overlay */}
       {showMobileSidebar && (
-        <div 
-          className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
-          onClick={() => setShowMobileSidebar(false)}
-        />
+        <div className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm" onClick={() => setShowMobileSidebar(false)} />
       )}
 
-      {/* Sidebar */}
       <aside className={cn(
         "fixed inset-y-0 left-0 w-64 bg-zinc-950 text-white flex flex-col z-50 transition-transform duration-300 transform lg:relative lg:translate-x-0 lg:shrink-0 h-full",
         showMobileSidebar ? "translate-x-0" : "-translate-x-full"
@@ -191,7 +182,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="px-6 py-5 border-b border-zinc-800 shrink-0 flex items-center justify-between">
           <div>
             <img src={logo} alt="ProMedias" className="h-8 w-auto object-contain brightness-0 invert" />
-            <p className="text-[10px] text-zinc-600 mt-2 uppercase tracking-widest font-semibold">Administration</p>
+            <p className="text-[10px] text-zinc-600 mt-2 uppercase tracking-widest font-semibold text-center">Administration</p>
           </div>
           <button className="lg:hidden text-zinc-500 hover:text-white" onClick={() => setShowMobileSidebar(false)}>
             <X size={20} />
@@ -199,76 +190,113 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         <nav className="flex-1 py-4 space-y-0.5 px-3 overflow-y-auto">
-          {NAV.map(({ to, icon: Icon, label }) => (
-            <Link key={to} to={to}
-              onClick={() => setShowMobileSidebar(false)}
+          {/* Dashboard & Products */}
+          {NAV_TOP.map(({ to, icon: Icon, label }) => (
+            <Link key={to} to={to} onClick={() => setShowMobileSidebar(false)}
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-                location.pathname === to
-                  ? 'bg-[hsl(357,83%,37%)] text-white'
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+                location.pathname === to ? 'bg-[hsl(357,83%,37%)] text-white shadow-lg' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
               )}>
               <Icon size={16} />
               {label}
             </Link>
           ))}
+
+          {/* Categories Dropdown */}
+          <div className="space-y-1">
+            <button 
+              onClick={() => setShowCatDropdown(!showCatDropdown)}
+              className={cn(
+                'w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                location.pathname.startsWith('/admin/categories') ? 'text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+              )}
+            >
+              <div className="flex items-center gap-3">
+                <Tag size={16} />
+                Catégories
+              </div>
+              {showCatDropdown ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+            </button>
+            
+            {showCatDropdown && (
+              <div className="pl-9 space-y-1 py-1 animate-in slide-in-from-top-2 duration-200">
+                <Link to="/admin/categories" onClick={() => setShowMobileSidebar(false)}
+                  className="block text-xs font-bold text-zinc-500 hover:text-white py-1.5 uppercase tracking-wider">
+                  Gérer tout
+                </Link>
+                {categories.map(cat => (
+                  <Link 
+                    key={cat.id} 
+                    to={`/admin/products?category_id=${cat.id}`}
+                    onClick={() => setShowMobileSidebar(false)}
+                    className="block text-sm text-zinc-400 hover:text-white py-1.5 transition-colors truncate pr-2"
+                  >
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Middle Nav */}
+          {NAV_BOTTOM.map(({ to, icon: Icon, label }) => (
+            <Link key={to} to={to} onClick={() => setShowMobileSidebar(false)}
+              className={cn(
+                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                location.pathname === to ? 'bg-[hsl(357,83%,37%)] text-white shadow-lg' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+              )}>
+              <Icon size={16} />
+              {label}
+            </Link>
+          ))}
+
+          {/* Divider & Trash at the bottom */}
+          <div className="pt-6 mt-4 border-t border-zinc-800">
+            <Link to="/admin/trash" onClick={() => setShowMobileSidebar(false)}
+              className={cn(
+                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                location.pathname === '/admin/trash' ? 'bg-zinc-800 text-white' : 'text-zinc-500 hover:text-white hover:bg-zinc-900 border border-transparent hover:border-zinc-800/50'
+              )}>
+              <Trash2 size={16} />
+              Corbeille
+            </Link>
+          </div>
         </nav>
 
-        {/* Profile footer */}
         <div className="border-t border-zinc-800 shrink-0">
-          <Link to="/admin/profile"
-            onClick={() => setShowMobileSidebar(false)}
-            className={cn(
-              'flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 transition-colors',
-              location.pathname === '/admin/profile' ? 'bg-zinc-800' : ''
-            )}>
-            <div className="w-7 h-7 rounded-full overflow-hidden bg-zinc-700 flex items-center justify-center shrink-0">
-              {profile?.avatar
-                ? <img src={resolveUrl(profile.avatar)} alt="" className="w-full h-full object-cover" />
-                : <User size={13} className="text-zinc-400" />
-              }
+          <Link to="/admin/profile" onClick={() => setShowMobileSidebar(false)}
+            className={cn('flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 transition-colors', location.pathname === '/admin/profile' ? 'bg-zinc-800' : '')}>
+            <div className="w-7 h-7 rounded-full overflow-hidden bg-zinc-700 flex items-center justify-center shrink-0 border border-zinc-700">
+              {profile?.avatar ? <img src={resolveUrl(profile.avatar)} alt="" className="w-full h-full object-cover" /> : <User size={13} className="text-zinc-400" />}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-zinc-300 truncate font-semibold">
-                {profile?.display_name || profile?.email || '…'}
-              </p>
+              <p className="text-xs text-zinc-300 truncate font-semibold">{profile?.display_name || profile?.email || '…'}</p>
               <p className="text-[10px] text-zinc-600">Mon profil</p>
             </div>
           </Link>
-          <button onClick={logout}
-            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-zinc-600 hover:text-white border-t border-zinc-800 transition-colors">
+          <button onClick={logout} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-zinc-600 hover:text-white border-t border-zinc-800 transition-colors">
             <LogOut size={15} /> Déconnexion
           </button>
         </div>
       </aside>
 
-      {/* Right column: topbar + scrollable content */}
       <div className="flex flex-col flex-1 min-w-0 h-full">
-        {/* Topbar */}
         <header className="h-14 bg-white border-b border-zinc-200 flex items-center gap-2 lg:gap-4 px-4 lg:px-6 shrink-0">
-          <button 
-            className="lg:hidden p-2 -ml-2 text-zinc-500 hover:text-zinc-900"
-            onClick={() => setShowMobileSidebar(true)}
-          >
+          <button className="lg:hidden p-2 -ml-2 text-zinc-500 hover:text-zinc-900" onClick={() => setShowMobileSidebar(true)}>
             <Menu size={20} />
           </button>
-          
-          <p className="text-sm font-semibold text-zinc-700 hidden sm:block sm:w-24 lg:w-36 shrink-0">{pageLabel}</p>
-          
+          <p className="text-sm font-bold text-zinc-800 hidden sm:block sm:w-24 lg:w-40 shrink-0 uppercase tracking-widest">{activeLabel}</p>
           <div className="flex-1 flex justify-center">
             <GlobalSearch />
           </div>
-          
-          <div className="sm:w-24 lg:w-36 flex justify-end shrink-0">
-            <a href="/" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-zinc-900 border border-zinc-200 hover:border-zinc-400 rounded-lg px-2 lg:px-3 py-1.5 transition-colors">
+          <div className="sm:w-24 lg:w-40 flex justify-end shrink-0">
+            <a href="/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold text-zinc-500 hover:text-zinc-900 border border-zinc-200 hover:border-zinc-400 rounded-lg px-2 lg:px-3 py-1.5 transition-all shadow-sm">
               <ExternalLink size={13} />
-              <span className="hidden sm:inline">Voir le site</span>
+              <span className="hidden sm:inline uppercase tracking-tighter">Voir le site</span>
             </a>
           </div>
         </header>
 
-        {/* Scrollable page content */}
         <main className="admin-layout flex-1 overflow-y-auto overflow-x-hidden relative">
           {children}
         </main>
