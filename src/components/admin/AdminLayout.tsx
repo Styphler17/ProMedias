@@ -152,23 +152,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const navigate = useNavigate()
   const [profile, setProfile]       = useState<{ display_name: string | null; email: string; avatar: string | null } | null>(null)
   const [categories, setCategories] = useState<AdminCategory[]>([])
-  const [showCatDropdown, setShowCatDropdown] = useState(false)
-  const [showMobileSidebar, setShowMobileSidebar] = useState(false)
-
   const searchParams = new URLSearchParams(location.search)
   const activeCatId  = searchParams.get('category_id')
+
+  const [showCatDropdown, setShowCatDropdown] = useState(() => 
+    location.pathname.startsWith('/admin/products') && !!activeCatId
+  )
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false)
 
   useEffect(() => {
     adminGetProfile().then(setProfile).catch(() => {})
     adminGetCategories().then(setCategories).catch(() => {})
   }, [])
-
-  // Auto-expand categories if one is active
-  useEffect(() => {
-    if (location.pathname.startsWith('/admin/products') && activeCatId) {
-      setShowCatDropdown(true)
-    }
-  }, [location.pathname, activeCatId])
 
   const logout = () => { clearToken(); navigate('/admin/login') }
 
