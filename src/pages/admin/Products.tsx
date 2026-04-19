@@ -106,7 +106,7 @@ export default function Products() {
 
   const handlePickerSelect = (urls: string[]) => {
     setForm(f => {
-      const next = [...f.images, ...urls.filter(u => !f.includes(u))].slice(0, MAX_IMAGES)
+      const next = [...f.images, ...urls.filter(u => !f.images.includes(u))].slice(0, MAX_IMAGES)
       return { ...f, images: next }
     })
   }
