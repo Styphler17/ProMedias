@@ -132,7 +132,7 @@ export default function Products() {
   }
 
   const del = async (id: number) => {
-    if (!confirm('Supprimer ce produit ?')) return
+    if (!confirm('Déplacer ce produit dans la corbeille ?')) return
     await adminDeleteProduct(id).then(load).catch(() => {})
   }
 

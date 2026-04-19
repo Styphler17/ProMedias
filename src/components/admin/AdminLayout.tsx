@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Package, Tag, Settings, LogOut, Image, Phone, User, ExternalLink, Search, X, Megaphone, Menu } from 'lucide-react'
+import { LayoutDashboard, Package, Tag, Settings, LogOut, Image, Phone, User, ExternalLink, Search, X, Megaphone, Menu, Trash2 } from 'lucide-react'
 import { clearToken, adminGetProfile, adminGetProducts, adminGetCategories } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
 import { cn } from '@/lib/utils'
@@ -13,9 +13,10 @@ const NAV_PAGES: Hit[] = [
   { type: 'page', label: 'Produits',     to: '/admin/products',   icon: Package        },
   { type: 'page', label: 'Catégories',   to: '/admin/categories', icon: Tag            },
   { type: 'page', label: 'Médiathèque',  to: '/admin/media',      icon: Image          },
+  { type: 'page', label: 'Corbeille',    to: '/admin/trash',      icon: Trash2         },
   { type: 'page', label: 'Réglages',     to: '/admin/settings',   icon: Settings       },
   { type: 'page', label: 'Contact',      to: '/admin/contact',    icon: Phone          },
-  { type: 'page', label: 'Mon profil',   to: '/admin/profile',        icon: User      },
+  { type: 'page', label: 'Mon profil',   to: '/admin/profile',    icon: User           },
   { type: 'page', label: 'Annonces',    to: '/admin/announcements',  icon: Megaphone },
 ]
 
@@ -151,6 +152,7 @@ const NAV = [
   { to: '/admin/products',   icon: Package,         label: 'Produits'     },
   { to: '/admin/categories', icon: Tag,             label: 'Catégories'   },
   { to: '/admin/media',      icon: Image,           label: 'Médiathèque'  },
+  { to: '/admin/trash',      icon: Trash2,          label: 'Corbeille'    },
   { to: '/admin/settings',   icon: Settings,        label: 'Réglages'     },
   { to: '/admin/contact',        icon: Phone,      label: 'Contact'    },
   { to: '/admin/announcements',  icon: Megaphone,  label: 'Annonces'   },

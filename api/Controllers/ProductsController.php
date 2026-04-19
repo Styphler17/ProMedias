@@ -22,5 +22,26 @@ class ProductsController {
         return $this->model->getAll($status);
     }
 
-    // Add create, update, delete here as needed...
+    public function delete($id) {
+        if (!$id) return ["error" => "Missing ID"];
+        return $this->model->softDelete($id) ? ["success" => true] : ["error" => "Failed to move to trash"];
+    }
+
+    /**
+     * POST /api/products/restore
+     */
+    public function restore($body) {
+        $id = $body['id'] ?? null;
+        if (!$id) return ["error" => "Missing ID"];
+        return $this->model->restore($id) ? ["success" => true] : ["error" => "Failed to restore"];
+    }
+
+    /**
+     * DELETE /api/products/purge
+     */
+    public function purge($body) {
+        $id = $body['id'] ?? null;
+        if (!$id) return ["error" => "Missing ID"];
+        return $this->model->deletePermanently($id) ? ["success" => true] : ["error" => "Failed to delete permanently"];
+    }
 }

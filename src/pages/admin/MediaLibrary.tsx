@@ -83,7 +83,7 @@ export default function MediaLibrary() {
   }
 
   const del = async (id: number) => {
-    if (!confirm('Supprimer ce fichier définitivement ?')) return
+    if (!confirm('Déplacer ce fichier dans la corbeille ?')) return
     await adminDeleteMedia(id)
     if (selected === id) setSelected(null)
     load()
@@ -302,7 +302,7 @@ export default function MediaLibrary() {
                 <button onClick={() => del(selectedItem.id)}
                   className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold rounded-xl transition-colors">
                   <Trash2 size={14} />
-                  Supprimer définitivement
+                  Supprimer
                 </button>
               </div>
             </>

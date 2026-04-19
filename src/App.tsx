@@ -18,6 +18,7 @@ import MediaLibrary   from "@/pages/admin/MediaLibrary";
 import Profile        from "@/pages/admin/Profile";
 import Contact        from "@/pages/admin/Contact"
 import AdminAnnouncements from "@/pages/admin/Announcements";
+import Trash from "@/pages/admin/Trash";
 import { isLoggedIn } from "@/lib/admin";
 import { Navigate }   from "react-router-dom";
 
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/admin/profile"  element={<Protected><Profile /></Protected>} />
         <Route path="/admin/contact"        element={<Protected><Contact /></Protected>} />
         <Route path="/admin/announcements"  element={<Protected><AdminAnnouncements /></Protected>} />
+        <Route path="/admin/trash"          element={<Protected><Trash /></Protected>} />
 
         {/* Public routes */}
         <Route path="/*" element={

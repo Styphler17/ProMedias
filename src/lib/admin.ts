@@ -55,12 +55,18 @@ export const adminUpdateProfile = (data: {
   avatar?: string | null 
 }) => req<any>('PUT', '/auth/profile', data)
 
+// Dashboard & Activity
+export const adminGetDashboard = () => req<any>('GET', '/dashboard')
+export const adminGetActivity  = () => req<any[]>('GET', '/dashboard/activity')
+
 // Products
-export const adminGetProducts  = ()        => req<any[]>('GET', '/products?status=all')
-export const adminGetProduct   = (id: number) => req<any>('GET', `/products/${id}`)
-export const adminCreateProduct = (data: any) => req<any>('POST', '/products', data)
+export const adminGetProducts  = (status = 'all') => req<any[]>('GET', `/products?status=${status}`)
+export const adminGetProduct   = (id: number)     => req<any>('GET', `/products/${id}`)
+export const adminCreateProduct = (data: any)    => req<any>('POST', '/products', data)
 export const adminUpdateProduct = (id: number, data: any) => req<any>('PUT', `/products/${id}`, data)
-export const adminDeleteProduct = (id: number) => req<any>('DELETE', `/products/${id}`)
+export const adminDeleteProduct = (id: number)    => req<any>('DELETE', `/products/${id}`)
+export const adminRestoreProduct = (id: number)   => req<any>('POST', '/products/restore', { id })
+export const adminPurgeProduct   = (id: number)   => req<any>('POST', '/products/purge', { id })
 
 // Categories
 export const adminGetCategories   = ()           => req<any[]>('GET', '/categories')
@@ -80,17 +86,20 @@ export const adminToggleAnnouncement  = (id: number)   => req<any>('PATCH', `/an
 export const adminDeleteAnnouncement  = (id: number)   => req<any>('DELETE', `/announcements/${id}`)
 
 // Media library
-export const adminGetMedia = (params?: { category?: string; search?: string; sort?: string }) => {
+export const adminGetMedia = (params?: { category?: string; search?: string; sort?: string; status?: string }) => {
   const qs = new URLSearchParams()
   if (params?.category) qs.set('category', params.category)
   if (params?.search)   qs.set('search', params.search)
   if (params?.sort)     qs.set('sort', params.sort)
+  if (params?.status)   qs.set('status', params.status)
   const query = qs.toString() ? `?${qs}` : ''
   return req<any[]>('GET', `/media${query}`)
 }
 export const adminUpdateMediaCategory = (id: number, category: string) =>
   req<any>('PATCH', `/media/${id}`, { category })
-export const adminDeleteMedia = (id: number) => req<any>('DELETE', `/media/${id}`)
+export const adminDeleteMedia = (id: number)  => req<any>('DELETE', `/media/${id}`)
+export const adminRestoreMedia = (id: number) => req<any>('POST', '/media/restore', { id })
+export const adminPurgeMedia   = (id: number) => req<any>('POST', '/media/purge', { id })
 
 // Upload
 export const adminUpload = async (file: File, category = 'uncategorized'): Promise<string> => {
