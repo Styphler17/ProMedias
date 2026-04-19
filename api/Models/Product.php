@@ -19,7 +19,8 @@ class Product {
                 p.category_id as categoryId,
                 p.condition_state as `condition`,
                 p.condition_score as conditionScore,
-                c.name as category_name 
+                c.name as category_name,
+                c.main_category as mainCategory
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
         ";

@@ -81,37 +81,48 @@ const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const CAT_LABELS: Record<string, string> = {
+    'telephonie': 'Téléphonie',
+    'informatique': 'Informatique',
+    'accessoires': 'Accessoires'
+  };
+
+  const loadData = async () => {
+    setIsLoading(true);
+    const [prodData, catData, opts] = await Promise.all([
+      fetchProducts(),
+      fetchCategories(),
+      fetchSiteOptions(),
+    ]);
+    setProducts(prodData);
+    setCategories(catData);
+    setSiteOptions(opts);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const loadData = async () => {
-      setIsLoading(true);
-      const [prodData, catData, opts] = await Promise.all([
-        fetchProducts(),
-        fetchCategories(),
-        fetchSiteOptions(),
-      ]);
-      setProducts(prodData);
-      setCategories(catData);
-      setSiteOptions(opts);
-      setIsLoading(false);
-    };
     loadData();
   }, []);
 
   // Build category groups dynamically from fetched categories
   const categoryGroups = categories.reduce((acc, cat) => {
-    const main = cat.mainCategory
+    const rawMain = cat.mainCategory || 'Autre'
+    const main = CAT_LABELS[rawMain.toLowerCase()] || rawMain
     if (!acc[main]) acc[main] = []
     acc[main].push(cat.name)
     return acc
   }, {} as Record<string, string[]>)
 
   const filteredProducts = products.filter(p => {
+    const pMainRaw = (p.mainCategory as string) || ''
+    const pMain = CAT_LABELS[pMainRaw.toLowerCase()] || pMainRaw
+
     const matchesCategory = selectedCategory === "Tous" 
       ? true 
-      : (p.category === selectedCategory || p.mainCategory === selectedCategory);
+      : (p.category_name === selectedCategory || pMain === selectedCategory);
     
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          p.specs.toLowerCase().includes(searchTerm.toLowerCase());
+                          (p.specs || '').toLowerCase().includes(searchTerm.toLowerCase());
     
     return matchesCategory && matchesSearch;
   });
