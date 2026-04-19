@@ -82,7 +82,7 @@ export default function Products() {
     setForm({
       name: p.name, slug: p.slug, price: p.price,
       categoryId: p.categoryId ?? '',
-      condition: ({ 'Excellent': 'excellent', 'Très bon': 'tres-bon', 'Bon': 'bon' } as Record<string, string>)[p.condition] || 'excellent',
+      condition: p.condition || 'excellent',
       conditionScore: p.conditionScore,
       specs: p.specs || '', description: p.description || '',
       status: p.status,
