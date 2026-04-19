@@ -7,6 +7,7 @@ import { resolveUrl } from '@/lib/woocommerce'
 import { cn } from '@/lib/utils'
 
 interface ProfileData {
+  display_name: string | null
   email: string
   avatar: string | null
   created_at: string
@@ -53,6 +54,7 @@ function SectionCard({ title, subtitle, icon: Icon, children }: { title: string;
 export default function Profile() {
   const [profile, setProfile]         = useState<ProfileData | null>(null)
   const [email, setEmail]             = useState('')
+  const [name, setName]               = useState('')
   const [currentPwd, setCurrentPwd]   = useState('')
   const [newPwd, setNewPwd]           = useState('')
   const [confirmPwd, setConfirmPwd]   = useState('')
@@ -73,6 +75,7 @@ export default function Profile() {
       if (p) {
         setProfile(p)
         setEmail(p.email)
+        setName(p.display_name || '')
       }
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Erreur de chargement')
@@ -104,10 +107,10 @@ export default function Profile() {
   const saveInfo = async () => {
     setSavingInfo(true); setInfoMsg(null)
     try {
-      const updated = await adminUpdateProfile({ email })
+      const updated = await adminUpdateProfile({ email, display_name: name })
       if (updated) {
         setProfile(updated)
-        setInfoMsg({ type: 'ok', text: 'Adresse e-mail mise à jour.' })
+        setInfoMsg({ type: 'ok', text: 'Informations personnelles mises à jour.' })
       }
     } catch (e: unknown) { 
       setInfoMsg({ type: 'err', text: e instanceof Error ? e.message : 'Une erreur est survenue' }) 
@@ -149,6 +152,8 @@ export default function Profile() {
     </AdminLayout>
   )
 
+  const isInfoChanged = email !== profile.email || name !== (profile.display_name || '')
+
   return (
     <AdminLayout>
       <div className="max-w-6xl mx-auto p-6 md:p-10 pb-32">
@@ -180,7 +185,9 @@ export default function Profile() {
 
               <div className="p-8 pt-16 text-center">
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-zinc-900 truncate">{profile.email.split('@')[0]}</h3>
+                  <h3 className="text-xl font-bold text-zinc-900 truncate">
+                    {profile.display_name || profile.email.split('@')[0]}
+                  </h3>
                   <div className="flex items-center justify-center gap-2 mt-1">
                     <ShieldCheck size={12} className="text-[hsl(357,83%,37%)] font-bold" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Admin Privilégié</span>
@@ -218,16 +225,28 @@ export default function Profile() {
             
             {/* Account Info */}
             <SectionCard 
-              title="Paramètres du Compte" 
-              subtitle="Gérez vos informations de connexion"
-              icon={Mail}
+              title="Informations Personnelles" 
+              subtitle="Gérez votre identité et vos accès"
+              icon={User}
             >
-              <div className="max-w-md">
-                <label className={LABEL}>Adresse e-mail unique</label>
-                <div className="relative group/input">
-                  <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                    className={cn(INPUT, "pl-12")} />
-                  <Mail size={16} className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within/input:text-[hsl(357,83%,37%)]/50 transition-colors" />
+              <div className="space-y-6">
+                <div className="max-w-md">
+                  <label className={LABEL}>Nom complet / Pseudo</label>
+                  <div className="relative group/input">
+                    <input type="text" value={name} onChange={e => setName(e.target.value)}
+                      placeholder="Ex: John Doe"
+                      className={cn(INPUT, "pl-12")} />
+                    <User size={16} className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within/input:text-[hsl(357,83%,37%)]/50 transition-colors" />
+                  </div>
+                </div>
+
+                <div className="max-w-md">
+                  <label className={LABEL}>Adresse e-mail unique</label>
+                  <div className="relative group/input">
+                    <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+                      className={cn(INPUT, "pl-12")} />
+                    <Mail size={16} className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-300 group-focus-within/input:text-[hsl(357,83%,37%)]/50 transition-colors" />
+                  </div>
                 </div>
                 
                 <Feedback msg={infoMsg} />
@@ -235,10 +254,10 @@ export default function Profile() {
                 <div className="mt-8">
                   <Button 
                     onClick={saveInfo} 
-                    disabled={savingInfo || email === profile.email}
+                    disabled={savingInfo || !isInfoChanged}
                     className="rounded-2xl h-12 px-8 font-bold shadow-lg shadow-[hsl(357,83%,37%)]/10"
                   >
-                    {savingInfo ? 'Enregistrement…' : 'Mettre à jour l\'e-mail'}
+                    {savingInfo ? 'Enregistrement…' : 'Mettre à jour les informations'}
                   </Button>
                 </div>
               </div>

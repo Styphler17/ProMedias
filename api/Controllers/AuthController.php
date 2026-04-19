@@ -20,11 +20,11 @@ class AuthController {
         $user = $this->model->getByEmail($email);
 
         if ($user && password_verify($pass, $user['password_hash'])) {
-            // Simplified token for the bridge. In a full system, you would use JWT or similar.
             return [
                 "token" => "sess_" . bin2hex(random_bytes(16)),
                 "user" => [
                     "id" => $user['id'],
+                    "display_name" => $user['display_name'],
                     "email" => $user['email'],
                     "avatar" => $user['avatar']
                 ]
@@ -35,18 +35,39 @@ class AuthController {
         return ["error" => "Identifiants invalides"];
     }
 
-    /**
-     * Handles GET /api/auth/me
-     */
     public function me() {
-        // Return first admin for demo purposes
         $user = $this->model->getById(1);
-        return $user ?: ["error" => "Non autorisé"];
+        if (!$user) return ["error" => "Non autorisé"];
+        return $user;
     }
 
     /**
-     * Handles GET /api/auth/ping
+     * Handles PUT /api/auth/profile
      */
+    public function profile($data) {
+        // In a real system, we would get the ID from the token/session
+        $userId = 1; 
+
+        $updateData = [];
+
+        if (isset($data['email']))        $updateData['email'] = $data['email'];
+        if (isset($data['display_name'])) $updateData['display_name'] = $data['display_name'];
+        if (isset($data['avatar']))      $updateData['avatar'] = $data['avatar'];
+
+        if (!empty($data['newPassword'])) {
+            $current = $this->model->getById($userId);
+            $userWithPass = $this->model->getByEmail($current['email']);
+            
+            if (!password_verify($data['currentPassword'] ?? '', $userWithPass['password_hash'])) {
+                http_response_code(400);
+                return ["error" => "Mot de passe actuel incorrect"];
+            }
+            $updateData['password'] = $data['newPassword'];
+        }
+
+        return $this->model->update($userId, $updateData);
+    }
+
     public function ping() {
         return ["v" => "mvc-1.0", "status" => "online"];
     }

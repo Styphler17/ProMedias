@@ -47,8 +47,13 @@ export const register = async (email: string, password: string) => {
 
 // Profile
 export const adminGetProfile    = ()       => req<any>('GET', '/auth/me')
-export const adminUpdateProfile = (data: { email?: string; currentPassword?: string; newPassword?: string; avatar?: string | null }) =>
-  req<any>('PUT', '/auth/profile', data)
+export const adminUpdateProfile = (data: { 
+  display_name?: string; 
+  email?: string; 
+  currentPassword?: string; 
+  newPassword?: string; 
+  avatar?: string | null 
+}) => req<any>('PUT', '/auth/profile', data)
 
 // Products
 export const adminGetProducts  = ()        => req<any[]>('GET', '/products?status=all')
