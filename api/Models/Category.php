@@ -12,7 +12,15 @@ class Category {
     }
 
     public function getAll() {
-        return $this->db->query("SELECT id, name, slug, main_category as mainCategory, description FROM categories ORDER BY name ASC")->fetchAll();
+        return $this->db->query("
+            SELECT 
+                c.id, c.name, c.slug, c.main_category as mainCategory, c.description,
+                COUNT(p.id) as productCount
+            FROM categories c
+            LEFT JOIN products p ON c.id = p.category_id
+            GROUP BY c.id
+            ORDER BY c.name ASC
+        ")->fetchAll();
     }
 
     public function create($data) {

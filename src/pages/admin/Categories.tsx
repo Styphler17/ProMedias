@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Pencil, Trash2, Plus, X, Check, Search, Tag } from 'lucide-react'
+import { Pencil, Trash2, Plus, X, Check, Search, Tag, Package } from 'lucide-react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
 import { adminGetCategories, adminCreateCategory, adminUpdateCategory, adminDeleteCategory } from '@/lib/admin'
@@ -16,6 +16,7 @@ interface Category {
   slug: string
   mainCategory: string
   description?: string
+  productCount: number
 }
 
 const EMPTY = { name: '', slug: '', mainCategory: 'telephonie', description: '' }
@@ -158,8 +159,13 @@ export default function Categories() {
                   <p className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest">{c.slug}</p>
                 </div>
                 <div className="mt-6 pt-4 border-t border-zinc-50 flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 px-2.5 py-1 bg-zinc-50 rounded-full border border-zinc-100">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 px-2.5 py-1 bg-zinc-50 rounded-full border border-zinc-100 flex items-center gap-1.5">
+                    <Tag size={10} />
                     {MAIN_CATS.find(m => m.value === c.mainCategory)?.label || c.mainCategory}
+                  </span>
+                  <span className="font-bold text-[10px] text-[hsl(357,83%,37%)] bg-[hsl(357,83%,37%)]/5 px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-[hsl(357,83%,37%)]/10">
+                    <Package size={10} />
+                    {c.productCount} {c.productCount > 1 ? 'Produits' : 'Produit'}
                   </span>
                 </div>
               </div>

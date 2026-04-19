@@ -129,10 +129,19 @@ const Shop = () => {
 
   const getCategoryCount = (category: string) => {
     if (category === "Tous") return products.length;
-    if (Object.keys(categoryGroups).includes(category)) {
-        return products.filter(p => p.mainCategory === category).length;
-    }
-    return products.filter(p => p.category === category).length;
+    
+    // Check if it's a main category (group)
+    const isMainGroup = Object.keys(categoryGroups).includes(category);
+    
+    return products.filter(p => {
+      const pMainRaw = (p.mainCategory as string) || '';
+      const pMain = CAT_LABELS[pMainRaw.toLowerCase()] || pMainRaw;
+      
+      if (isMainGroup) {
+        return pMain === category;
+      }
+      return p.category_name === category;
+    }).length;
   };
 
   const renderFilters = (isMobile = false) => (
