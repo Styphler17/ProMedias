@@ -33,8 +33,8 @@ function ImageField({ label, value, onChange }: { label: string; value: string |
     try {
       const url = await adminUpload(file)
       onChange(url)
-    } catch (e: any) {
-      alert(e.message)
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : 'Upload failed')
     } finally {
       setUploading(false)
     }
@@ -43,10 +43,10 @@ function ImageField({ label, value, onChange }: { label: string; value: string |
   return (
     <div>
       <label className="text-xs font-medium text-zinc-500 mb-2 block">{label}</label>
-      <div className="flex gap-3 items-start">
+      <div className="flex flex-col sm:flex-row gap-3 items-start">
         {value ? (
-          <div className="relative">
-            <img src={resolveUrl(value)} alt={label} className="h-20 w-32 object-cover rounded-xl border border-zinc-200" />
+          <div className="relative shrink-0">
+            <img src={resolveUrl(value)} alt={label} className="h-24 sm:h-20 w-full sm:w-32 object-cover rounded-xl border border-zinc-200" />
             <button onClick={() => onChange(null)} className="absolute -top-2 -right-2 bg-white border border-zinc-200 rounded-full p-0.5 hover:bg-red-50 hover:border-red-200">
               <X size={12} className="text-zinc-500" />
             </button>
@@ -54,7 +54,7 @@ function ImageField({ label, value, onChange }: { label: string; value: string |
         ) : (
           <div
             onClick={() => inputRef.current?.click()}
-            className="h-20 w-32 border-2 border-dashed border-zinc-200 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-zinc-400 transition-colors"
+            className="h-24 sm:h-20 w-full sm:w-32 border-2 border-dashed border-zinc-200 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-zinc-400 transition-colors"
           >
             <Upload size={16} className="text-zinc-400 mb-1" />
             <span className="text-[10px] text-zinc-400">{uploading ? 'Upload…' : 'Choisir'}</span>
@@ -63,7 +63,7 @@ function ImageField({ label, value, onChange }: { label: string; value: string |
         <input ref={inputRef} type="file" accept="image/*" className="hidden"
           onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} />
         {value && (
-          <button onClick={() => inputRef.current?.click()} className="text-xs text-zinc-400 hover:text-zinc-700 mt-1">
+          <button onClick={() => inputRef.current?.click()} className="text-xs text-zinc-400 hover:text-zinc-700 sm:mt-1">
             {uploading ? 'Upload…' : 'Changer'}
           </button>
         )}
@@ -91,19 +91,19 @@ export default function Settings() {
 
   return (
     <AdminLayout>
-      <div className="p-10">
-        <div className="flex items-center justify-between mb-8">
+      <div className="p-4 sm:p-6 lg:p-10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-2xl font-bold">Réglages</h1>
             <p className="text-zinc-500 text-sm">Logos et images hero du site</p>
           </div>
-          <Button onClick={save}>{saved ? '✓ Enregistré' : 'Enregistrer'}</Button>
+          <Button onClick={save} className="w-full sm:w-auto">{saved ? '✓ Enregistré' : 'Enregistrer'}</Button>
         </div>
 
-        <div className="space-y-8">
-          <div className="bg-white rounded-2xl border border-zinc-100 p-6">
+        <div className="space-y-6 sm:space-y-8">
+          <div className="bg-white rounded-2xl border border-zinc-100 p-4 sm:p-6">
             <h2 className="font-semibold mb-6">Site global</h2>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {SITE_FIELDS.map(({ key, label }) => (
                 <ImageField key={key} label={label} value={settings[key] ?? null}
                   onChange={url => setSettings(s => ({ ...s, [key]: url }))} />
@@ -111,9 +111,9 @@ export default function Settings() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-zinc-100 p-6">
+          <div className="bg-white rounded-2xl border border-zinc-100 p-4 sm:p-6">
             <h2 className="font-semibold mb-6">Page À Propos</h2>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {ABOUT_FIELDS.map(({ key, label }) => (
                 <ImageField key={key} label={label} value={settings[key] ?? null}
                   onChange={url => setSettings(s => ({ ...s, [key]: url }))} />

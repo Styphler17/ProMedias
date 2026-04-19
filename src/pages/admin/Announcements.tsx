@@ -12,10 +12,20 @@ import MediaPicker from '@/components/admin/MediaPicker'
 const INPUT    = 'w-full border border-zinc-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-zinc-400 transition-colors bg-white'
 const TEXTAREA = INPUT + ' resize-none'
 
+interface Announcement {
+  id: number
+  title: string
+  subtitle?: string
+  image_url: string
+  whatsapp_message?: string
+  sort_order: number
+  active: number
+}
+
 const EMPTY = { title: '', subtitle: '', image_url: '', whatsapp_message: '', sort_order: 0, active: 1 }
 
 export default function Announcements() {
-  const [items, setItems]       = useState<any[]>([])
+  const [items, setItems]       = useState<Announcement[]>([])
   const [form, setForm]         = useState(EMPTY)
   const [editId, setEditId]     = useState<number | null>(null)
   const [showForm, setShowForm] = useState(false)
@@ -27,7 +37,7 @@ export default function Announcements() {
   useEffect(() => { load() }, [])
 
   const openNew  = () => { setForm(EMPTY); setEditId(null); setShowForm(true); setError('') }
-  const openEdit = (a: any) => {
+  const openEdit = (a: Announcement) => {
     setForm({
       title: a.title, subtitle: a.subtitle ?? '', image_url: a.image_url,
       whatsapp_message: a.whatsapp_message ?? '', sort_order: a.sort_order, active: a.active,
@@ -44,7 +54,9 @@ export default function Announcements() {
       if (editId) await adminUpdateAnnouncement(editId, payload)
       else        await adminCreateAnnouncement(payload)
       setShowForm(false); load()
-    } catch (e: any) { setError(e.message) }
+    } catch (e: unknown) { 
+      setError(e instanceof Error ? e.message : 'Une erreur est survenue') 
+    }
   }
 
   const toggle = async (id: number) => { await adminToggleAnnouncement(id); load() }
@@ -58,7 +70,9 @@ export default function Announcements() {
     try {
       const url = await adminUpload(files[0], 'product')
       setForm(f => ({ ...f, image_url: url }))
-    } catch (e: any) { alert(e.message) }
+    } catch (e: unknown) { 
+      alert(e instanceof Error ? e.message : 'Upload failed') 
+    }
     finally { setUploading(false) }
   }
 
