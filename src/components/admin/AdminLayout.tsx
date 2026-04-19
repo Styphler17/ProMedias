@@ -166,11 +166,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     adminGetProfile().then(setProfile).catch(() => {})
   }, [])
 
-  // Auto-close sidebar on route change
-  useEffect(() => {
-    setShowMobileSidebar(false)
-  }, [location.pathname])
-
   const logout = () => { clearToken(); navigate('/admin/login') }
 
   const pageLabel = NAV.find(n => n.to === location.pathname)?.label
@@ -204,6 +199,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <nav className="flex-1 py-4 space-y-0.5 px-3 overflow-y-auto">
           {NAV.map(({ to, icon: Icon, label }) => (
             <Link key={to} to={to}
+              onClick={() => setShowMobileSidebar(false)}
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
                 location.pathname === to
@@ -219,6 +215,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Profile footer */}
         <div className="border-t border-zinc-800 shrink-0">
           <Link to="/admin/profile"
+            onClick={() => setShowMobileSidebar(false)}
             className={cn(
               'flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 transition-colors',
               location.pathname === '/admin/profile' ? 'bg-zinc-800' : ''
