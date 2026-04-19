@@ -23,8 +23,15 @@ interface Props {
   already?: string[]
 }
 
+interface MediaFile {
+  id: number | string
+  url: string
+  original_name: string
+  category?: string
+}
+
 export default function MediaPicker({ open, onClose, onSelect, multiple = false, already = [] }: Props) {
-  const [media, setMedia]         = useState<any[]>([])
+  const [media, setMedia]         = useState<MediaFile[]>([])
   const [search, setSearch]       = useState('')
   const [cat, setCat]             = useState('all')
   const [selected, setSelected]   = useState<string[]>([])
@@ -63,8 +70,9 @@ export default function MediaPicker({ open, onClose, onSelect, multiple = false,
       }
       setSelected(s => [...s, ...urls])
       setTab('library')
-    } catch (e: any) { alert(e.message) }
-    finally { setUploading(false) }
+    } catch (e: unknown) { 
+      alert(e instanceof Error ? e.message : 'Upload failed') 
+    } finally { setUploading(false) }
   }
 
   if (!open) return null
