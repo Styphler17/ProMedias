@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Trash2, RotateCcw, Package, Image as ImageIcon, Search, AlertCircle, Loader2 } from 'lucide-react'
-import { adminGetProducts, adminRestoreProduct, adminPurgeProduct, adminGetMedia, adminRestoreMedia, adminPurgeMedia } from '@/lib/admin'
+import { adminGetProducts, adminRestoreProduct, adminPurgeProduct, adminGetMedia, adminRestoreMedia, adminPurgeMedia, type AdminProduct, type AdminMedia } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
 import { cn } from '@/lib/utils'
 import AdminLayout from '@/components/admin/AdminLayout'
@@ -8,8 +8,8 @@ import AdminLayout from '@/components/admin/AdminLayout'
 export default function Trash() {
   const [activeTab, setActiveTab] = useState<'products' | 'media'>('products')
   const [loading, setLoading]     = useState(true)
-  const [products, setProducts]   = useState<any[]>([])
-  const [media, setMedia]         = useState<any[]>([])
+  const [products, setProducts]   = useState<AdminProduct[]>([])
+  const [media, setMedia]         = useState<AdminMedia[]>([])
   const [search, setSearch]       = useState('')
 
   useEffect(() => {
