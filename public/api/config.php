@@ -4,12 +4,13 @@
  * Handles database connections and global settings for the PHP bridge.
  */
 
-// Production DB Credentials (to be filled on Hostinger)
+// --- HOSTINGER DATABASE CONFIGURATION ---
+// You can find these values in your Hostinger hPanel -> Databases -> MySQL Databases
 $db_config = [
     'host' => 'localhost',
-    'user' => 'root',
-    'pass' => '',
-    'name' => 'neondb' // Match your database name
+    'user' => 'u123456789_admin',    // Replace with your Hostinger DB Username
+    'pass' => 'your_db_password',   // Replace with your Hostinger DB Password
+    'name' => 'u123456789_promedias' // Replace with your Hostinger DB Name
 ];
 
 // Local environment override if needed
