@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { Search, Upload, Trash2, Image, Copy, Check, ChevronDown } from 'lucide-react'
 import AdminLayout from '@/components/admin/AdminLayout'
-import { adminGetMedia, adminDeleteMedia, adminUpdateMediaCategory, adminUpload } from '@/lib/admin'
+import { adminGetMedia, adminDeleteMedia, adminUpdateMediaCategory, adminUpload, type AdminMedia } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
 import { cn } from '@/lib/utils'
 
@@ -42,17 +42,8 @@ function formatSize(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
-interface MediaItem {
-  id: number;
-  url: string;
-  original_name: string;
-  category: string;
-  size: number;
-  mime_type: string;
-}
-
 export default function MediaLibrary() {
-  const [media, setMedia]         = useState<MediaItem[]>([])
+  const [media, setMedia]         = useState<AdminMedia[]>([])
   const [cat, setCat]             = useState('all')
   const [search, setSearch]       = useState('')
   const [sort, setSort]           = useState('date')
@@ -63,9 +54,15 @@ export default function MediaLibrary() {
   const fileRef = useRef<HTMLInputElement>(null)
 
   const load = useCallback(async () => {
-    const rows = await adminGetMedia({ category: cat === 'all' ? undefined : cat, search: search || undefined, sort })
+    // Explicitly ask for 'active' media
+    const rows = await adminGetMedia({ 
+      category: cat === 'all' ? undefined : cat, 
+      search: search || undefined, 
+      sort,
+      status: 'active' 
+    })
     setMedia(rows)
-    setSelected(s => rows.find((r: MediaItem) => r.id === s) ? s : null)
+    setSelected(s => rows.find((r) => r.id === s) ? s : null)
   }, [cat, search, sort])
 
   useEffect(() => {
@@ -128,7 +125,6 @@ export default function MediaLibrary() {
             </div>
 
             <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
-              {/* Search */}
               <div className="relative flex-1 max-w-none md:max-w-xs">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
                 <input value={search} onChange={e => setSearch(e.target.value)}
@@ -137,9 +133,7 @@ export default function MediaLibrary() {
               </div>
 
               <div className="flex flex-wrap items-center gap-3">
-                {/* Category filter - Desktop Buttons / Mobile Dropdown */}
                 <div className="flex-1 md:flex-none">
-                  {/* Mobile Select */}
                   <div className="relative block md:hidden">
                     <select 
                       value={cat} 
@@ -153,7 +147,6 @@ export default function MediaLibrary() {
                     <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
                   </div>
 
-                  {/* Desktop Buttons */}
                   <div className="hidden md:flex gap-1">
                     {CATEGORIES.map(c => (
                       <button key={c.value} onClick={() => setCat(c.value)}
@@ -166,7 +159,6 @@ export default function MediaLibrary() {
                   </div>
                 </div>
 
-                {/* Sort */}
                 <div className="flex items-center gap-1 ml-auto">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mr-2">Trier :</span>
                   <div className="flex bg-zinc-100 p-1 rounded-xl">
@@ -184,7 +176,6 @@ export default function MediaLibrary() {
             </div>
           </div>
 
-          {/* Grid */}
           <div className="flex-1 overflow-y-auto p-8 bg-zinc-50">
             {media.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-64 text-zinc-400">
@@ -193,7 +184,7 @@ export default function MediaLibrary() {
                 <p className="text-xs mt-1">Importez des images pour commencer</p>
               </div>
             ) : (
-              <div className="grid grid-cols-4 xl:grid-cols-6 gap-4">
+              <div className="grid grid-cols-4 xl:grid-cols-6 gap-4 font-inter">
                 {media.map(m => (
                   <button key={m.id} onClick={() => setSelected(m.id === selected ? null : m.id)}
                     className={cn(
@@ -202,14 +193,12 @@ export default function MediaLibrary() {
                     )}>
                     <img src={resolveUrl(m.url)} alt={m.original_name} className="w-full h-full object-cover" />
 
-                    {/* Category badge */}
                     <div className="absolute top-1.5 left-1.5">
-                      <span className={cn('text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide', CAT_COLORS[m.category])}>
-                        {CAT_LABELS[m.category]}
+                      <span className={cn('text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide', CAT_COLORS[m.category] || 'bg-zinc-100 text-zinc-500')}>
+                        {CAT_LABELS[m.category] || m.category}
                       </span>
                     </div>
 
-                    {/* Hover overlay */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
                     <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent px-2 py-2 translate-y-full group-hover:translate-y-0 transition-transform">
                       <p className="text-white text-[10px] truncate">{m.original_name}</p>
@@ -228,20 +217,17 @@ export default function MediaLibrary() {
           </div>
         </div>
 
-        {/* Detail panel */}
         <div className={cn(
           'w-72 shrink-0 border-l border-zinc-200 bg-white flex flex-col transition-all duration-200 overflow-hidden',
           selectedItem ? 'translate-x-0' : 'translate-x-full w-0 border-0'
         )}>
           {selectedItem && (
             <>
-              {/* Preview */}
               <div className="aspect-square bg-zinc-50 border-b border-zinc-100 flex items-center justify-center p-4">
                 <img src={resolveUrl(selectedItem.url)} alt={selectedItem.original_name}
                   className="max-w-full max-h-full object-contain rounded-lg" />
               </div>
 
-              {/* Info */}
               <div className="flex-1 overflow-y-auto p-5 space-y-4">
                 <div>
                   <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Nom du fichier</p>
@@ -263,8 +249,8 @@ export default function MediaLibrary() {
                   <div className="relative">
                     <button onClick={() => setCatMenu(catMenu === selectedItem.id ? null : selectedItem.id)}
                       className="w-full flex items-center justify-between px-3 py-2 border border-zinc-200 rounded-xl text-sm hover:border-zinc-400 transition-colors">
-                      <span className={cn('text-xs font-semibold px-2 py-0.5 rounded-md uppercase tracking-wide', CAT_COLORS[selectedItem.category])}>
-                        {CAT_LABELS[selectedItem.category]}
+                      <span className={cn('text-xs font-semibold px-2 py-0.5 rounded-md uppercase tracking-wide', CAT_COLORS[selectedItem.category] || 'bg-zinc-100 text-zinc-500')}>
+                        {CAT_LABELS[selectedItem.category] || selectedItem.category}
                       </span>
                       <ChevronDown size={14} className="text-zinc-400" />
                     </button>
@@ -297,7 +283,6 @@ export default function MediaLibrary() {
                 </div>
               </div>
 
-              {/* Actions */}
               <div className="p-5 border-t border-zinc-100">
                 <button onClick={() => del(selectedItem.id)}
                   className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold rounded-xl transition-colors">
