@@ -80,7 +80,7 @@ export default function AnnouncementsSlider() {
                   className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold text-sm px-6 py-3 md:px-5 md:py-2.5 rounded-xl transition-all w-fit shadow-lg active:scale-95"
                 >
                   <WhatsAppIcon />
-                  Demander sur WhatsApp
+                  <span className="hidden sm:inline">Demander sur </span>WhatsApp
                 </a>
               </div>
             </div>

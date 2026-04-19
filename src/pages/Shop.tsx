@@ -523,7 +523,7 @@ const Shop = () => {
                     className="flex-grow h-16 rounded-2xl bg-primary hover:bg-primary-variant text-white font-bold text-lg gap-3 shadow-xl shadow-primary/20 border-none"
                   >
                     <WhatsAppIcon size={26} />
-                    Contacter pour cet article
+                    <span className="hidden sm:inline">Contacter pour </span>cet article
                   </Button>
                 </div>
               </div>
