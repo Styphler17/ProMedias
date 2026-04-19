@@ -3,7 +3,8 @@ import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "vite"
 
-const SERVER_BASE = 'http://localhost:3002'
+// MAMP is confirmed to be running Apache on port 8888
+const SERVER_BASE = 'http://localhost:8888/ProMedias'
 
 export default defineConfig({
   plugins: [
