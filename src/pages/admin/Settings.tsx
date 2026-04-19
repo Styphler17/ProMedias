@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from 'react'
-import { Upload, X } from 'lucide-react'
+import { Upload, X, Image as ImageIcon } from 'lucide-react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
 import { adminGetSettings, adminUpdateSettings, adminUpload } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
+import MediaPicker from '@/components/admin/MediaPicker'
 
 const SITE_FIELDS = [
   { key: 'logo',             label: 'Logo principal (navbar)' },
@@ -27,6 +28,7 @@ const ABOUT_FIELDS = [
 function ImageField({ label, value, onChange }: { label: string; value: string | null; onChange: (url: string | null) => void }) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [uploading, setUploading] = useState(false)
+  const [showPicker, setShowPicker] = useState(false)
 
   const handleFile = async (file: File) => {
     setUploading(true)
@@ -43,7 +45,7 @@ function ImageField({ label, value, onChange }: { label: string; value: string |
   return (
     <div>
       <label className="text-xs font-medium text-zinc-500 mb-2 block">{label}</label>
-      <div className="flex flex-col sm:flex-row gap-3 items-start">
+      <div className="flex flex-col sm:flex-row gap-3 items-center">
         {value ? (
           <div className="relative shrink-0">
             <img src={resolveUrl(value)} alt={label} className="h-24 sm:h-20 w-full sm:w-32 object-cover rounded-xl border border-zinc-200" />
@@ -52,20 +54,43 @@ function ImageField({ label, value, onChange }: { label: string; value: string |
             </button>
           </div>
         ) : (
-          <div
-            onClick={() => inputRef.current?.click()}
-            className="h-24 sm:h-20 w-full sm:w-32 border-2 border-dashed border-zinc-200 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-zinc-400 transition-colors"
-          >
-            <Upload size={16} className="text-zinc-400 mb-1" />
-            <span className="text-[10px] text-zinc-400">{uploading ? 'Upload…' : 'Choisir'}</span>
+          <div className="flex gap-2 w-full sm:w-auto">
+            <div
+              onClick={() => inputRef.current?.click()}
+              className="h-24 sm:h-20 w-1/2 sm:w-28 border-2 border-dashed border-zinc-200 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-zinc-400 transition-colors"
+            >
+              <Upload size={16} className="text-zinc-400 mb-1" />
+              <span className="text-[10px] text-zinc-400">{uploading ? 'Upload…' : 'Importer'}</span>
+            </div>
+            <div
+              onClick={() => setShowPicker(true)}
+              className="h-24 sm:h-20 w-1/2 sm:w-28 border-2 border-zinc-100 bg-zinc-50/50 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-zinc-300 hover:bg-zinc-50 transition-all"
+            >
+              <ImageIcon size={16} className="text-zinc-400 mb-1" />
+              <span className="text-[10px] text-zinc-400">Bibliothèque</span>
+            </div>
           </div>
         )}
         <input ref={inputRef} type="file" accept="image/*" className="hidden"
           onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} />
+        
         {value && (
-          <button onClick={() => inputRef.current?.click()} className="text-xs text-zinc-400 hover:text-zinc-700 sm:mt-1">
-            {uploading ? 'Upload…' : 'Changer'}
-          </button>
+          <div className="flex flex-row sm:flex-col gap-3">
+            <button onClick={() => inputRef.current?.click()} className="flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-700">
+              <Upload size={12} /> {uploading ? 'Upload…' : 'Importer'}
+            </button>
+            <button onClick={() => setShowPicker(true)} className="flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-700">
+              <ImageIcon size={12} /> Bibliothèque
+            </button>
+          </div>
+        )}
+
+        {showPicker && (
+          <MediaPicker
+            open={showPicker}
+            onClose={() => setShowPicker(false)}
+            onSelect={urls => onChange(urls[0])}
+          />
         )}
       </div>
     </div>
