@@ -11,9 +11,11 @@ class MediaController {
     }
 
     public function index($params = []) {
-        $status = $_GET['status'] ?? 'active';
-        $sort   = $_GET['sort']   ?? 'date';
-        return $this->model->getAll($status, $sort);
+        $status   = $_GET['status']   ?? 'active';
+        $sort     = $_GET['sort']     ?? 'date';
+        $category = $_GET['category'] ?? null;
+        $search   = $_GET['search']   ?? null;
+        return $this->model->getAll($status, $sort, $category, $search);
     }
 
     public function delete($id) {
