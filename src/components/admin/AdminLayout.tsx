@@ -19,13 +19,26 @@ const NAV_PAGES: Hit[] = [
   { type: 'page', label: 'Annonces',    to: '/admin/announcements',  icon: Megaphone },
 ]
 
+interface SearchProduct {
+  id: number
+  name: string
+  slug: string
+  image?: string
+}
+
+interface SearchCategory {
+  id: number
+  name: string
+  slug: string
+}
+
 function GlobalSearch() {
   const navigate = useNavigate()
   const [query, setQuery]           = useState('')
   const [hits, setHits]             = useState<Hit[]>([])
   const [open, setOpen]             = useState(false)
-  const [products, setProducts]     = useState<any[] | null>(null)
-  const [categories, setCategories] = useState<any[] | null>(null)
+  const [products, setProducts]     = useState<SearchProduct[] | null>(null)
+  const [categories, setCategories] = useState<SearchCategory[] | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const boxRef   = useRef<HTMLDivElement>(null)
 
