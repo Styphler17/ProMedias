@@ -52,11 +52,23 @@ export default function Announcements() {
   const load = useCallback(async () => {
     try {
       const rows = await adminGetAnnouncements()
-      setItems(rows.sort((a, b) => a.sort_order - b.sort_order))
+      setItems([...rows].sort((a, b) => a.sort_order - b.sort_order))
     } catch { /* silence */ }
   }, [])
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => {
+    let mounted = true
+    const init = async () => {
+      try {
+        const rows = await adminGetAnnouncements()
+        if (mounted) {
+          setItems([...rows].sort((a, b) => a.sort_order - b.sort_order))
+        }
+      } catch { /* silence */ }
+    }
+    init()
+    return () => { mounted = false }
+  }, [])
 
   const openNew  = () => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true); setError(''); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const openEdit = (a: Announcement) => {
