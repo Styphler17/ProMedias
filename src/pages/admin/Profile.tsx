@@ -155,7 +155,7 @@ export default function Profile() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Left: Premium Avatar Column */}
-          <div className="lg:col-span-4 sticky top-10">
+          <div className="lg:col-span-4 lg:sticky lg:top-10 z-10">
             <div className="bg-white rounded-[2.5rem] border border-zinc-100 overflow-hidden shadow-xl shadow-zinc-200/50">
               <div className="h-32 bg-gradient-to-br from-zinc-800 to-zinc-950 px-8 flex items-end justify-center">
                 <div className="mb-[-40px] relative group/avatar">
