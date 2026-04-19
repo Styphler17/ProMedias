@@ -155,10 +155,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [showCatDropdown, setShowCatDropdown] = useState(false)
   const [showMobileSidebar, setShowMobileSidebar] = useState(false)
 
+  const searchParams = new URLSearchParams(location.search)
+  const activeCatId  = searchParams.get('category_id')
+
   useEffect(() => {
     adminGetProfile().then(setProfile).catch(() => {})
     adminGetCategories().then(setCategories).catch(() => {})
   }, [])
+
+  // Auto-expand categories if one is active
+  useEffect(() => {
+    if (location.pathname.startsWith('/admin/products') && activeCatId) {
+      setShowCatDropdown(true)
+    }
+  }, [location.pathname, activeCatId])
 
   const logout = () => { clearToken(); navigate('/admin/login') }
 
@@ -224,16 +234,27 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   className="block text-xs font-bold text-zinc-500 hover:text-white py-1.5 uppercase tracking-wider">
                   Gérer tout
                 </Link>
-                {categories.map(cat => (
-                  <Link 
-                    key={cat.id} 
-                    to={`/admin/products?category_id=${cat.id}`}
-                    onClick={() => setShowMobileSidebar(false)}
-                    className="block text-sm text-zinc-400 hover:text-white py-1.5 transition-colors truncate pr-2"
-                  >
-                    {cat.name}
-                  </Link>
-                ))}
+                {categories.map(cat => {
+                  const isActive = activeCatId === cat.id.toString()
+                  return (
+                    <Link 
+                      key={cat.id} 
+                      to={`/admin/products?category_id=${cat.id}`}
+                      onClick={() => setShowMobileSidebar(false)}
+                      className={cn(
+                        "block text-sm py-1.5 transition-all truncate pr-2 relative",
+                        isActive 
+                          ? "text-[hsl(357,83%,37%)] font-bold translate-x-1" 
+                          : "text-zinc-400 hover:text-white"
+                      )}
+                    >
+                      {isActive && (
+                        <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-1 h-3 bg-[hsl(357,83%,37%)] rounded-full shadow-[0_0_8px_rgba(152,11,18,0.4)]" />
+                      )}
+                      {cat.name}
+                    </Link>
+                  )
+                })}
               </div>
             )}
           </div>
