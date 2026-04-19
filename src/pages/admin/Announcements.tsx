@@ -47,7 +47,6 @@ export default function Announcements() {
   const [editId, setEditId]     = useState<number | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [error, setError]       = useState('')
-  const [uploading, setUploading] = useState(false)
   const [pickerOpen, setPickerOpen] = useState(false)
 
   const load = useCallback(async () => {
@@ -102,17 +101,6 @@ export default function Announcements() {
       await adminDeleteAnnouncement(id)
       load()
     } catch { /* silence */ }
-  }
-
-  const handleUpload = async (files: FileList) => {
-    if (!files[0]) return
-    setUploading(true)
-    try {
-      const url = await adminUpload(files[0], 'product')
-      setForm(f => ({ ...f, image_url: url }))
-    } catch (e: unknown) { 
-      alert(e instanceof Error ? e.message : 'Upload failed') 
-    } finally { setUploading(false) }
   }
 
   return (
