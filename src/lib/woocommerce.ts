@@ -26,6 +26,7 @@ export interface SiteOptions {
   services_hero_bg?:   string
   shop_hero_bg?:       string
   diagnostic_hero_bg?: string
+  about_hero_bg?:      string
   [key: string]: string | undefined
 }
 
@@ -59,6 +60,7 @@ export const fetchSiteOptions = async (): Promise<SiteOptions> => {
       services_hero_bg:   resolveUrl(data.services_hero_bg),
       shop_hero_bg:       resolveUrl(data.shop_hero_bg),
       diagnostic_hero_bg: resolveUrl(data.diagnostic_hero_bg),
+      about_hero_bg:      resolveUrl(data.about_hero_bg),
     }
   } catch (err) {
     console.error('fetchSiteOptions:', err)

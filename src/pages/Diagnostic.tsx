@@ -85,11 +85,11 @@ const Diagnostic = () => {
               bgImage={siteOptions.diagnostic_hero_bg}
             />
 
-            <section className="container grid grid-cols-1 lg:grid-cols-12 gap-16">
-              <aside className="lg:col-span-4 space-y-12">
+            <section className="container grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
+              <aside className="lg:col-span-5 xl:col-span-4 space-y-12 pr-0 lg:pr-8">
                   <div>
-                      <h2 className="text-2xl font-headline font-bold mb-8 flex items-center gap-4">
-                          <Settings className="text-primary" />
+                      <h2 className="text-2xl font-headline font-bold mb-8 flex items-center gap-4 whitespace-nowrap">
+                          <Settings className="text-primary shrink-0" />
                           Le Processus
                       </h2>
                       <div className="space-y-12 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-zinc-200">
@@ -101,7 +101,7 @@ const Diagnostic = () => {
                           ].map((item, i) => (
                               <div key={i} className="relative pl-10">
                                   <div className="absolute left-0 top-1 w-6 h-6 rounded-full bg-white border-4 border-primary z-10" />
-                                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-primary mb-2">{item.step}. {item.title}</h3>
+                                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-primary mb-2 whitespace-nowrap">{item.step}. {item.title}</h3>
                                   <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                               </div>
                           ))}
@@ -119,7 +119,7 @@ const Diagnostic = () => {
                   </div>
               </aside>
 
-              <div className="lg:col-span-8">
+              <div className="lg:col-span-7 xl:col-span-7 xl:col-start-6">
                   <motion.div 
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}

@@ -4,7 +4,7 @@ import { requireAuth } from '../middleware/auth.js'
 
 const router = Router()
 
-const SITE_KEYS    = ['logo','logo_white','home_hero_bg','services_hero_bg','shop_hero_bg','diagnostic_hero_bg']
+const SITE_KEYS    = ['logo','logo_white','home_hero_bg','services_hero_bg','shop_hero_bg','diagnostic_hero_bg','about_hero_bg']
 const ABOUT_KEYS   = ['hero_image','environmental_impact_image','boutique_storefront_image','team_1','team_2','team_3','team_4']
 const CONTACT_KEYS = ['contact_shop_name','contact_address','contact_phone','contact_email','contact_hours_weekdays','contact_hours_saturday','contact_hours_sunday','contact_facebook','contact_instagram','contact_whatsapp','contact_maps_url','contact_storefront_url']
 

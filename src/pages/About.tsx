@@ -15,17 +15,19 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { PageHero } from "@/components/PageHero";
-import { fetchPage, fetchContact, type PageData } from "@/lib/woocommerce";
+import { fetchPage, fetchContact, fetchSiteOptions, type PageData, type SiteOptions } from "@/lib/woocommerce";
 
 const About = () => {
   const [pageData, setPageData] = useState<PageData | null>(null);
   const [mapsUrl, setMapsUrl] = useState<string | null>(null);
   const [storefrontUrl, setStorefrontUrl] = useState<string>('');
+  const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
 
   useEffect(() => {
     const loadData = async () => {
-      const [data, contact] = await Promise.all([fetchPage("about"), fetchContact()]);
+      const [data, contact, opts] = await Promise.all([fetchPage("about"), fetchContact(), fetchSiteOptions()]);
       setPageData(data);
+      setSiteOptions(opts);
       setMapsUrl(contact.contact_maps_url ?? null);
       setStorefrontUrl(contact.contact_storefront_url ?? '');
     };
@@ -48,6 +50,7 @@ const About = () => {
         title="La renaissance de"
         accent="vos appareils."
         subtitle="Depuis plus de 10 ans au cœur de Liège, PROMEDIAS redéfinit la réparation informatique. Nous restaurons l'excellence technique de vos outils de travail et de vie."
+        bgImage={siteOptions.about_hero_bg}
         aside={
           <div className="relative shrink-0 w-full lg:w-80">
             <div className="aspect-square rounded-[2.5rem] overflow-hidden shadow-2xl transform lg:rotate-2">
