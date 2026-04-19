@@ -26,10 +26,6 @@ export interface AdminUser extends AdminProfile {
   created_at: string
 }
 
-export interface ApiError {
-  error: string
-}
-
 export interface AdminProduct {
   id: number
   name: string
@@ -45,6 +41,8 @@ export interface AdminProduct {
   gallery?: string[]
   category_name?: string
   deleted_at?: string | null
+  seo_title?: string | null
+  seo_description?: string | null
 }
 
 export interface AdminCategory {
@@ -152,6 +150,8 @@ export const adminUpdateProduct = (id: number, data: Partial<AdminProduct>) => r
 export const adminDeleteProduct = (id: number)    => req<{ success: boolean }>('DELETE', `/products/${id}`)
 export const adminRestoreProduct = (id: number)   => req<{ success: boolean }>('POST', '/products/restore', { id })
 export const adminPurgeProduct   = (id: number)   => req<{ success: boolean }>('POST', '/products/purge', { id })
+export const adminSuggestSEO   = (data: { name: string; description: string; categoryId?: number | string | null }) => 
+  req<{ seo_title: string; seo_description: string }>('POST', '/products/suggestSEO', data)
 
 // Categories
 export const adminGetCategories   = ()           => req<AdminCategory[]>('GET', '/categories')

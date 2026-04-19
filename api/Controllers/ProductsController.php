@@ -27,6 +27,25 @@ class ProductsController {
         return $this->model->softDelete($id) ? ["success" => true] : ["error" => "Failed to move to trash"];
     }
 
+    public function create($body) {
+        return $this->model->create($body);
+    }
+
+    public function update($id, $body) {
+        return $this->model->update($id, $body);
+    }
+
+    /**
+     * POST /api/products/suggest-seo
+     * mapped via router because 'suggestSEO' is the second part of the URL
+     */
+    public function suggestSEO($body) {
+        $name = $body['name'] ?? '';
+        $description = $body['description'] ?? '';
+        $categoryId = $body['categoryId'] ?? null;
+        return $this->model->generateSEO($name, $description, $categoryId);
+    }
+
     /**
      * POST /api/products/restore
      */

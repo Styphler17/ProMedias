@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Pencil, Trash2, Plus, X, Check, Upload, Image, Search, Package } from 'lucide-react'
+import { Pencil, Trash2, Plus, X, Check, Upload, Image, Search, Package, Sparkles } from 'lucide-react'
 import { useSearchParams } from 'react-router-dom'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
-import { adminGetProducts, adminGetCategories, adminCreateProduct, adminUpdateProduct, adminDeleteProduct, adminUpload } from '@/lib/admin'
+import { adminGetProducts, adminGetCategories, adminCreateProduct, adminUpdateProduct, adminDeleteProduct, adminUpload, adminSuggestSEO } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
 import { cn } from '@/lib/utils'
 import MediaPicker from '@/components/admin/MediaPicker'
@@ -30,7 +30,9 @@ const EMPTY_FORM = {
   specs: '', 
   description: '', 
   status: 'published', 
-  images: [] as string[] 
+  images: [] as string[] ,
+  seo_title: '',
+  seo_description: ''
 }
 
 function StatusBadge({ status }: { status: string }) {
@@ -58,6 +60,8 @@ interface Product {
   image?: string
   gallery?: string[]
   category?: string
+  seo_title?: string | null
+  seo_description?: string | null
 }
 
 export default function Products() {
@@ -103,8 +107,28 @@ export default function Products() {
       specs: p.specs || '', description: p.description || '',
       status: p.status,
       images: p.gallery || [],
+      seo_title: p.seo_title || '',
+      seo_description: p.seo_description || '',
     })
     setEditId(p.id); setShowForm(true); setError('')
+  }
+
+  const handleSuggestSEO = async () => {
+    if (!form.name) return alert("Veuillez d'abord saisir un nom de produit.")
+    try {
+      const res = await adminSuggestSEO({ 
+        name: form.name, 
+        description: form.description, 
+        categoryId: form.categoryId ? parseInt(form.categoryId.toString()) : null 
+      })
+      setForm(f => ({ 
+        ...f, 
+        seo_title: res.seo_title, 
+        seo_description: res.seo_description 
+      }))
+    } catch {
+      alert("Échec de la suggestion SEO")
+    }
   }
 
   const handleImageUpload = async (files: FileList) => {
@@ -298,6 +322,55 @@ export default function Products() {
                       </label>
                     )
                   })}
+                </div>
+              </div>
+
+              {/* SEO SECTION */}
+              <div className="col-span-1 sm:col-span-2 pt-6 border-t border-zinc-100">
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider block">SEO & Visibilité</label>
+                    <p className="text-[10px] text-zinc-500 mt-0.5">Optimisez l'affichage sur Google et les réseaux sociaux.</p>
+                  </div>
+                  <button 
+                    type="button" 
+                    onClick={handleSuggestSEO}
+                    className="flex items-center gap-2 text-[11px] font-bold text-[hsl(357,83%,37%)] hover:bg-[hsl(357,83%,37%)]/5 px-4 py-2 rounded-xl border border-[hsl(357,83%,37%)]/20 transition-all active:scale-95"
+                  >
+                    <Sparkles size={14} className="fill-[hsl(357,83%,37%)]/10" /> Suggérer par IA
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <label className="text-xs font-medium text-zinc-500 block">Meta Titre</label>
+                      <span className={cn("text-[9px] font-bold px-1.5 py-0.5 rounded", (form.seo_title?.length || 0) > 60 ? "bg-orange-100 text-orange-600" : "bg-zinc-100 text-zinc-400")}>
+                        {form.seo_title?.length || 0}/60
+                      </span>
+                    </div>
+                    <input 
+                      placeholder="Ex: Appareil Photo Sony Alpha 7 IV - Neuf | ProMedias"
+                      className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:border-[hsl(357,83%,37%)] outline-none" 
+                      value={form.seo_title || ''}
+                      onChange={e => setForm(f => ({ ...f, seo_title: e.target.value }))} 
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <label className="text-xs font-medium text-zinc-500 block">Meta Description</label>
+                      <span className={cn("text-[9px] font-bold px-1.5 py-0.5 rounded", (form.seo_description?.length || 0) > 160 ? "bg-orange-100 text-orange-600" : "bg-zinc-100 text-zinc-400")}>
+                        {form.seo_description?.length || 0}/160
+                      </span>
+                    </div>
+                    <textarea 
+                      rows={2} 
+                      placeholder="Une brève description accrocheuse pour les résultats de recherche..."
+                      className="w-full border border-zinc-200 rounded-xl px-4 py-3 text-sm focus:border-[hsl(357,83%,37%)] outline-none resize-none" 
+                      value={form.seo_description || ''}
+                      onChange={e => setForm(f => ({ ...f, seo_description: e.target.value }))} 
+                    />
+                  </div>
                 </div>
               </div>
             </div>
