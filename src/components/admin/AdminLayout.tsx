@@ -68,14 +68,14 @@ function GlobalSearch() {
     const pageHits: Hit[] = NAV_PAGES.filter(p => p.label.toLowerCase().includes(lq))
 
     const productHits: Hit[] = (products ?? [])
-      .filter((p: any) => p.name.toLowerCase().includes(lq))
+      .filter((p: SearchProduct) => p.name.toLowerCase().includes(lq))
       .slice(0, 5)
-      .map((p: any) => ({ type: 'product', label: p.name, sub: p.status === 'published' ? 'Publié' : 'Brouillon', to: '/admin/products', icon: Package }))
+      .map((p: SearchProduct) => ({ type: 'product', label: p.name, sub: 'Produit', to: '/admin/products', icon: Package }))
 
     const categoryHits: Hit[] = (categories ?? [])
-      .filter((c: any) => c.name.toLowerCase().includes(lq))
+      .filter((c: SearchCategory) => c.name.toLowerCase().includes(lq))
       .slice(0, 4)
-      .map((c: any) => ({ type: 'category', label: c.name, sub: c.mainCategory, to: '/admin/categories', icon: Tag }))
+      .map((c: SearchCategory) => ({ type: 'category', label: c.name, to: '/admin/categories', icon: Tag }))
 
     setHits([...pageHits, ...productHits, ...categoryHits])
     setOpen(true)
