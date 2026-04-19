@@ -97,7 +97,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         ref={mobileMenuRef}
         className={cn(
           "fixed top-0 w-full z-50 transition-all duration-500",
-          isScrolled ? "py-4" : "py-8"
+          isScrolled ? "py-2" : "py-5"
         )}
       >
         <div className="container">
@@ -110,7 +110,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center gap-4"
             >
-              <img src={logoSrc} alt="Promedias Logo" className="h-10 md:h-14 w-auto object-contain" />
+              <img src={logoSrc} alt="Promedias Logo" className="h-12 md:h-16 w-auto object-contain" />
               <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-50 border border-zinc-100">
                 <span className={cn(
                     "w-2 h-2 rounded-full",

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface PageHeroProps {
   label: string;
@@ -30,8 +31,11 @@ export function PageHero({ label, title, accent, subtitle, bgImage, aside, animK
       />
 
       <div className="container relative z-10">
-        <div className={aside ? "flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10" : ""}>
-          <div className="max-w-4xl">
+        <div className={cn(
+          "flex flex-col gap-10",
+          aside ? "lg:flex-row lg:items-end lg:justify-between" : "items-center text-center"
+        )}>
+          <div className={cn("max-w-4xl", !aside && "mx-auto")}>
             <motion.span
               key={`label-${animKey}`}
               initial={{ opacity: 0, x: -16 }}
@@ -64,7 +68,10 @@ export function PageHero({ label, title, accent, subtitle, bgImage, aside, animK
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.25 }}
-                className="mt-6 text-lg md:text-xl text-white/50 max-w-2xl font-light leading-relaxed"
+                className={cn(
+                  "mt-6 text-lg md:text-xl text-white/50 max-w-2xl font-light leading-relaxed",
+                  !aside && "mx-auto"
+                )}
               >
                 {subtitle}
               </motion.p>
