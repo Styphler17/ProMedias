@@ -27,9 +27,30 @@ function StatusBadge({ status }: { status: string }) {
   return <span className={cn('text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide', map[status] || 'bg-zinc-100 text-zinc-500')}>{labels[status] || status}</span>
 }
 
+interface Category {
+  id: number
+  name: string
+}
+
+interface Product {
+  id: number
+  name: string
+  slug: string
+  price: string
+  categoryId?: number | string
+  condition: string
+  conditionScore: number
+  specs?: string
+  description?: string
+  status: string
+  image?: string
+  gallery?: string[]
+  category?: string
+}
+
 export default function Products() {
-  const [products, setProducts]   = useState<any[]>([])
-  const [categories, setCategories] = useState<any[]>([])
+  const [products, setProducts]   = useState<Product[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [form, setForm]           = useState(EMPTY_FORM)
   const [editId, setEditId]       = useState<number | null>(null)
   const [showForm, setShowForm]   = useState(false)
@@ -46,11 +67,11 @@ export default function Products() {
   const autoSlug = (name: string) => name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')
 
   const openNew = () => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true); setError('') }
-  const openEdit = async (p: any) => {
+  const openEdit = async (p: Product) => {
     setForm({
       name: p.name, slug: p.slug, price: p.price,
       categoryId: p.categoryId ?? '',
-      condition: ({ 'Excellent': 'excellent', 'Très bon': 'tres-bon', 'Bon': 'bon' } as any)[p.condition] || 'excellent',
+      condition: ({ 'Excellent': 'excellent', 'Très bon': 'tres-bon', 'Bon': 'bon' } as Record<string, string>)[p.condition] || 'excellent',
       conditionScore: p.conditionScore,
       specs: p.specs || '', description: p.description || '',
       status: p.status,
@@ -66,13 +87,15 @@ export default function Products() {
       const toUpload = Array.from(files).slice(0, slots)
       const urls = await Promise.all(toUpload.map(f => adminUpload(f, 'product')))
       setForm(f => ({ ...f, images: [...f.images, ...urls].slice(0, MAX_IMAGES) }))
-    } catch (e: any) { alert(e.message) }
+    } catch (err: unknown) { 
+      alert(err instanceof Error ? err.message : 'Upload failed') 
+    }
     finally { setUploading(false) }
   }
 
   const handlePickerSelect = (urls: string[]) => {
     setForm(f => {
-      const next = [...f.images, ...urls.filter(u => !f.images.includes(u))].slice(0, MAX_IMAGES)
+      const next = [...f.images, ...urls.filter(u => !f.includes(u))].slice(0, MAX_IMAGES)
       return { ...f, images: next }
     })
   }
@@ -80,11 +103,13 @@ export default function Products() {
   const save = async () => {
     setError('')
     try {
-      const payload = { ...form, categoryId: form.categoryId ? parseInt(form.categoryId) : null }
+      const payload = { ...form, categoryId: form.categoryId ? parseInt(form.categoryId.toString()) : null }
       if (editId) await adminUpdateProduct(editId, payload)
       else await adminCreateProduct(payload)
       setShowForm(false); load()
-    } catch (e: any) { setError(e.message) }
+    } catch (err: unknown) { 
+      setError(err instanceof Error ? err.message : 'Une erreur est survenue') 
+    }
   }
 
   const del = async (id: number) => {
