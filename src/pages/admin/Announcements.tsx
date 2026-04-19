@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { Plus, Pencil, Trash2, X, Eye, EyeOff, Image as ImageIcon, Send, Megaphone, ChevronRight } from 'lucide-react'
+import { Plus, Pencil, Trash2, X, Eye, EyeOff, Image as ImageIcon, Send, Megaphone } from 'lucide-react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
 import {
