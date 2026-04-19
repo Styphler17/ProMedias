@@ -11,6 +11,10 @@ export const isLoggedIn = () => !!getToken()
 
 // --- Types ---
 
+export interface ApiError {
+  error?: string
+}
+
 export interface AdminProfile {
   id: number
   email: string
@@ -88,7 +92,10 @@ async function req<T>(method: string, path: string, body?: unknown): Promise<T> 
     body: body ? JSON.stringify(body) : undefined,
   })
   if (res.status === 401) { clearToken(); window.location.href = '/admin/login'; throw new Error('Unauthorized') }
-  if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error((e as any).error || 'Request failed') }
+  if (!res.ok) { 
+    const e = await res.json().catch(() => ({})) as ApiError
+    throw new Error(e.error || 'Request failed') 
+  }
   return res.json()
 }
 
@@ -110,7 +117,10 @@ export const register = async (email: string, password: string) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   })
-  if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error((e as any).error || 'Failed') }
+  if (!res.ok) { 
+    const e = await res.json().catch(() => ({})) as ApiError
+    throw new Error(e.error || 'Failed') 
+  }
 }
 
 // Profile
