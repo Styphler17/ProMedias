@@ -102,11 +102,11 @@ export default function MediaLibrary() {
 
   return (
     <AdminLayout>
-      <div className="flex h-[calc(100vh-0px)] overflow-hidden">
+      <div className="flex min-h-screen">
         {/* Main panel */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Toolbar */}
-          <div className="px-8 py-5 border-b border-zinc-200 bg-white">
+        <div className="flex-1 flex flex-col min-w-0">
+          {/* Toolbar - Sticky at top */}
+          <div className="px-8 py-5 border-b border-zinc-200 bg-white sticky top-0 z-20 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <p className="text-2xl font-bold text-zinc-900">Médiathèque</p>
@@ -176,7 +176,7 @@ export default function MediaLibrary() {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-8 bg-zinc-50">
+          <div className="flex-1 p-8 bg-zinc-50">
             {media.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-64 text-zinc-400">
                 <Image size={40} className="mb-3 opacity-30" />
@@ -218,7 +218,7 @@ export default function MediaLibrary() {
         </div>
 
         <div className={cn(
-          'w-72 shrink-0 border-l border-zinc-200 bg-white flex flex-col transition-all duration-200 overflow-hidden',
+          'w-72 shrink-0 border-l border-zinc-200 bg-white flex flex-col transition-all duration-200 sticky top-0 h-screen overflow-y-auto',
           selectedItem ? 'translate-x-0' : 'translate-x-full w-0 border-0'
         )}>
           {selectedItem && (

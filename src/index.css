@@ -216,3 +216,25 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
+
+/* Premium Brand Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f4f5; /* zinc-100 */
+}
+::-webkit-scrollbar-thumb {
+  background: #18181b; /* zinc-900 */
+  border: 2px solid #f4f4f5;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #27272a; /* zinc-800 */
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #18181b #f4f4f5;
+}
