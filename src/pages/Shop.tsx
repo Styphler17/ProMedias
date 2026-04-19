@@ -21,21 +21,9 @@ import { CardSkeleton } from "@/components/ui/skeleton";
 import { SEO } from "@/components/SEO";
 import AnnouncementsSlider from "@/components/AnnouncementsSlider";
 import { PageHero } from "@/components/PageHero";
-import { fetchProducts, fetchCategories, fetchSiteOptions, type WCCategory, type SiteOptions } from "@/lib/woocommerce";
+import { fetchProducts, fetchCategories, fetchSiteOptions, type WCCategory, type SiteOptions, type Product } from "@/lib/woocommerce";
 
-interface Product {
-  id: string | number;
-  name: string;
-  price: string;
-  specs: string;
-  tag?: string;
-  image: string; // Featured image
-  gallery: string[]; // Up to 5 images
-  mainCategory: "Téléphonie" | "Informatique" | "Accessoires";
-  category: string; // This is the sub-category
-  condition: string;
-  conditionScore: number;
-}
+
 
 const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
   <svg 

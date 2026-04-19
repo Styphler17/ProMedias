@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { Search, Upload, Trash2, Image, Copy, Check, ChevronDown } from 'lucide-react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { adminGetMedia, adminDeleteMedia, adminUpdateMediaCategory, adminUpload } from '@/lib/admin'
@@ -38,8 +38,17 @@ function formatSize(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
+interface MediaItem {
+  id: number;
+  url: string;
+  original_name: string;
+  category: string;
+  size: number;
+  mime_type: string;
+}
+
 export default function MediaLibrary() {
-  const [media, setMedia]         = useState<any[]>([])
+  const [media, setMedia]         = useState<MediaItem[]>([])
   const [cat, setCat]             = useState('all')
   const [search, setSearch]       = useState('')
   const [sort, setSort]           = useState('date')
@@ -49,24 +58,23 @@ export default function MediaLibrary() {
   const [catMenu, setCatMenu]     = useState<number | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const load = async () => {
+  const load = useCallback(async () => {
     const rows = await adminGetMedia({ category: cat === 'all' ? undefined : cat, search: search || undefined, sort })
     setMedia(rows)
-    setSelected(s => rows.find((r: any) => r.id === s) ? s : null)
-  }
+    setSelected(s => rows.find((r: MediaItem) => r.id === s) ? s : null)
+  }, [cat, search, sort])
 
-  useEffect(() => { load() }, [cat, sort])
   useEffect(() => {
     const id = setTimeout(load, 300)
     return () => clearTimeout(id)
-  }, [search])
+  }, [load])
 
   const handleUpload = async (files: FileList) => {
     setUploading(true)
     try {
       await Promise.all(Array.from(files).map(f => adminUpload(f, 'uncategorized')))
       await load()
-    } catch (e: any) { alert(e.message) }
+    } catch (e: unknown) { alert(e instanceof Error ? e.message : 'Upload failed') }
     finally { setUploading(false) }
   }
 

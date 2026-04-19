@@ -44,6 +44,21 @@ export interface WCCategory {
   mainCategory?: string
 }
 
+export interface Product {
+  id: string | number;
+  name: string;
+  price: string;
+  specs: string;
+  tag?: string;
+  image: string;
+  gallery: string[];
+  mainCategory: "Téléphonie" | "Informatique" | "Accessoires";
+  category: string;
+  condition: string;
+  conditionScore: number;
+  [key: string]: unknown;
+}
+
 // ---------------------------------------------------------------------------
 // fetchSiteOptions
 // ---------------------------------------------------------------------------
@@ -159,15 +174,15 @@ export const fetchCategories = async (): Promise<WCCategory[]> => {
 // fetchProducts
 // ---------------------------------------------------------------------------
 
-export const fetchProducts = async () => {
+export const fetchProducts = async (): Promise<Product[]> => {
   try {
     const res = await fetch(`${API_BASE}/products?status=published`)
     if (!res.ok) throw new Error(`products ${res.status}`)
     const data = await res.json()
-    return (data as any[]).map(p => ({
+    return (data as Product[]).map((p) => ({
       ...p,
       image:   resolveUrl(p.image),
-      gallery: (p.gallery as string[]).map(resolveUrl),
+      gallery: (p.gallery || []).map(resolveUrl),
     }))
   } catch (err) {
     console.error('fetchProducts:', err)
