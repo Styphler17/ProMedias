@@ -40,27 +40,31 @@ function respond($data, $code = 200) {
 // 4. Dispatch to Controller
 $controllerName = "Controllers\\" . $main_route . "Controller";
 
-if (class_exists($controllerName)) {
-    $controller = new $controllerName();
-    
-    // Action recognition (e.g. /auth/login)
-    // If the second part is a string method in the controller, it's an action
-    if ($id_param && method_exists($controller, $id_param)) {
-        $result = $controller->$id_param($body);
+try {
+    if (class_exists($controllerName)) {
+        $controller = new $controllerName();
+        
+        $result = null;
+        // Action recognition (e.g. /auth/login)
+        if ($id_param && method_exists($controller, $id_param)) {
+            $result = $controller->$id_param($body);
+        } else {
+            switch ($method) {
+                case 'GET':    $result = $controller->index(['id' => $id_param]); break;
+                case 'POST':   $result = $controller->create($body); break;
+                case 'PUT':    $result = $controller->update($id_param, $body); break;
+                case 'DELETE': $result = $controller->delete($id_param); break;
+                default:       respond(["error" => "Method $method not allowed"], 405);
+            }
+        }
+        
         respond($result);
+    } else {
+        respond(["error" => "Controller $controllerName not found"], 404);
     }
-
-    $result = null;
-    switch ($method) {
-        case 'GET':    $result = $controller->index(['id' => $id_param]); break;
-        case 'POST':   $result = $controller->create($body); break;
-        case 'PUT':    $result = $controller->update($id_param, $body); break;
-        case 'DELETE': $result = $controller->delete($id_param); break;
-        default:       respond(["error" => "Method not allowed"], 405);
-    }
-    
-    respond($result);
-} else {
-    // Fallback for routes that don't have a dedicated controller yet
-    respond(["error" => "Controller $controllerName not found"], 404);
+} catch (\Exception $e) {
+    respond([
+        "error" => "Server Error",
+        "message" => $e->getMessage()
+    ], 500);
 }

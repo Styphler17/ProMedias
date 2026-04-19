@@ -8,10 +8,15 @@ class AdminUser {
 
     public function __construct() {
         $this->db = Database::getInstance()->getConnection();
-        // Self-migration check to ensure display_name exists
+        // Robust check for display_name column
         try {
-            $this->db->exec("ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS display_name VARCHAR(255) DEFAULT NULL AFTER id");
-        } catch (\Exception $e) { /* ignore if already exists */ }
+            $check = $this->db->query("SHOW COLUMNS FROM admin_users LIKE 'display_name'")->fetch();
+            if (!$check) {
+                $this->db->exec("ALTER TABLE admin_users ADD COLUMN display_name VARCHAR(255) DEFAULT NULL AFTER id");
+            }
+        } catch (\Exception $e) { 
+            // If still failing, log to a file or just silence if it's a structural issue
+        }
     }
 
     public function getByEmail($email) {
