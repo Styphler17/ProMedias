@@ -19,7 +19,18 @@ const STATUSES = [
 ]
 
 const MAX_IMAGES = 5
-const EMPTY_FORM = { name: '', slug: '', price: '', categoryId: '', condition: 'excellent', conditionScore: 100, specs: '', description: '', status: 'published', images: [] as string[] }
+const EMPTY_FORM = { 
+  name: '', 
+  slug: '', 
+  price: '', 
+  categoryId: '' as string | number, 
+  condition: 'excellent', 
+  conditionScore: 100, 
+  specs: '', 
+  description: '', 
+  status: 'published', 
+  images: [] as string[] 
+}
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = { published: 'bg-green-100 text-green-700', draft: 'bg-zinc-100 text-zinc-500', sold: 'bg-orange-100 text-orange-700' }
