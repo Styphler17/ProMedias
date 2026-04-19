@@ -57,3 +57,57 @@ This document tracks the major visual and functional upgrades implemented during
 ---
 
 *Created by Antigravity (Advanced Agentic Coding) in collaboration with the ProMedias Team.*
+
+---
+
+# 🛠️ ProMedias - Session Development History (2026-04-19)
+
+This session focused on the comprehensive stabilization, modernization, and personnel-management expansion of the Admin Dashboard.
+
+## 👥 1. Personnel Management: Super Admin & Roles
+
+- **Objective**: Expand the dashboard to support a multi-user team with varied permissions.
+- **Implementation**:
+  - Implemented a 3-tier role system: `Super Admin`, `Administrator`, and `Editor`.
+  - Created a premium card-based **User Management** hub with "Personnel Cards" replacing legacy tables.
+  - Added an integrated invitation modal for adding new team members.
+  - Implemented self-healing database migrations in `AdminUser.php` to handle role columns automatically.
+- **Key Decisions**: Enforced strict role-based actions (e.g., only Super Admins can manage other users) to ensure platform security.
+
+## 🏙️ 2. Navigation & Sidebar Overhaul
+
+- **Objective**: Improve information scent and accessibility for administrative tools.
+- **Implementation**:
+  - Transformed the sidebar with a collapsible, auto-expanding "Catégories" section.
+  - Added a global **"Back to top"** micro-utility (discreet 36px button) triggered by scroll position.
+  - Moved high-priority "Corbeille" and "Réglages" to a dedicated footer section in the sidebar.
+- **Performance**: Resolved cascading render warnings in the layout by refactoring state management to use lazy initializers.
+
+## 📂 3. Media Library Hardening & Stability
+
+- **Objective**: Resolve critical runtime errors and improve media filtering.
+- **Implementation**:
+  - Standardized media properties to `filename` and `type`, aligning with the global `AdminMedia` interface.
+  - Resolved **Server 500 Errors** via a robust "Self-Healing" migration logic in the Media model that automatically patches missing schema columns.
+  - Integrated `category`, `search`, and `sort` support into the backend API.
+  - **Double Scrollbar Fix**: Refactored the layout to use a single unified page scroll, making the Toolbar and Inspector Sidebar `sticky`.
+
+## 🎨 4. Aesthetic & Type Safety
+
+- **Brand Scrollbar**: Implemented a custom CSS scrollbar globally (Zinc-900 thumb / Zinc-100 track) for a premium tactile feel.
+- **Strict TypeScript**: 
+  - Eliminated all remaining `any` types in administrative modules.
+  - Resolved linting warnings (unused imports, variables).
+  - Enforced `AdminProfile` and `AdminUser` interfaces across all team-related views.
+
+---
+
+## 🔮 Next Steps & Future Ideas
+
+- [ ] Implement secure JWT-based backend role verification for every request.
+- [ ] Add bulk-management actions to the Media Library and Trash hub.
+- [ ] Integrate a "live activity" feed for more granular team oversight.
+
+---
+
+*Created by Antigravity (Advanced Agentic Coding) in collaboration with the ProMedias Team.*
