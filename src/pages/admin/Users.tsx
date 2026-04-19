@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { UserPlus, Trash2, ShieldCheck, Shield, User, Mail, Calendar, X, ShieldAlert, Key, MoreVertical } from 'lucide-react'
+import { UserPlus, Trash2, ShieldCheck, Shield, User, Mail, Calendar, X, ShieldAlert, Key } from 'lucide-react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { adminGetUsers, adminCreateUser, adminUpdateUser, adminDeleteUser, type AdminUser, adminGetProfile } from '@/lib/admin'
 import { Button } from '@/components/ui/button'
