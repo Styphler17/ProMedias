@@ -241,7 +241,7 @@ export default function MediaLibrary() {
 
                 <div>
                   <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Type</p>
-                  <p className="text-sm text-zinc-800">{selectedItem.mime_type}</p>
+                  <p className="text-sm text-zinc-800">{selectedItem.type}</p>
                 </div>
 
                 <div>
