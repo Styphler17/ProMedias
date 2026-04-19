@@ -457,18 +457,18 @@ const Shop = () => {
 
       {/* Product Details Modal */}
       <Dialog open={!!selectedProduct} onOpenChange={(open) => !open && setSelectedProduct(null)}>
-        <DialogContent className="max-w-4xl p-0 overflow-hidden bg-white border-none rounded-[2.5rem] shadow-2xl">
+        <DialogContent className="max-w-4xl p-0 max-h-[90vh] md:max-h-[auto] overflow-y-auto md:overflow-hidden bg-white border-none rounded-[3rem] shadow-2xl">
           {selectedProduct && (
-            <div className="flex flex-col md:flex-row h-full">
+            <div className="flex flex-col md:flex-row">
               <div className="md:w-1/2 flex flex-col bg-zinc-50">
-                <div className="flex-grow p-12 flex items-center justify-center bg-zinc-100 h-[450px]">
+                <div className="flex-grow p-12 flex items-center justify-center bg-zinc-100 h-[350px] md:h-[450px] overflow-hidden group cursor-zoom-in">
                   <motion.img 
                     key={activeImage}
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     src={activeImage || selectedProduct.image} 
                     alt={selectedProduct.name} 
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-125"
                   />
                 </div>
                 {/* Thumbnail Gallery */}
@@ -487,7 +487,7 @@ const Shop = () => {
                   ))}
                 </div>
               </div>
-              <div className="md:w-1/2 p-12 flex flex-col justify-center">
+              <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
                 <DialogHeader className="mb-8">
                   <div className="flex justify-between items-start mb-4">
                      <span className="text-primary font-bold tracking-[0.2em] text-[10px] uppercase font-headline">Produit Certifié</span>
@@ -532,7 +532,9 @@ const Shop = () => {
         </DialogContent>
       </Dialog>
 
-      <AnnouncementsSlider />
+      <div className="mt-16">
+        <AnnouncementsSlider />
+      </div>
     </div>
   );
 };
