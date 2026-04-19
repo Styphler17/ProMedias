@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Pencil, Trash2, Plus, X, Check, Upload, Image } from 'lucide-react'
+import { Pencil, Trash2, Plus, X, Check, Upload, Image, Search, Package } from 'lucide-react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
 import { adminGetProducts, adminGetCategories, adminCreateProduct, adminUpdateProduct, adminDeleteProduct, adminUpload } from '@/lib/admin'
@@ -69,14 +69,22 @@ export default function Products() {
   const [uploading, setUploading] = useState(false)
   const [pickerOpen, setPickerOpen] = useState(false)
 
+  const [query, setQuery]         = useState('')
+  const [filterCat, setFilterCat] = useState('')
+
   const load = async () => {
     const [p, c] = await Promise.all([adminGetProducts(), adminGetCategories()])
     setProducts(p); setCategories(c)
   }
   useEffect(() => { load() }, [])
 
-  const autoSlug = (name: string) => name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')
+  const filtered = products.filter(p => {
+    const mSearch = p.name.toLowerCase().includes(query.toLowerCase())
+    const mCat    = !filterCat || p.categoryId?.toString() === filterCat
+    return mSearch && mCat
+  })
 
+  const autoSlug = (name: string) => name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')
   const openNew = () => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true); setError('') }
   const openEdit = async (p: Product) => {
     setForm({
@@ -131,174 +139,240 @@ export default function Products() {
   return (
     <AdminLayout>
       <div className="p-4 sm:p-6 lg:p-10">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
           <div>
-            <h1 className="text-2xl font-bold">Produits</h1>
-            <p className="text-zinc-500 text-sm">{products.length} produit{products.length !== 1 ? 's' : ''}</p>
+            <h1 className="text-3xl font-bold tracking-tight">Catalogue</h1>
+            <p className="text-zinc-500 text-sm mt-1">Gérez vos {products.length} produits et leur visibilité.</p>
           </div>
-          <Button onClick={openNew} className="w-full sm:w-auto"><Plus size={16} className="mr-2" />Nouveau produit</Button>
+          <Button onClick={openNew} className="rounded-xl h-11 px-6 shadow-lg shadow-[hsl(357,83%,37%)]/20">
+            <Plus size={18} className="mr-2" /> 
+            <span>Nouveau produit</span>
+          </Button>
+        </div>
+
+        {/* Search & Filter Bar */}
+        <div className="flex flex-col md:flex-row gap-4 mb-10">
+          <div className="relative flex-1 group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-[hsl(357,83%,37%)] transition-colors" size={18} />
+            <input 
+              type="text" 
+              placeholder="Rechercher un produit..." 
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              className="w-full bg-white border border-zinc-200 rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(357,83%,37%)]/10 focus:border-[hsl(357,83%,37%)] transition-all shadow-sm"
+            />
+          </div>
+          <div className="flex gap-4">
+            <select 
+              value={filterCat}
+              onChange={e => setFilterCat(e.target.value)}
+              className="bg-white border border-zinc-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-[hsl(357,83%,37%)] shadow-sm min-w-[160px]"
+            >
+              <option value="">Toutes catégories</option>
+              {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+            </select>
+          </div>
         </div>
 
         {showForm && (
-          <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-6 mb-8 shadow-sm">
-            <h2 className="font-semibold mb-4">{editId ? 'Modifier le produit' : 'Nouveau produit'}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-8 mb-10 shadow-xl shadow-zinc-200/50 animate-in fade-in slide-in-from-top-4 duration-300">
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-zinc-50">
+              <h2 className="text-xl font-bold">{editId ? 'Modifier le produit' : 'Nouveau produit'}</h2>
+              <button onClick={() => setShowForm(false)} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
+                <X size={20} className="text-zinc-400" />
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
               <div className="sm:col-span-1">
-                <label className="text-xs font-medium text-zinc-500 mb-1 block">Nom</label>
-                <input className="w-full border border-zinc-200 rounded-xl px-3 py-2 text-sm" value={form.name}
-                  onChange={e => setForm(f => ({ ...f, name: e.target.value, slug: autoSlug(e.target.value) }))} />
+                <label className="text-xs font-bold text-zinc-400 mb-2 block uppercase tracking-wider">Identification</label>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-xs font-medium text-zinc-500 mb-1.5 block">Nom du produit</label>
+                    <input className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:border-[hsl(357,83%,37%)] focus:ring-0 outline-none transition-colors" value={form.name}
+                      onChange={e => setForm(f => ({ ...f, name: e.target.value, slug: autoSlug(e.target.value) }))} />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-zinc-500 mb-1.5 block">URL Simplifiée (Slug)</label>
+                    <input className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:border-[hsl(357,83%,37%)] focus:ring-0 outline-none transition-colors" value={form.slug}
+                      onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} />
+                  </div>
+                </div>
               </div>
+
               <div className="sm:col-span-1">
-                <label className="text-xs font-medium text-zinc-500 mb-1 block">Slug</label>
-                <input className="w-full border border-zinc-200 rounded-xl px-3 py-2 text-sm" value={form.slug}
-                  onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} />
+                <label className="text-xs font-bold text-zinc-400 mb-2 block uppercase tracking-wider">Tarification & Catégorie</label>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs font-medium text-zinc-500 mb-1.5 block">Prix (€)</label>
+                      <input className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:border-[hsl(357,83%,37%)]" value={form.price}
+                        onChange={e => setForm(f => ({ ...f, price: e.target.value }))} />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-zinc-500 mb-1.5 block">Catégorie</label>
+                      <select className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:border-[hsl(357,83%,37%)] cursor-pointer" value={form.categoryId}
+                        onChange={e => setForm(f => ({ ...f, categoryId: e.target.value }))}>
+                        <option value="">— Sélectionner —</option>
+                        {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-zinc-500 mb-1.5 block">Statut de visibilité</label>
+                    <select className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:border-[hsl(357,83%,37%)] cursor-pointer" value={form.status}
+                      onChange={e => setForm(f => ({ ...f, status: e.target.value }))}>
+                      {STATUSES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+                    </select>
+                  </div>
+                </div>
               </div>
+
               <div className="sm:col-span-1">
-                <label className="text-xs font-medium text-zinc-500 mb-1 block">Prix (ex: 599 €)</label>
-                <input className="w-full border border-zinc-200 rounded-xl px-3 py-2 text-sm" value={form.price}
-                  onChange={e => setForm(f => ({ ...f, price: e.target.value }))} />
+                <label className="text-xs font-bold text-zinc-400 mb-2 block uppercase tracking-wider">État du produit</label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs font-medium text-zinc-500 mb-1.5 block">Qualité</label>
+                    <select className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:border-[hsl(357,83%,37%)] cursor-pointer" value={form.condition}
+                      onChange={e => setForm(f => ({ ...f, condition: e.target.value }))}>
+                      {CONDITIONS.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-zinc-500 mb-1.5 block">Note /100</label>
+                    <input type="number" min={0} max={100} className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm" value={form.conditionScore}
+                      onChange={e => setForm(f => ({ ...f, conditionScore: parseInt(e.target.value) || 0 }))} />
+                  </div>
+                </div>
               </div>
+
               <div className="sm:col-span-1">
-                <label className="text-xs font-medium text-zinc-500 mb-1 block">Catégorie</label>
-                <select className="w-full border border-zinc-200 rounded-xl px-3 py-2 text-sm" value={form.categoryId}
-                  onChange={e => setForm(f => ({ ...f, categoryId: e.target.value }))}>
-                  <option value="">— Aucune —</option>
-                  {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
+                <label className="text-xs font-bold text-zinc-400 mb-2 block uppercase tracking-wider">Détails techniques</label>
+                <div>
+                  <label className="text-xs font-medium text-zinc-500 mb-1.5 block">Spécifications rapides</label>
+                  <input className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:border-[hsl(357,83%,37%)]" value={form.specs}
+                    onChange={e => setForm(f => ({ ...f, specs: e.target.value }))} placeholder="Ex: 256GB · 120Hz · Face ID" />
+                </div>
               </div>
-              <div className="sm:col-span-1">
-                <label className="text-xs font-medium text-zinc-500 mb-1 block">État</label>
-                <select className="w-full border border-zinc-200 rounded-xl px-3 py-2 text-sm" value={form.condition}
-                  onChange={e => setForm(f => ({ ...f, condition: e.target.value }))}>
-                  {CONDITIONS.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
-                </select>
-              </div>
-              <div className="sm:col-span-1">
-                <label className="text-xs font-medium text-zinc-500 mb-1 block">Score état (0-100)</label>
-                <input type="number" min={0} max={100} className="w-full border border-zinc-200 rounded-xl px-3 py-2 text-sm" value={form.conditionScore}
-                  onChange={e => setForm(f => ({ ...f, conditionScore: parseInt(e.target.value) || 0 }))} />
-              </div>
-              <div className="sm:col-span-1">
-                <label className="text-xs font-medium text-zinc-500 mb-1 block">Statut</label>
-                <select className="w-full border border-zinc-200 rounded-xl px-3 py-2 text-sm" value={form.status}
-                  onChange={e => setForm(f => ({ ...f, status: e.target.value }))}>
-                  {STATUSES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-                </select>
-              </div>
-              <div className="sm:col-span-1">
-                <label className="text-xs font-medium text-zinc-500 mb-1 block">Spécifications courtes</label>
-                <input className="w-full border border-zinc-200 rounded-xl px-3 py-2 text-sm" value={form.specs}
-                  onChange={e => setForm(f => ({ ...f, specs: e.target.value }))} placeholder="Ex: 256GB · Face ID · 5G" />
-              </div>
+
               <div className="col-span-1 sm:col-span-2">
-                <label className="text-xs font-medium text-zinc-500 mb-1 block">Description</label>
-                <textarea rows={3} className="w-full border border-zinc-200 rounded-xl px-3 py-2 text-sm" value={form.description}
+                <label className="text-xs font-medium text-zinc-500 mb-1.5 block uppercase tracking-wider font-bold text-zinc-400">Description détaillée</label>
+                <textarea rows={4} className="w-full border border-zinc-200 rounded-2xl px-4 py-3 text-sm focus:border-[hsl(357,83%,37%)] outline-none" value={form.description}
                   onChange={e => setForm(f => ({ ...f, description: e.target.value }))} />
               </div>
-              {/* Images — max 5 slots */}
+
               <div className="col-span-1 sm:col-span-2">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                  <label className="text-xs font-medium text-zinc-500">
-                    Photos <span className="text-zinc-400 font-normal">({form.images.length}/{MAX_IMAGES})</span>
-                  </label>
+                <div className="flex items-center justify-between mb-4">
+                  <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Galerie Photos ({form.images.length}/{MAX_IMAGES})</label>
                   <button type="button" onClick={() => setPickerOpen(true)}
                     disabled={form.images.length >= MAX_IMAGES}
-                    className="flex items-center justify-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-900 border border-zinc-200 hover:border-zinc-400 rounded-lg px-2.5 py-1.5 sm:py-1 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
-                    <Image size={12} />
-                    Depuis la médiathèque
+                    className="flex items-center gap-2 text-xs font-bold text-[hsl(357,83%,37%)] hover:bg-[hsl(357,83%,37%)]/5 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-30">
+                    <Image size={14} /> Médiathèque
                   </button>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
                   {Array.from({ length: MAX_IMAGES }).map((_, i) => {
                     const url = form.images[i]
                     return url ? (
-                      <div key={i} className="relative group">
-                        {i === 0 && (
-                          <span className="absolute top-1.5 left-1.5 z-10 bg-zinc-900/70 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded-md">
-                            Principale
-                          </span>
-                        )}
-                        <img src={resolveUrl(url)} alt="" className="w-full aspect-square object-cover rounded-xl border border-zinc-200" />
-                        <button type="button"
-                          onClick={() => setForm(f => ({ ...f, images: f.images.filter((_, j) => j !== i) }))}
-                          className="absolute -top-2 -right-2 bg-white border border-zinc-200 rounded-full p-0.5 hover:bg-red-50 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity shadow-sm">
-                          <X size={12} className="text-zinc-500" />
+                      <div key={i} className="relative group aspect-square rounded-2xl overflow-hidden border border-zinc-100 shadow-sm">
+                        {i === 0 && <span className="absolute top-2 left-2 z-10 bg-black/70 text-white text-[9px] font-bold px-2 py-0.5 rounded-md backdrop-blur-sm">Affiche</span>}
+                        <img src={resolveUrl(url)} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <button type="button" onClick={() => setForm(f => ({ ...f, images: f.images.filter((_, j) => j !== i) }))}
+                          className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-zinc-500 hover:text-red-600 p-1.5 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100">
+                          <X size={14} />
                         </button>
                       </div>
                     ) : (
-                      <label key={i} className="aspect-square border-2 border-dashed border-zinc-200 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-zinc-400 hover:bg-zinc-50 transition-colors">
-                        <Upload size={14} className="text-zinc-300 mb-1" />
-                        <span className="text-[10px] text-zinc-300 text-center px-1">{uploading && i === form.images.length ? 'Upload…' : 'Ajouter'}</span>
-                        <input type="file" accept="image/*" multiple className="hidden"
-                          onChange={e => e.target.files && handleImageUpload(e.target.files)} />
+                      <label key={i} className="aspect-square border-2 border-dashed border-zinc-200 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-[hsl(357,83%,37%)] hover:bg-[hsl(357,83%,37%)]/[0.02] transition-all group">
+                        <Upload size={20} className="text-zinc-300 group-hover:text-[hsl(357,83%,37%)] mb-2 transition-colors" />
+                        <span className="text-[10px] font-bold text-zinc-400 group-hover:text-[hsl(357,83%,37%)] uppercase tracking-widest">{uploading && i === form.images.length ? '...' : 'Ajouter'}</span>
+                        <input type="file" accept="image/*" multiple className="hidden" onChange={e => e.target.files && handleImageUpload(e.target.files)} />
                       </label>
                     )
                   })}
                 </div>
               </div>
             </div>
-            {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
-            <div className="flex flex-col sm:flex-row gap-2 mt-6">
-              <Button onClick={save} className="w-full sm:w-auto"><Check size={14} className="mr-1" />Enregistrer</Button>
-              <Button variant="outline" onClick={() => setShowForm(false)} className="w-full sm:w-auto"><X size={14} className="mr-1" />Annuler</Button>
+
+            {error && <div className="mt-6 p-4 bg-red-50 text-red-600 rounded-2xl text-sm font-medium border border-red-100">{error}</div>}
+            
+            <div className="flex flex-col sm:flex-row gap-3 mt-10">
+              <Button onClick={save} className="rounded-xl h-12 px-8 flex-1 sm:flex-none shadow-lg shadow-[hsl(357,83%,37%)]/20"><Check size={18} className="mr-2" />Enregistrer</Button>
+              <Button variant="outline" onClick={() => setShowForm(false)} className="rounded-xl h-12 px-8 flex-1 sm:flex-none">Annuler</Button>
             </div>
           </div>
         )}
 
-        <div className="bg-white rounded-2xl border border-zinc-100 overflow-hidden shadow-sm">
-          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-200">
-            <table className="w-full text-sm min-w-full">
-              <thead className="bg-zinc-50 border-b border-zinc-100 uppercase tracking-wider text-[10px] font-bold text-zinc-400">
-                <tr>
-                  <th className="text-left px-4 py-3 w-12"></th>
-                  <th className="text-left px-4 py-3">Produit</th>
-                  <th className="text-left px-4 py-3">Prix</th>
-                  <th className="text-left px-4 py-3 hidden sm:table-cell">Catégorie</th>
-                  <th className="text-left px-4 py-3">Statut</th>
-                  <th className="text-right px-4 py-3"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-50">
-                {products.map(p => (
-                  <tr key={p.id} className="hover:bg-zinc-50/50 transition-colors group">
-                    <td className="px-4 py-3">
-                      <div className="h-10 w-12 bg-zinc-100 rounded-lg overflow-hidden border border-zinc-100 shrink-0">
-                        {p.image
-                          ? <img src={resolveUrl(p.image)} alt="" className="h-full w-full object-cover" />
-                          : <div className="h-full w-full flex items-center justify-center bg-zinc-50"><Package size={14} className="text-zinc-300" /></div>}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="min-w-0">
-                        <p className="font-medium text-zinc-900 truncate max-w-[120px] sm:max-w-none">{p.name}</p>
-                        <p className="text-[10px] text-zinc-400 sm:hidden mt-0.5 truncate">{p.category_name || 'Sans catégorie'}</p>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-zinc-600 font-medium whitespace-nowrap">{p.price}</td>
-                    <td className="px-4 py-3 text-zinc-500 hidden sm:table-cell whitespace-nowrap">{p.category_name || '—'}</td>
-                    <td className="px-4 py-3">
-                      <StatusBadge status={p.status} />
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-1 sm:gap-3">
-                        <button onClick={() => openEdit(p)} className="p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-all"><Pencil size={15} /></button>
-                        <button onClick={() => del(p.id)} className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"><Trash2 size={15} /></button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {products.length === 0 && (
-                  <tr><td colSpan={6} className="px-6 py-12 text-center text-zinc-400 font-medium italic">Aucun produit trouvé</td></tr>
-                )}
-              </tbody>
-            </table>
+        {/* Product Cards Grid */}
+        {filtered.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filtered.map(p => (
+              <div key={p.id} className="group bg-white border border-zinc-100 rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-zinc-200/50 hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                <div className="relative aspect-[4/3] overflow-hidden bg-zinc-50">
+                  <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
+                    <StatusBadge status={p.status} />
+                    {p.condition && (
+                      <span className="bg-white/90 backdrop-blur-sm text-[9px] font-black uppercase text-zinc-900 px-2 py-1 rounded-full shadow-sm w-fit border border-white">
+                        {p.condition} · {p.conditionScore}%
+                      </span>
+                    )}
+                  </div>
+                  {p.image ? (
+                    <img src={resolveUrl(p.image)} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Package size={40} className="text-zinc-200" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+
+                <div className="p-5 flex-1 flex flex-col">
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <h3 className="font-bold text-zinc-900 line-clamp-1 group-hover:text-[hsl(357,83%,37%)] transition-colors">{p.name}</h3>
+                      <span className="text-sm font-black text-zinc-900 shrink-0">{p.price}</span>
+                    </div>
+                    <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4">
+                      {categories.find(c => c.id.toString() === p.categoryId?.toString())?.name || 'Sans catégorie'}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 mt-2 pt-4 border-t border-zinc-50">
+                    <button 
+                      onClick={() => openEdit(p)}
+                      className="flex-1 flex items-center justify-center gap-2 bg-zinc-50 hover:bg-[hsl(357,83%,37%)]/10 text-zinc-600 hover:text-[hsl(357,83%,37%)] font-bold text-[11px] uppercase tracking-wider py-2.5 rounded-xl transition-all"
+                    >
+                      <Pencil size={12} /> Modifier
+                    </button>
+                    <button 
+                      onClick={() => del(p.id)}
+                      className="p-2.5 text-zinc-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                      title="Supprimer"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-          {/* Scroll hint for mobile */}
-          <div className="lg:hidden bg-zinc-50 px-4 py-2 text-[10px] text-zinc-400 text-center uppercase tracking-widest border-t border-zinc-100">
-            Faites défiler pour voir plus →
+        ) : (
+          <div className="bg-zinc-50/50 border-2 border-dashed border-zinc-100 rounded-[2rem] py-20 text-center">
+            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+              <Search size={24} className="text-zinc-200" />
+            </div>
+            <h3 className="text-zinc-900 font-bold">Aucun produit trouvé</h3>
+            <p className="text-zinc-400 text-sm mt-1">Essayez d'ajuster votre recherche ou vos filtres.</p>
+            {query || filterCat ? (
+              <button onClick={() => { setQuery(''); setFilterCat('') }} className="mt-6 text-sm font-bold text-[hsl(357,83%,37%)] hover:underline decoration-2 underline-offset-4">
+                Effacer les filtres
+              </button>
+            ) : null}
           </div>
-        </div>
+        )}
       </div>
+
       <MediaPicker
         open={pickerOpen}
         onClose={() => setPickerOpen(false)}
