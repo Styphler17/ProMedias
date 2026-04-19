@@ -154,7 +154,7 @@ export const adminDeleteCategory  = (id: number) => req<{ success: boolean }>('D
 
 // Settings
 export const adminGetSettings    = ()            => req<Record<string,string|null>>('GET', '/settings')
-export const adminUpdateSettings = (data: Record<string,any>) => req<{ success: boolean }>('PUT', '/settings', data)
+export const adminUpdateSettings = (data: Record<string, string | number | boolean | null>) => req<{ success: boolean }>('PUT', '/settings', data)
 
 // Announcements
 export const adminGetAnnouncements    = ()              => req<AdminAnnouncement[]>('GET', '/announcements/all')
