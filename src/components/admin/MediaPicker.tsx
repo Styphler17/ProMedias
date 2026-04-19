@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import { Search, Upload, X, Check, Image } from 'lucide-react'
+import { Search, Upload, X, Check, Image, ChevronDown } from 'lucide-react'
 import { adminGetMedia, adminUpload } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
 import { cn } from '@/lib/utils'
@@ -101,17 +101,33 @@ export default function MediaPicker({ open, onClose, onSelect, multiple = false,
         {tab === 'library' ? (
           <>
             {/* Filters */}
-            <div className="flex items-center gap-3 px-6 py-3 border-b border-zinc-100">
-              <div className="relative flex-1 max-w-xs">
+            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 px-6 py-3 border-b border-zinc-100">
+              <div className="relative flex-1 max-w-none md:max-w-xs">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
                 <input
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   placeholder="Rechercher…"
-                  className="w-full pl-8 pr-3 py-2 text-sm border border-zinc-200 rounded-xl focus:outline-none focus:border-zinc-400"
+                  className="w-full pl-8 pr-3 py-2 text-sm border border-zinc-200 rounded-xl focus:outline-none focus:border-zinc-400 bg-zinc-50/50 md:bg-white"
                 />
               </div>
-              <div className="flex gap-1">
+
+              {/* Mobile Select */}
+              <div className="relative block md:hidden">
+                <select
+                  value={cat}
+                  onChange={e => setCat(e.target.value)}
+                  className="w-full pl-4 pr-10 py-2 bg-zinc-100 border-none rounded-xl text-sm font-semibold appearance-none outline-none"
+                >
+                  {CATEGORIES.map(c => (
+                    <option key={c.value} value={c.value}>{c.label}</option>
+                  ))}
+                </select>
+                <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
+              </div>
+
+              {/* Desktop Buttons */}
+              <div className="hidden md:flex gap-1">
                 {CATEGORIES.map(c => (
                   <button key={c.value} onClick={() => setCat(c.value)}
                     className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
