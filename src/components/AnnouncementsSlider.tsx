@@ -53,17 +53,17 @@ export default function AnnouncementsSlider() {
           {announcements.map(a => (
             <div key={a.id} className="relative flex-none w-full">
               {/* Image */}
-              <div className="relative w-full aspect-[16/6] md:aspect-[16/5] overflow-hidden">
+              <div className="relative w-full aspect-[16/7] md:aspect-[16/6] overflow-hidden bg-zinc-950">
                 <img
                   src={resolveUrl(a.image_url)}
                   alt={a.title}
-                  className="w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-contain"
                 />
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/80 via-zinc-950/30 to-transparent" />
+                {/* Gradient overlay — left side only so image stays visible */}
+                <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/85 via-zinc-950/40 to-transparent" />
 
                 {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-center px-10 md:px-16 max-w-2xl">
+                <div className="absolute inset-0 flex flex-col justify-center px-10 md:px-16 max-w-xl">
                   {a.subtitle && (
                     <p className="text-xs font-semibold uppercase tracking-widest text-[hsl(357,83%,60%)] mb-2">
                       {a.subtitle}

@@ -12,11 +12,12 @@ const CATEGORIES = [
   { value: 'page',          label: 'Pages' },
   { value: 'hero',          label: 'Hero Backgrounds' },
   { value: 'announcement',  label: 'Annonces' },
+  { value: 'team',          label: 'Profils Équipe' },
   { value: 'uncategorized', label: 'Non classé' },
 ]
 
 const CAT_LABELS: Record<string, string> = {
-  product: 'Produit', logo: 'Logo', page: 'Page', hero: 'Hero', announcement: 'Annonce', uncategorized: 'Non classé',
+  product: 'Produit', logo: 'Logo', page: 'Page', hero: 'Hero', announcement: 'Annonce', team: 'Équipe', uncategorized: 'Non classé',
 }
 
 const CAT_COLORS: Record<string, string> = {
@@ -25,6 +26,7 @@ const CAT_COLORS: Record<string, string> = {
   page:          'bg-green-50 text-green-600',
   hero:          'bg-orange-50 text-orange-600',
   announcement:  'bg-pink-50 text-pink-600',
+  team:          'bg-teal-50 text-teal-600',
   uncategorized: 'bg-zinc-100 text-zinc-500',
 }
 
