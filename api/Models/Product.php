@@ -63,7 +63,7 @@ class Product {
     }
 
     private function getGallery($productId) {
-        $stmt = $this->db->prepare("SELECT image_url FROM product_images WHERE product_id = ?");
+        $stmt = $this->db->prepare("SELECT url FROM product_images WHERE product_id = ? ORDER BY sort_order ASC");
         $stmt->execute([$productId]);
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
