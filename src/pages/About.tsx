@@ -235,9 +235,9 @@ const About = () => {
       </section>
 
       {/* Map Section */}
-      <section className="container py-32">
+      <section className="container py-20">
         <div className="bg-zinc-900 rounded-[3.5rem] overflow-hidden flex flex-col md:flex-row shadow-2xl">
-          <div className="flex-1 p-16 lg:p-24 space-y-10">
+          <div className="flex-1 p-10 lg:p-16 space-y-8">
             <h2 className="text-5xl font-headline font-bold text-white">Nous <span className="text-primary italic">trouver.</span></h2>
             <div className="space-y-8">
               <div className="flex gap-6">
