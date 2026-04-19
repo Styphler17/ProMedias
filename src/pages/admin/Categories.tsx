@@ -10,10 +10,18 @@ const MAIN_CATS = [
   { value: 'accessoires',  label: 'Accessoires'  },
 ]
 
+interface Category {
+  id: number
+  name: string
+  slug: string
+  mainCategory: string
+  description?: string
+}
+
 const EMPTY = { name: '', slug: '', mainCategory: 'telephonie', description: '' }
 
 export default function Categories() {
-  const [cats, setCats]       = useState<any[]>([])
+  const [cats, setCats]       = useState<Category[]>([])
   const [form, setForm]       = useState(EMPTY)
   const [editId, setEditId]   = useState<number | null>(null)
   const [showForm, setShowForm] = useState(false)
@@ -23,7 +31,17 @@ export default function Categories() {
   useEffect(() => { load() }, [])
 
   const openNew  = () => { setForm(EMPTY); setEditId(null); setShowForm(true); setError('') }
-  const openEdit = (c: any) => { setForm({ name: c.name, slug: c.slug, mainCategory: c.mainCategory || 'telephonie', description: c.description || '' }); setEditId(c.id); setShowForm(true); setError('') }
+  const openEdit = (c: Category) => { 
+    setForm({ 
+      name: c.name, 
+      slug: c.slug, 
+      mainCategory: c.mainCategory || 'telephonie', 
+      description: c.description || '' 
+    })
+    setEditId(c.id)
+    setShowForm(true)
+    setError('') 
+  }
 
   const save = async () => {
     setError('')
@@ -31,7 +49,9 @@ export default function Categories() {
       if (editId) await adminUpdateCategory(editId, form)
       else await adminCreateCategory(form)
       setShowForm(false); load()
-    } catch (e: any) { setError(e.message) }
+    } catch (e: unknown) { 
+      setError(e instanceof Error ? e.message : 'Une erreur est survenue') 
+    }
   }
 
   const del = async (id: number) => {
