@@ -15,30 +15,39 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { PageHero } from "@/components/PageHero";
-import { fetchPage, fetchContact, fetchSiteOptions, type PageData, type SiteOptions } from "@/lib/woocommerce";
+import { fetchPage, fetchContact, fetchSiteOptions, fetchAboutSettings, type PageData, type SiteOptions, type AboutSettings, type ContactInfo } from "@/lib/woocommerce";
 
 const About = () => {
   const [pageData, setPageData] = useState<PageData | null>(null);
   const [mapsUrl, setMapsUrl] = useState<string | null>(null);
   const [storefrontUrl, setStorefrontUrl] = useState<string>('');
-  const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
+  const [siteOptions, setSiteOptions]   = useState<SiteOptions>({});
+  const [aboutSettings, setAboutSettings] = useState<AboutSettings>({});
+  const [contact, setContact]            = useState<ContactInfo>({});
 
   useEffect(() => {
     const loadData = async () => {
-      const [data, contact, opts] = await Promise.all([fetchPage("about"), fetchContact(), fetchSiteOptions()]);
+      const [data, contact, opts, aboutOpts] = await Promise.all([fetchPage("about"), fetchContact(), fetchSiteOptions(), fetchAboutSettings()]);
       setPageData(data);
       setSiteOptions(opts);
+      setAboutSettings(aboutOpts);
+      setContact(contact);
       setMapsUrl(contact.contact_maps_url ?? null);
       setStorefrontUrl(contact.contact_storefront_url ?? '');
     };
     loadData();
   }, []);
 
-  // Helper to get ACF image with fallback
+  // Helper: aboutSettings (DB) → siteOptions → ACF → local fallback
   const getImg = (slug: string, fallback: string): string => {
+    const fromAbout = aboutSettings[slug];
+    if (fromAbout) return fromAbout;
+    const fromSite = siteOptions[slug];
+    if (fromSite) return fromSite;
     const val = pageData?.acf?.[slug];
     return typeof val === 'string' ? val : fallback;
   };
+
   return (
     <div className="pb-24">
       <SEO
@@ -145,10 +154,10 @@ const About = () => {
         <div className="container grid lg:grid-cols-2 gap-20 items-center">
             <div className="grid grid-cols-2 gap-6 transform lg:-rotate-2">
                 {[
-                  { slug: "team_1", fallback: "https://lh3.googleusercontent.com/aida-public/AB6AXuDVszKE-7YOrUU6f_3YdB8mvTmeiXpXfyh2o5K9Zh4NKlegXv_zTsIFm5GDgol-G6Rv3xeXTAWBCLIIHKJqdF3wxxzxeUep6Zy4-r-d1opep-0-c8CTRXRooaGSQtmJW8qUKXkjXt-lAV94Tsqm0kd030NBEiHKgYyk0Qd6g0TUuDezqPl9JtTtKxxdTGjF_7U0BwXsNGKjf1pje4V5uYceTtonn-FsN66RGOOIS3p67pWWlFcv9YPR1r2fpE4cnXJW7ge1eB-mX0Y", role: "Expert iPhone" },
-                  { slug: "team_2", fallback: "https://lh3.googleusercontent.com/aida-public/AB6AXuBm-YSb1tRksBS6805h-klqPd0gWMfoBGvk9KQsDnfkTv9QVXY9e6bwVuYNypfigtcA7aGOV_cR-ZfrQfnax-3r5C_p7Uyi1l223TzSDz2VkacDFS9j4iZjl-SweTEF-ejaKQDAqmoNqyVHkvmo2QTg4tNWkorLPG52Vme1g9g1MIaK-nbMk0ouevhvBp3PZ7qkAFDh_RxsLkiPSqHJD8_S1Zet-mnS5YveSlyZfKsd8GoPtu1Fiz2IPDHnLvn2pFJvfFhtMRqGQ08", role: "Specialiste Mac" },
-                  { slug: "team_3", fallback: "https://lh3.googleusercontent.com/aida-public/AB6AXuDkT1JCZnR3rpV566MRMrnjS7vhNR9REAlEJ8oStnpG_VvRVv5C7yUhwym97gFp8NrtpvBc-erLIo5urEIPV6zRQTDqzdiXv8ROmpUmmkhxhNF2VHKmV0Dv0BkYTLLKkZs0F-Khq1G3GZ3LTQqdpiOyR9JAlL2wfXdFQY9OKqW3F2IPFYwvHAH5ojaMAQDJ4jFQIbY_OMBNFJTLy0psjxKDN5EsKCJ108uirFl-HxJo8wdtZGCMlK9HProWpx5W8pd9lk3NPdTpBJA", role: "Micro-Soudure" },
-                  { slug: "team_4", fallback: "https://lh3.googleusercontent.com/aida-public/AB6AXuDZua75j2aCKUqcbKcnpyF0466roC_RRHBt0umZOAVQRy_-NFq9CjKk3ZDuZXt2CDfDNkErjFSJk9Sw2GfSb74-9M9DlrJlXWcBZgeq67dANPcAJPP4rJyRAupwS9iMTutxYFle5oNFvLLZ--NmkcbgpPW7WhMtDEOM2Cu7lZkNhP_eUwLCwxWyar4rUHpBCnwEqh7mil3nmmc6bIV_lrmQTM1yZzn8wVNJ53wf_7JGeXkw_6sO6QBVUjgLQCyp034iUdcHiXp3HBE", role: "Diagnostic" }
+                  { slug: "team_1", fallback: "/uploads/team_1_placeholder.png", role: "Expert iPhone" },
+                  { slug: "team_2", fallback: "/uploads/team_2_placeholder.png", role: "Specialiste Mac" },
+                  { slug: "team_3", fallback: "/uploads/team_3_placeholder.png", role: "Micro-Soudure" },
+                  { slug: "team_4", fallback: "/uploads/team_4_placeholder.png", role: "Diagnostic" }
                 ].map((member, i) => (
                     <div key={i} className="aspect-[3/4] rounded-2xl overflow-hidden shadow-xl grayscale hover:grayscale-0 transition-all duration-700 relative group">
                         <img src={getImg(member.slug, member.fallback)} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" alt="Expert" />
@@ -242,8 +251,9 @@ const About = () => {
                 <Clock className="text-primary shrink-0" size={28} />
                 <div className="text-white">
                   <p className="font-bold text-xl mb-1">Horaires</p>
-                  <p className="text-zinc-400">Lun - Ven: 09h00 - 18h30</p>
-                  <p className="text-zinc-400">Samedi: 10h00 - 17h00</p>
+                  {contact.contact_hours_weekdays && <p className="text-zinc-400">{contact.contact_hours_weekdays}</p>}
+                  {contact.contact_hours_saturday && <p className="text-zinc-400">{contact.contact_hours_saturday}</p>}
+                  {contact.contact_hours_sunday   && <p className="text-zinc-400">{contact.contact_hours_sunday}</p>}
                 </div>
               </div>
               <div className="flex gap-6">

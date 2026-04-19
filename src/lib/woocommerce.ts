@@ -59,6 +59,41 @@ export interface Product {
   [key: string]: unknown;
 }
 
+export interface AboutSettings {
+  hero_image?:                  string;
+  environmental_impact_image?:  string;
+  boutique_storefront_image?:   string;
+  team_1?:                      string;
+  team_2?:                      string;
+  team_3?:                      string;
+  team_4?:                      string;
+  [key: string]: string | undefined;
+}
+
+// ---------------------------------------------------------------------------
+// fetchAboutSettings
+// ---------------------------------------------------------------------------
+
+export const fetchAboutSettings = async (): Promise<AboutSettings> => {
+  try {
+    const res = await fetch(`${API_BASE}/settings/about`)
+    if (!res.ok) throw new Error(`settings/about ${res.status}`)
+    const data = await res.json()
+    return {
+      hero_image:                 resolveUrl(data.hero_image),
+      environmental_impact_image: resolveUrl(data.environmental_impact_image),
+      boutique_storefront_image:  resolveUrl(data.boutique_storefront_image),
+      team_1:                     resolveUrl(data.team_1),
+      team_2:                     resolveUrl(data.team_2),
+      team_3:                     resolveUrl(data.team_3),
+      team_4:                     resolveUrl(data.team_4),
+    }
+  } catch (err) {
+    console.error('fetchAboutSettings:', err)
+    return {}
+  }
+}
+
 // ---------------------------------------------------------------------------
 // fetchSiteOptions
 // ---------------------------------------------------------------------------

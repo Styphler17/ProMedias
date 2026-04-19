@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
-import { fetchSiteOptions, fetchContact, type SiteOptions } from "@/lib/woocommerce";
+import { fetchSiteOptions, fetchContact, type SiteOptions, type ContactInfo } from "@/lib/woocommerce";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -29,11 +29,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isStoreOpen, setIsStoreOpen] = useState(false);
   const [siteOptions, setSiteOptions] = useState<SiteOptions>({});
   const [facebookUrl, setFacebookUrl] = useState('');
+  const [contact, setContact] = useState<ContactInfo>({});
   const location = useLocation();
 
   useEffect(() => {
     fetchSiteOptions().then(setSiteOptions);
-    fetchContact().then(c => setFacebookUrl(c.contact_facebook ?? ''));
+    fetchContact().then(c => {
+      setFacebookUrl(c.contact_facebook ?? '');
+      setContact(c);
+    });
   }, []);
 
   const logoSrc       = siteOptions.site_logo       || logo;
@@ -228,8 +232,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <h5 className="text-xs font-bold uppercase tracking-[0.2em] text-white">Horaires & Accès</h5>
               <ul className="space-y-4 text-sm text-zinc-500">
                 <li className="flex flex-col gap-1">
-                    <span className="text-white font-bold">Lun - Ven : 09h00 - 18h30</span>
-                    <span className="text-[10px] uppercase tracking-widest opacity-50">Samedi : 10h00 - 17h00</span>
+                    {contact.contact_hours_weekdays && <span className="text-white font-bold">{contact.contact_hours_weekdays}</span>}
+                    {contact.contact_hours_saturday && <span className="text-[10px] uppercase tracking-widest opacity-50">{contact.contact_hours_saturday}</span>}
+                    {contact.contact_hours_sunday   && <span className="text-[10px] uppercase tracking-widest opacity-50">{contact.contact_hours_sunday}</span>}
                 </li>
                 <li className="flex items-start gap-2 pt-2 border-t border-zinc-900">
                     <MapPin size={14} className="text-primary mt-1 shrink-0" />
