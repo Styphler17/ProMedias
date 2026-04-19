@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { Search, Upload, X, Check, Image, ChevronDown } from 'lucide-react'
 import { adminGetMedia, adminUpload } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
@@ -39,16 +39,22 @@ export default function MediaPicker({ open, onClose, onSelect, multiple = false,
   const [tab, setTab]             = useState<'library' | 'upload'>('library')
   const fileRef                   = useRef<HTMLInputElement>(null)
 
-  const load = async () => {
+  const load = useCallback(async () => {
     const rows = await adminGetMedia({ category: cat === 'all' ? undefined : cat, search: search || undefined })
     setMedia(rows)
-  }
+  }, [cat, search])
 
-  useEffect(() => { if (open) { setSelected([]); load() } }, [open, cat])
+  useEffect(() => { 
+    if (open) { 
+      setSelected([])
+      load() 
+    } 
+  }, [open, load])
+
   useEffect(() => {
     const id = setTimeout(load, 300)
     return () => clearTimeout(id)
-  }, [search])
+  }, [load])
 
   const toggle = (url: string) => {
     if (multiple) {
