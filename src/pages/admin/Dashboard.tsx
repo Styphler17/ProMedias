@@ -21,11 +21,11 @@ export default function Dashboard() {
 
   return (
     <AdminLayout>
-      <div className="p-10">
+      <div className="p-4 sm:p-6 lg:p-10">
         <h1 className="text-2xl font-bold mb-1">Tableau de bord</h1>
         <p className="text-zinc-500 text-sm mb-8">Bienvenue dans l'interface d'administration ProMedias.</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {cards.map(({ to, icon: Icon, label, count, color }) => (
             <Link key={to} to={to} className="bg-white rounded-2xl border border-zinc-100 p-6 hover:shadow-md transition-shadow group">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${color}`}>
