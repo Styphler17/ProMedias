@@ -159,7 +159,7 @@ const NAV = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const navigate = useNavigate()
-  const [profile, setProfile] = useState<{ email: string; avatar: string | null } | null>(null)
+  const [profile, setProfile] = useState<{ display_name: string | null; email: string; avatar: string | null } | null>(null)
   const [showMobileSidebar, setShowMobileSidebar] = useState(false)
 
   useEffect(() => {
@@ -227,7 +227,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               }
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-zinc-300 truncate">{profile?.email ?? '…'}</p>
+              <p className="text-xs text-zinc-300 truncate font-semibold">
+                {profile?.display_name || profile?.email || '…'}
+              </p>
               <p className="text-[10px] text-zinc-600">Mon profil</p>
             </div>
           </Link>
