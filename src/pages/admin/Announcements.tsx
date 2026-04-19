@@ -4,7 +4,7 @@ import AdminLayout from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
 import {
   adminGetAnnouncements, adminCreateAnnouncement, adminUpdateAnnouncement,
-  adminToggleAnnouncement, adminDeleteAnnouncement, adminUpload,
+  adminToggleAnnouncement, adminDeleteAnnouncement,
 } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
 import MediaPicker from '@/components/admin/MediaPicker'
