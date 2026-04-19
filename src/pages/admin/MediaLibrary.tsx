@@ -191,7 +191,7 @@ export default function MediaLibrary() {
                       'relative group rounded-xl overflow-hidden border-2 aspect-square transition-all bg-white',
                       selected === m.id ? 'border-zinc-900 shadow-lg' : 'border-transparent hover:border-zinc-300 shadow-sm'
                     )}>
-                    <img src={resolveUrl(m.url)} alt={m.original_name} className="w-full h-full object-cover" />
+                    <img src={resolveUrl(m.url)} alt={m.filename} className="w-full h-full object-cover" />
 
                     <div className="absolute top-1.5 left-1.5">
                       <span className={cn('text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide', CAT_COLORS[m.category] || 'bg-zinc-100 text-zinc-500')}>
@@ -201,7 +201,7 @@ export default function MediaLibrary() {
 
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
                     <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent px-2 py-2 translate-y-full group-hover:translate-y-0 transition-transform">
-                      <p className="text-white text-[10px] truncate">{m.original_name}</p>
+                      <p className="text-white text-[10px] truncate">{m.filename}</p>
                       <p className="text-white/60 text-[9px]">{formatSize(m.size)}</p>
                     </div>
 
@@ -224,14 +224,14 @@ export default function MediaLibrary() {
           {selectedItem && (
             <>
               <div className="aspect-square bg-zinc-50 border-b border-zinc-100 flex items-center justify-center p-4">
-                <img src={resolveUrl(selectedItem.url)} alt={selectedItem.original_name}
+                <img src={resolveUrl(selectedItem.url)} alt={selectedItem.filename}
                   className="max-w-full max-h-full object-contain rounded-lg" />
               </div>
 
               <div className="flex-1 overflow-y-auto p-5 space-y-4">
                 <div>
                   <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Nom du fichier</p>
-                  <p className="text-sm text-zinc-800 break-all">{selectedItem.original_name}</p>
+                  <p className="text-sm text-zinc-800 break-all">{selectedItem.filename}</p>
                 </div>
 
                 <div>
