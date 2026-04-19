@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { 
   LayoutDashboard, Package, Tag, Settings, LogOut, 
   Image, Phone, User, ExternalLink, Search, X, 
-  Megaphone, Menu, Trash2, ChevronDown, ChevronRight 
+  Megaphone, Menu, Trash2, ChevronDown, ChevronRight, ChevronUp 
 } from 'lucide-react'
 import { clearToken, adminGetProfile, adminGetProducts, adminGetCategories, type AdminCategory } from '@/lib/admin'
 import { resolveUrl } from '@/lib/woocommerce'
@@ -152,10 +152,19 @@ const NAV_BOTTOM = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const navigate = useNavigate()
-  const [profile, setProfile]       = useState<{ display_name: string | null; email: string; avatar: string | null } | null>(null)
+  const [profile, setProfile]       = useState<{ display_name: string | null; email: string; avatar: string | null; role?: string } | null>(null)
   const [categories, setCategories] = useState<AdminCategory[]>([])
+  const [showTop, setShowTop]       = useState(false)
   const searchParams = new URLSearchParams(location.search)
   const activeCatId  = searchParams.get('category_id')
+
+  useEffect(() => {
+    const handleScroll = () => setShowTop(window.scrollY > 300)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   const [showCatDropdown, setShowCatDropdown] = useState(() => 
     location.pathname.startsWith('/admin/products') && !!activeCatId
@@ -319,6 +328,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {children}
         </main>
       </div>
+
+      {showTop && (
+        <button 
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 w-9 h-9 bg-zinc-900 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-zinc-800 transition-all hover:scale-110 animate-in fade-in zoom-in duration-200 z-[60]"
+        >
+          <ChevronUp size={16} />
+        </button>
+      )}
     </div>
   )
 }
