@@ -21,7 +21,7 @@ export default function Users() {
   const [users, setUsers]       = useState<AdminUser[]>([])
   const [loading, setLoading]   = useState(true)
   const [showAdd, setShowAdd]   = useState(false)
-  const [myProfile, setMyProfile] = useState<any>(null)
+  const [myProfile, setMyProfile] = useState<AdminProfile | null>(null)
   
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
@@ -51,8 +51,8 @@ export default function Users() {
       setShowAdd(false)
       setEmail(''); setPassword(''); setDisplayName('');
       load()
-    } catch (e: any) {
-      alert(e.message)
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : 'Une erreur est survenue')
     }
   }
 
@@ -62,8 +62,8 @@ export default function Users() {
     try {
       await adminDeleteUser(id)
       load()
-    } catch (e: any) {
-      alert(e.message)
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : 'Une erreur est survenue')
     }
   }
 
@@ -73,8 +73,8 @@ export default function Users() {
     try {
       await adminUpdateUser(u.id, { role: nextRole })
       load()
-    } catch (e: any) {
-      alert(e.message)
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : 'Une erreur est survenue')
     }
   }
 
