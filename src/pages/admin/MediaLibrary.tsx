@@ -127,38 +127,59 @@ export default function MediaLibrary() {
               </label>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
               {/* Search */}
-              <div className="relative flex-1 max-w-xs">
+              <div className="relative flex-1 max-w-none md:max-w-xs">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
                 <input value={search} onChange={e => setSearch(e.target.value)}
                   placeholder="Rechercher un fichier…"
-                  className="w-full pl-8 pr-3 py-2 text-sm border border-zinc-200 rounded-xl focus:outline-none focus:border-zinc-400" />
+                  className="w-full pl-8 pr-3 py-2.5 text-sm border border-zinc-200 rounded-xl focus:outline-none focus:border-zinc-400 bg-zinc-50/50 md:bg-white" />
               </div>
 
-              {/* Category filter */}
-              <div className="flex gap-1">
-                {CATEGORIES.map(c => (
-                  <button key={c.value} onClick={() => setCat(c.value)}
-                    className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
-                      cat === c.value ? 'bg-zinc-900 text-white' : 'text-zinc-500 hover:bg-zinc-100'
-                    )}>
-                    {c.label}
-                  </button>
-                ))}
-              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                {/* Category filter - Desktop Buttons / Mobile Dropdown */}
+                <div className="flex-1 md:flex-none">
+                  {/* Mobile Select */}
+                  <div className="relative block md:hidden">
+                    <select 
+                      value={cat} 
+                      onChange={e => setCat(e.target.value)}
+                      className="w-full pl-4 pr-10 py-2.5 bg-zinc-100 border-none rounded-xl text-sm font-semibold appearance-none focus:ring-2 focus:ring-zinc-200 outline-none"
+                    >
+                      {CATEGORIES.map(c => (
+                        <option key={c.value} value={c.value}>{c.label}</option>
+                      ))}
+                    </select>
+                    <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
+                  </div>
 
-              {/* Sort */}
-              <div className="flex gap-1 ml-auto">
-                <span className="text-xs text-zinc-400 self-center mr-1">Trier :</span>
-                {SORTS.map(s => (
-                  <button key={s.value} onClick={() => setSort(s.value)}
-                    className={cn('px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
-                      sort === s.value ? 'bg-zinc-100 text-zinc-900 font-semibold' : 'text-zinc-400 hover:bg-zinc-50'
-                    )}>
-                    {s.label}
-                  </button>
-                ))}
+                  {/* Desktop Buttons */}
+                  <div className="hidden md:flex gap-1">
+                    {CATEGORIES.map(c => (
+                      <button key={c.value} onClick={() => setCat(c.value)}
+                        className={cn('px-4 py-2 rounded-xl text-xs font-semibold transition-all border',
+                          cat === c.value ? 'bg-zinc-900 border-zinc-900 text-white shadow-lg shadow-zinc-900/10' : 'bg-white border-zinc-100 text-zinc-500 hover:border-zinc-300'
+                        )}>
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Sort */}
+                <div className="flex items-center gap-1 ml-auto">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mr-2">Trier :</span>
+                  <div className="flex bg-zinc-100 p-1 rounded-xl">
+                    {SORTS.map(s => (
+                      <button key={s.value} onClick={() => setSort(s.value)}
+                        className={cn('px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all',
+                          sort === s.value ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-700'
+                        )}>
+                        {s.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
