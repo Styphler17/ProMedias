@@ -13,9 +13,9 @@ import { cn } from '@/lib/utils'
 interface Announcement {
   id: number
   title: string
-  subtitle?: string
+  subtitle?: string | null
   image_url: string
-  whatsapp_message?: string
+  whatsapp_message?: string | null
   sort_order: number
   active: number
 }

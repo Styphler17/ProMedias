@@ -1,7 +1,7 @@
 // Admin API client — all requests include the JWT token
 
 const IS_DEV   = import.meta.env.DEV
-const CMS_URL  = (import.meta.env.VITE_CMS_URL as string) || 'http://localhost:3002'
+const CMS_URL  = (import.meta.env.VITE_CMS_URL as string) || ''
 const API_BASE = IS_DEV ? '/api' : `${CMS_URL}/api`
 
 export const getToken = () => localStorage.getItem('admin_token')
@@ -20,6 +20,7 @@ export interface AdminProfile {
   display_name: string | null
   avatar: string | null
   role: 'super_admin' | 'administrator' | 'editor'
+  created_at: string
 }
 
 export interface AdminUser extends AdminProfile {
@@ -31,7 +32,7 @@ export interface AdminProduct {
   name: string
   slug: string
   price: string
-  categoryId?: number | string
+  categoryId?: number | string | null
   condition: string
   conditionScore: number
   specs?: string
@@ -49,13 +50,17 @@ export interface AdminCategory {
   id: number
   name: string
   slug: string
-  main_category: string
+  main_category?: string
+  mainCategory: string
+  description?: string
+  productCount: number
 }
 
 export interface AdminMedia {
   id: number
   filename: string
   url: string
+  original_name: string
   type: string
   size: number
   category: string
@@ -66,10 +71,15 @@ export interface AdminMedia {
 export interface AdminAnnouncement {
   id: number
   title: string
-  content: string
-  priority: 'low' | 'medium' | 'high'
-  is_active: number | boolean
-  created_at: string
+  content?: string
+  subtitle?: string | null
+  priority?: 'low' | 'medium' | 'high'
+  is_active?: number | boolean
+  created_at?: string
+  image_url: string
+  whatsapp_message?: string | null
+  sort_order: number
+  active: number
 }
 
 export interface AdminActivity {
@@ -199,8 +209,8 @@ export const adminUpload = async (file: File, category = 'uncategorized'): Promi
   if (!res.ok) throw new Error('Upload failed')
   const { url } = await res.json()
   const IS_DEV = import.meta.env.DEV
-  const CMS_URL = (import.meta.env.VITE_CMS_URL as string) || 'http://localhost:3002'
-  return IS_DEV ? url : `${CMS_URL}${url}`
+  const CMS_URL = (import.meta.env.VITE_CMS_URL as string) || ''
+  return IS_DEV || !CMS_URL ? url : `${CMS_URL}${url}`
 }
 
 // Admin Users (Super Admin Only)

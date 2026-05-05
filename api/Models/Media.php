@@ -21,11 +21,13 @@ class Media {
             $cols = $stmt->fetchAll(\PDO::FETCH_COLUMN);
             
             $queries = [
-                'filename'   => "ALTER TABLE media ADD COLUMN filename VARCHAR(255) DEFAULT ''",
-                'type'       => "ALTER TABLE media ADD COLUMN type VARCHAR(50) DEFAULT ''",
-                'size'       => "ALTER TABLE media ADD COLUMN size INT DEFAULT 0",
-                'category'   => "ALTER TABLE media ADD COLUMN category VARCHAR(50) DEFAULT 'uncategorized'",
-                'deleted_at' => "ALTER TABLE media ADD COLUMN deleted_at DATETIME DEFAULT NULL"
+                'filename'      => "ALTER TABLE media ADD COLUMN filename VARCHAR(255) DEFAULT ''",
+                'original_name' => "ALTER TABLE media ADD COLUMN original_name VARCHAR(500) DEFAULT ''",
+                'mime_type'     => "ALTER TABLE media ADD COLUMN mime_type VARCHAR(100) DEFAULT ''",
+                'type'          => "ALTER TABLE media ADD COLUMN type VARCHAR(50) DEFAULT ''",
+                'size'          => "ALTER TABLE media ADD COLUMN size INT DEFAULT 0",
+                'category'      => "ALTER TABLE media ADD COLUMN category VARCHAR(50) DEFAULT 'uncategorized'",
+                'deleted_at'    => "ALTER TABLE media ADD COLUMN deleted_at DATETIME DEFAULT NULL"
             ];
 
             foreach ($queries as $col => $sql) {
@@ -39,7 +41,7 @@ class Media {
     }
 
     public function getAll($status = 'active', $sort = 'date', $category = null, $search = null) {
-        $sql = "SELECT id, filename, url, type, size, category, created_at, deleted_at FROM media WHERE 1=1";
+        $sql = "SELECT id, filename, original_name, url, COALESCE(NULLIF(type, ''), mime_type) AS type, size, category, created_at, deleted_at FROM media WHERE 1=1";
         
         if ($status === 'trash') {
             $sql .= " AND deleted_at IS NOT NULL";
@@ -67,11 +69,13 @@ class Media {
     }
 
     public function create($data) {
-        $stmt = $this->db->prepare("INSERT INTO media (filename, url, type, size, category) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $this->db->prepare("INSERT INTO media (filename, url, original_name, type, mime_type, size, category) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $res = $stmt->execute([
             $data['filename'],
             $data['url'],
+            $data['original_name'] ?? $data['filename'],
             $data['type'],
+            $data['mime_type'] ?? $data['type'],
             $data['size'] ?? 0,
             $data['category'] ?? 'uncategorized'
         ]);

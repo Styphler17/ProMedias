@@ -7,10 +7,11 @@
 // --- HOSTINGER DATABASE CONFIGURATION ---
 // You can find these values in your Hostinger hPanel -> Databases -> MySQL Databases
 $db_config = [
-    'host' => '127.0.0.1',
-    'user' => 'root',    // Replace with your Hostinger DB Username
-    'pass' => 'root',   // Replace with your Hostinger DB Password
-    'name' => 'promedias' // Replace with your Hostinger DB Name
+    'host' => getenv('DB_HOST') ?: '127.0.0.1',
+    'port' => getenv('DB_PORT') ?: '8889',
+    'user' => getenv('DB_USER') ?: 'root',     // Replace with your Hostinger DB Username
+    'pass' => getenv('DB_PASS') ?: 'root',     // Replace with your Hostinger DB Password
+    'name' => getenv('DB_NAME') ?: 'promedias' // Replace with your Hostinger DB Name
 ];
 
 // Local environment override if needed
@@ -30,12 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Auto-detect correct password for MAMP (root or empty)
-$passwords_to_try = [$db_config['pass'], '']; 
+$passwords_to_try = [$db_config['pass'], ''];
 $connected = false;
 
 foreach ($passwords_to_try as $p) {
     try {
-        $dsn = "mysql:host={$db_config['host']};port=8889;dbname={$db_config['name']};charset=utf8mb4";
+        $dsn = "mysql:host={$db_config['host']};port={$db_config['port']};dbname={$db_config['name']};charset=utf8mb4";
         $pdo = new PDO($dsn, $db_config['user'], $p, [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -54,9 +55,9 @@ if (!$connected) {
     
     // Diagnostic query to help user
     try {
-        $temp_pdo = new PDO("mysql:host={$db_config['host']};port=8889", $db_config['user'], 'root');
+        $temp_pdo = new PDO("mysql:host={$db_config['host']};port={$db_config['port']}", $db_config['user'], 'root');
     } catch (Exception $e) {
-        $temp_pdo = new PDO("mysql:host={$db_config['host']};port=8889", $db_config['user'], '');
+        $temp_pdo = new PDO("mysql:host={$db_config['host']};port={$db_config['port']}", $db_config['user'], '');
     }
     
     $dbs = $temp_pdo->query("SHOW DATABASES")->fetchAll(PDO::FETCH_COLUMN);

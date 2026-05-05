@@ -87,21 +87,25 @@ const Shop = () => {
     'accessoires': 'Accessoires'
   };
 
-  const loadData = async () => {
-    setIsLoading(true);
-    const [prodData, catData, opts] = await Promise.all([
-      fetchProducts(),
-      fetchCategories(),
-      fetchSiteOptions(),
-    ]);
-    setProducts(prodData);
-    setCategories(catData);
-    setSiteOptions(opts);
-    setIsLoading(false);
-  };
-
   useEffect(() => {
-    loadData();
+    let mounted = true;
+
+    const load = async () => {
+      const [prodData, catData, opts] = await Promise.all([
+        fetchProducts(),
+        fetchCategories(),
+        fetchSiteOptions(),
+      ]);
+
+      if (!mounted) return;
+      setProducts(prodData);
+      setCategories(catData);
+      setSiteOptions(opts);
+      setIsLoading(false);
+    };
+
+    load();
+    return () => { mounted = false };
   }, []);
 
   // Build category groups dynamically from fetched categories

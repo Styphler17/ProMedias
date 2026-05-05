@@ -145,7 +145,7 @@ export default function Trash() {
                           </div>
                         </td>
                         <td className="px-6 py-4 text-sm text-zinc-500">
-                          {new Date(p.deleted_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                          {p.deleted_at ? new Date(p.deleted_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'}
                         </td>
                         <td className="px-6 py-4 text-right space-x-2">
                           <button 
@@ -178,7 +178,7 @@ export default function Trash() {
                           </div>
                         </td>
                         <td className="px-6 py-4 text-sm text-zinc-500">
-                          {new Date(m.deleted_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                          {m.deleted_at ? new Date(m.deleted_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'}
                         </td>
                         <td className="px-6 py-4 text-right space-x-2">
                           <button 

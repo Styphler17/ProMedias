@@ -31,7 +31,11 @@ $main_route = ucfirst($parts[0]); // e.g. 'announcements' -> 'Announcements'
 $id_param = $parts[1] ?? null;
 
 // 3. Helper to send responses
-function respond($data, $code = 200) {
+function respond($data, $code = null) {
+    if ($code === null) {
+        $currentCode = http_response_code();
+        $code = ($currentCode && $currentCode !== 200) ? $currentCode : 200;
+    }
     http_response_code($code);
     echo json_encode($data);
     exit();

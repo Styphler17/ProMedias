@@ -21,7 +21,7 @@ class Database {
 
         foreach ($passwords as $p) {
             try {
-                $dsn = "mysql:host={$db_config['host']};port=8889;dbname={$db_config['name']};charset=utf8mb4";
+                $dsn = "mysql:host={$db_config['host']};port={$db_config['port']};dbname={$db_config['name']};charset=utf8mb4";
                 $this->pdo = new PDO($dsn, $db_config['user'], $p, [
                     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

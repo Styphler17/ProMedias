@@ -1,10 +1,10 @@
 // ---------------------------------------------------------------------------
-// ProMedias API client — Express + MariaDB backend
-// Dev: Vite proxies /api and /uploads → localhost:3001
-// Prod: absolute URLs from VITE_CMS_URL
+// ProMedias API client — PHP MVC + MariaDB backend
+// Dev: Vite proxies /api and /uploads
+// Prod: same-origin /api by default, or absolute URLs from VITE_CMS_URL
 // ---------------------------------------------------------------------------
 
-const CMS_URL  = (import.meta.env.VITE_CMS_URL as string) || 'http://localhost:3001'
+const CMS_URL  = (import.meta.env.VITE_CMS_URL as string) || ''
 const IS_DEV   = import.meta.env.DEV
 const API_BASE = IS_DEV ? '/api' : `${CMS_URL}/api`
 
@@ -12,7 +12,7 @@ const API_BASE = IS_DEV ? '/api' : `${CMS_URL}/api`
 export const resolveUrl = (url: string | null | undefined): string => {
   if (!url) return ''
   if (url.startsWith('http')) return url
-  return IS_DEV ? url : `${CMS_URL}${url}`
+  return IS_DEV || !CMS_URL ? url : `${CMS_URL}${url}`
 }
 
 // ---------------------------------------------------------------------------

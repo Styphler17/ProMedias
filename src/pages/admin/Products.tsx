@@ -51,7 +51,7 @@ interface Product {
   name: string
   slug: string
   price: string
-  categoryId?: number | string
+  categoryId?: number | string | null
   condition: string
   conditionScore: number
   specs?: string
